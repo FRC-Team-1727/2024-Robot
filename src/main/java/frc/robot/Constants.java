@@ -130,22 +130,6 @@ public final class Constants {
     public static final double kDriveDeadband = 0.05;
   }
 
-  public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 3;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-    public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
-    public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
-
-    public static final double kPXController = 1;
-    public static final double kPYController = 1;
-    public static final double kPThetaController = 1;
-
-    // Constraint for the motion profiled robot angle controller
-    public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
-        new TrapezoidProfile.Constraints(
-            kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
-  }
-
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
@@ -156,5 +140,25 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final int kIntakePort = 9;
+  }
+
+  public static final class ElevatorConstants {
+    public static final int[] kElevatorPorts = {10, 11};
+
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
+    public static final double kFF = 0;
+
+    public static final int kMaxPosition = 100;
+  }
+
+  public static final class ShooterConstants {
+    public static final int[] kShooterPorts = {12, 13};
+    
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
+    public static final double kFF = 0;
   }
 }
