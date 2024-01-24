@@ -11,7 +11,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem() {}
 
-    public void intake(double spd) {
+    public void setSpeed(double spd) {
         intake.set(spd);
     }
 }

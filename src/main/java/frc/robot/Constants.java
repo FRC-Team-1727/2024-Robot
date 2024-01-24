@@ -3,7 +3,6 @@ package frc.robot;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -154,11 +153,30 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final int[] kShooterPorts = {12, 13};
+    public static final int kFlywheelPort = 12;
+    public static final int kAnglerPort = 13;
     
-    public static final double kP = 0;
-    public static final double kI = 0;
-    public static final double kD = 0;
-    public static final double kFF = 0;
+    public static final double kFlywheelP = 0;
+    public static final double kFlywheelI = 0;
+    public static final double kFlywheelD = 0;
+    public static final double kFlywheelFF = 0;
+    
+    public static final double kAnglerP = 0;
+    public static final double kAnglerI = 0;
+    public static final double kAnglerD = 0;
+    public static final double kAnglerFF = 0;
+
+    public static final int kShooterSpeed = 500;
+
+    public static final double kAngleTolerance = 5;
+
+    public static final double kIndexAngle = 0;
+  }
+
+  public static final class IndexerConstants {
+    public static final int kLowerIndexerPort = 14;
+    public static final int kUpperIndexerPort = 15;
+    public static final int kLowerBeamBreakPort = 0;
+    public static final int kUpperBeamBreakPort = 1;
   }
 }
