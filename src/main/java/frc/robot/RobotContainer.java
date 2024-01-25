@@ -27,7 +27,7 @@ import frc.robot.subsystems.ShooterSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
@@ -45,12 +45,12 @@ public class RobotContainer {
     configureButtonBindings();
 
     // Configure default commands
-    m_robotDrive.setDefaultCommand(
+    m_driveSubsystem.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () ->
-                m_robotDrive.drive(
+                m_driveSubsystem.drive(
                     -MathUtil.applyDeadband(
                         m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                     -MathUtil.applyDeadband(
@@ -59,7 +59,7 @@ public class RobotContainer {
                         m_driverController.getRightX(), OIConstants.kDriveDeadband),
                     true,
                     true),
-            m_robotDrive));
+            m_driveSubsystem));
   }
 
   /**
@@ -82,6 +82,8 @@ public class RobotContainer {
         m_shooterSubsystem
       )
     );
+    m_driverController.y().whileTrue(m_elevatorSubsystem.increment(()->1));
+    m_driverController.a().whileTrue(m_elevatorSubsystem.increment(()->-1));
   }
 
   /**

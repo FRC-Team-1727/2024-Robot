@@ -5,11 +5,14 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ElevatorConstants.*;
 
+import java.util.function.IntSupplier;
+
 public class ElevatorSubsystem extends SubsystemBase {
-    private int position = 0;
+    private double position = 0;
     private final CANSparkMax[] motors = new CANSparkMax[] {
         new CANSparkMax(kElevatorPorts[0], MotorType.kBrushless),
         new CANSparkMax(kElevatorPorts[1], MotorType.kBrushless)
@@ -27,7 +30,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
     }
 
-    private void setPosition(int newPosition) {
+    private void setPosition(double newPosition) {
         position = newPosition;
         if (position > kMaxPosition) {
             position = kMaxPosition;
@@ -35,5 +38,13 @@ public class ElevatorSubsystem extends SubsystemBase {
             position = 0;
         }
         motors[0].getPIDController().setReference(position, ControlType.kPosition);
+    }
+
+    public Command increment(IntSupplier dir) {
+        return run(
+            ()->{
+                setPosition(position + dir.getAsInt() * kElevatorSpeed);
+            }
+        );
     }
 }
