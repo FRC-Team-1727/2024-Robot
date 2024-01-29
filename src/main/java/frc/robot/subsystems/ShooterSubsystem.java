@@ -48,7 +48,23 @@ public class ShooterSubsystem extends SubsystemBase {
         setAngle(kIndexAngle);
     }
 
+    public void subAngle() {
+        setAngle(kSubAngle);
+    }
+ 
+    public void ampPosition() {
+        setAngle(kAmpAngle);
+    }
+
+    public void scoreAmp() {
+        flywheel.set(0.5);
+    }
+
     public boolean atAngle() {
         return Math.abs(angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition() - angle) <= kAngleTolerance;
+    }
+
+    public void aim(double distance) {
+        //set angle based on distance from target
     }
 }

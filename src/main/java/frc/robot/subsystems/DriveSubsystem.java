@@ -75,6 +75,9 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
           });
 
+  private double aimValue = 0;
+  private boolean aiming = false;
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     AutoBuilder.configureHolonomic(
@@ -297,5 +300,14 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public double getTurnRate() {
     return m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+  public void setAimValue(double value) {
+    aiming = true;
+    aimValue = value;
+  }
+
+  public void stopAiming() {
+    aiming = false;
   }
 }

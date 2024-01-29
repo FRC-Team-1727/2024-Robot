@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AmpCommand;
 import frc.robot.commands.IndexCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -82,6 +83,7 @@ public class RobotContainer {
         m_shooterSubsystem
       )
     );
+    m_driverController.rightBumper().whileTrue(new AmpCommand(()->m_driverController.leftTrigger().getAsBoolean(), m_shooterSubsystem, m_elevatorSubsystem, m_indexerSubsystem));
     m_driverController.y().whileTrue(m_elevatorSubsystem.increment(()->1));
     m_driverController.a().whileTrue(m_elevatorSubsystem.increment(()->-1));
   }

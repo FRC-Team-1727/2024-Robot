@@ -47,4 +47,12 @@ public class ElevatorSubsystem extends SubsystemBase {
             }
         );
     }
+
+    public void defaultPosition() {
+        setPosition(0);
+    }
+
+    public void ampPosition() {
+        setPosition(kAmpPosition);
+    }
 }
