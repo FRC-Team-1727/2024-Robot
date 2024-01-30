@@ -35,11 +35,12 @@ public class RobotContainer {
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
 
   // The driver's controller
-  CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+  CommandXboxController m_driverController =
+      new CommandXboxController(OIConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Register PathPlanner Named Commands for auto 
+    // Register PathPlanner Named Commands for auto
     Autos.registerNamedCommands();
 
     // Configure the button bindings
@@ -70,22 +71,33 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_driverController.rightTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexerSubsystem));
-    m_driverController.rightTrigger().onFalse(new IndexCommand(m_indexerSubsystem, m_shooterSubsystem));
-    m_driverController.leftBumper().whileTrue(
-      Commands.startEnd(
-        ()->{
-          m_shooterSubsystem.startShooter();
-        },
-        ()->{
-          m_shooterSubsystem.stopShooter();
-        },
-        m_shooterSubsystem
-      )
-    );
-    m_driverController.rightBumper().whileTrue(new AmpCommand(()->m_driverController.leftTrigger().getAsBoolean(), m_shooterSubsystem, m_elevatorSubsystem, m_indexerSubsystem));
-    m_driverController.y().whileTrue(m_elevatorSubsystem.increment(()->1));
-    m_driverController.a().whileTrue(m_elevatorSubsystem.increment(()->-1));
+    m_driverController
+        .rightTrigger()
+        .whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexerSubsystem));
+    m_driverController
+        .rightTrigger()
+        .onFalse(new IndexCommand(m_indexerSubsystem, m_shooterSubsystem));
+    m_driverController
+        .leftBumper()
+        .whileTrue(
+            Commands.startEnd(
+                () -> {
+                  m_shooterSubsystem.startShooter();
+                },
+                () -> {
+                  m_shooterSubsystem.stopShooter();
+                },
+                m_shooterSubsystem));
+    m_driverController
+        .rightBumper()
+        .whileTrue(
+            new AmpCommand(
+                () -> m_driverController.leftTrigger().getAsBoolean(),
+                m_shooterSubsystem,
+                m_elevatorSubsystem,
+                m_indexerSubsystem));
+    m_driverController.y().whileTrue(m_elevatorSubsystem.increment(() -> 1));
+    m_driverController.a().whileTrue(m_elevatorSubsystem.increment(() -> -1));
   }
 
   /**

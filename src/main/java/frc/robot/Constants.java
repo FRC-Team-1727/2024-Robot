@@ -67,6 +67,10 @@ public final class Constants {
     public static final int kRearRightTurningCanId = 16;
 
     public static final boolean kGyroReversed = false;
+
+    public static final double kAimingP = 0;
+    public static final double kAimingI = 0;
+    public static final double kAimingD = 0;
   }
 
   public static final class ModuleConstants {
@@ -157,12 +161,12 @@ public final class Constants {
   public static final class ShooterConstants {
     public static final int kFlywheelPort = 12;
     public static final int kAnglerPort = 13;
-    
+
     public static final double kFlywheelP = 0;
     public static final double kFlywheelI = 0;
     public static final double kFlywheelD = 0;
     public static final double kFlywheelFF = 0;
-    
+
     public static final double kAnglerP = 0;
     public static final double kAnglerI = 0;
     public static final double kAnglerD = 0;
