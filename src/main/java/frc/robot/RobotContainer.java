@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -19,6 +22,7 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -33,6 +37,7 @@ public class RobotContainer {
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
+  private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
 
   // The driver's controller
   CommandXboxController m_driverController =
@@ -40,8 +45,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
     // Register PathPlanner Named Commands for auto
-    Autos.registerNamedCommands();
+    registerNamedCommands();
 
     // Configure the button bindings
     configureButtonBindings();
@@ -62,6 +68,8 @@ public class RobotContainer {
                     true,
                     true),
             m_driveSubsystem));
+
+      m_visionSubsystem.setDefaultCommand(m_visionSubsystem.visionCommand(m_driveSubsystem));
   }
 
   /**
@@ -107,5 +115,24 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return Commands.none();
+  }
+
+  private void registerNamedCommands() {
+    NamedCommands.registerCommand("start_shooter", m_shooterSubsystem.runOnce(()->m_shooterSubsystem.startShooter()));
+    NamedCommands.registerCommand("angle_sub", m_shooterSubsystem.runOnce(()->m_shooterSubsystem.subAngle()));
+    NamedCommands.registerCommand("shoot",
+      Commands.sequence(
+        m_indexerSubsystem.runOnce(()->{
+          m_indexerSubsystem.setUpperIndexer(1);
+        }),
+        Commands.waitSeconds(1),
+        m_indexerSubsystem.runOnce(()->{
+          m_indexerSubsystem.setUpperIndexer(0);
+        })
+      )
+    );
+    NamedCommands.registerCommand("intake", m_intakeSubsystem.runOnce(()->m_intakeSubsystem.setSpeed(1)));
+    NamedCommands.registerCommand("stop_intake", m_intakeSubsystem.runOnce(()->m_intakeSubsystem.setSpeed(0)));
+    NamedCommands.registerCommand("index", new IndexCommand(m_indexerSubsystem, m_shooterSubsystem));
   }
 }

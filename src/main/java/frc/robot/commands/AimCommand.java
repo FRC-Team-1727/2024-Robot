@@ -7,35 +7,39 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.LimelightHelpers;
 import frc.robot.LimelightHelpers.LimelightResults;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
+
 import org.littletonrobotics.junction.Logger;
 
 public class AimCommand extends Command {
   private final DriveSubsystem m_driveSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
+  private final VisionSubsystem m_visionSubsystem;
   private Translation2d pose;
   private final PIDController rotationController;
 
-  public AimCommand(DriveSubsystem drive, ShooterSubsystem shooter) {
+  public AimCommand(DriveSubsystem drive, ShooterSubsystem shooter, VisionSubsystem vision) {
     m_driveSubsystem = drive;
     m_shooterSubsystem = shooter;
+    m_visionSubsystem = vision;
     rotationController = new PIDController(kAimingP, kAimingI, kAimingD);
-    addRequirements(shooter);
+    addRequirements(shooter, vision);
   }
 
   @Override
   public void initialize() {
     m_shooterSubsystem.startShooter();
+    m_visionSubsystem.setPipeline(0);
   }
 
   @Override
   public void execute() {
     double distance;
     double angle;
-    LimelightResults results = LimelightHelpers.getLatestResults("");
+    LimelightResults results = m_visionSubsystem.getResults();
     if (results.targetingResults.targets_Fiducials.length > 0) {
       pose = results.targetingResults.getBotPose2d().getTranslation();
       Translation2d target =
@@ -68,5 +72,6 @@ public class AimCommand extends Command {
     rotationController.close();
     m_shooterSubsystem.indexAngle();
     m_driveSubsystem.stopAiming();
+    m_visionSubsystem.setPipeline(0);
   }
 }
