@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AmpCommand;
-import frc.robot.commands.IndexCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -59,11 +58,11 @@ public class RobotContainer {
             () ->
                 m_driveSubsystem.drive(
                     -MathUtil.applyDeadband(
-                        m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                    -MathUtil.applyDeadband(
-                        m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+                        m_driverController.getRightY(), OIConstants.kDriveDeadband),
                     -MathUtil.applyDeadband(
                         m_driverController.getRightX(), OIConstants.kDriveDeadband),
+                    -MathUtil.applyDeadband(
+                        m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                     true,
                     true),
             m_driveSubsystem));
@@ -79,7 +78,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     m_driverController.rightTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexerSubsystem));
-    m_driverController.rightTrigger().onFalse(new IndexCommand(m_indexerSubsystem, m_shooterSubsystem));
     m_driverController.leftBumper().whileTrue(
             Commands.startEnd(
               () -> {
@@ -120,6 +118,5 @@ public class RobotContainer {
     );
     NamedCommands.registerCommand("intake", m_intakeSubsystem.runOnce(()->m_intakeSubsystem.setSpeed(1)));
     NamedCommands.registerCommand("stop_intake", m_intakeSubsystem.runOnce(()->m_intakeSubsystem.setSpeed(0)));
-    NamedCommands.registerCommand("index", new IndexCommand(m_indexerSubsystem, m_shooterSubsystem));
   }
 }

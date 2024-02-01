@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.IndexerConstants.*;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -13,8 +15,7 @@ public class IndexerSubsystem extends SubsystemBase {
   private final CANSparkFlex upperIndexer =
       new CANSparkFlex(kUpperIndexerPort, MotorType.kBrushless);
 
-  private final DigitalInput lowerBeamBreak = new DigitalInput(kLowerBeamBreakPort);
-  private final DigitalInput upperBeamBreak = new DigitalInput(kUpperBeamBreakPort);
+  private final DigitalInput beamBreak = new DigitalInput(kBeamBreakPort);
 
   public IndexerSubsystem() {}
 
@@ -26,11 +27,12 @@ public class IndexerSubsystem extends SubsystemBase {
     upperIndexer.set(spd);
   }
 
-  public boolean getLowerBeamBreak() {
-    return lowerBeamBreak.get();
+  public boolean getBeamBreak() {
+    return beamBreak.get();
   }
 
-  public boolean getUpperBeamBreak() {
-    return upperBeamBreak.get();
+  @Override
+  public void periodic() {
+      Logger.recordOutput("Indexer/BeamBreak", beamBreak.get());
   }
 }
