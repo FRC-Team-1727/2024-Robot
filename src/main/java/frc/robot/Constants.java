@@ -56,15 +56,15 @@ public final class Constants {
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
 
     // SPARK MAX CAN IDs
-    public static final int kFrontLeftDrivingCanId = 11;
-    public static final int kRearLeftDrivingCanId = 13;
-    public static final int kFrontRightDrivingCanId = 15;
-    public static final int kRearRightDrivingCanId = 17;
+    public static final int kFrontLeftDrivingCanId = 1;
+    public static final int kFrontRightDrivingCanId = 3;
+    public static final int kRearLeftDrivingCanId = 5;
+    public static final int kRearRightDrivingCanId = 7;
 
-    public static final int kFrontLeftTurningCanId = 10;
-    public static final int kRearLeftTurningCanId = 12;
-    public static final int kFrontRightTurningCanId = 14;
-    public static final int kRearRightTurningCanId = 16;
+    public static final int kFrontLeftTurningCanId = 2;
+    public static final int kFrontRightTurningCanId = 4;
+    public static final int kRearLeftTurningCanId = 6;
+    public static final int kRearRightTurningCanId = 8;
 
     public static final boolean kGyroReversed = false;
 
@@ -142,11 +142,11 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final int kIntakePort = 9;
+    public static final int kIntakePort = 13;
   }
 
   public static final class ElevatorConstants {
-    public static final int[] kElevatorPorts = {10, 11};
+    public static final int[] kElevatorPorts = {9, 10};
 
     public static final double kP = 0;
     public static final double kI = 0;
@@ -160,7 +160,7 @@ public final class Constants {
 
   public static final class ShooterConstants {
     public static final int kFlywheelPort = 12;
-    public static final int kAnglerPort = 13;
+    public static final int kAnglerPort = 11;
 
     public static final double kFlywheelP = 0;
     public static final double kFlywheelI = 0;
