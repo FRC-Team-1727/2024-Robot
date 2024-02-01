@@ -79,31 +79,19 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_driverController
-        .rightTrigger()
-        .whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexerSubsystem));
-    m_driverController
-        .rightTrigger()
-        .onFalse(new IndexCommand(m_indexerSubsystem, m_shooterSubsystem));
-    m_driverController
-        .leftBumper()
-        .whileTrue(
+    m_driverController.rightTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexerSubsystem));
+    m_driverController.rightTrigger().onFalse(new IndexCommand(m_indexerSubsystem, m_shooterSubsystem));
+    m_driverController.leftBumper().whileTrue(
             Commands.startEnd(
-                () -> {
-                  m_shooterSubsystem.startShooter();
-                },
-                () -> {
-                  m_shooterSubsystem.stopShooter();
-                },
-                m_shooterSubsystem));
-    m_driverController
-        .rightBumper()
-        .whileTrue(
-            new AmpCommand(
-                () -> m_driverController.leftTrigger().getAsBoolean(),
-                m_shooterSubsystem,
-                m_elevatorSubsystem,
-                m_indexerSubsystem));
+              () -> {
+                m_shooterSubsystem.startShooter();
+              },
+              () -> {
+                m_shooterSubsystem.stopShooter();
+              },
+              m_shooterSubsystem
+            ));
+    m_driverController.rightBumper().whileTrue(new AmpCommand(() -> m_driverController.leftTrigger().getAsBoolean(),m_shooterSubsystem,m_elevatorSubsystem,m_indexerSubsystem));
     m_driverController.y().whileTrue(m_elevatorSubsystem.increment(() -> 1));
     m_driverController.a().whileTrue(m_elevatorSubsystem.increment(() -> -1));
   }
