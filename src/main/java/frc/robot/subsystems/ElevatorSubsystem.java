@@ -28,6 +28,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       controller.setI(kI);
       controller.setD(kD);
       controller.setFF(kFF);
+      controller.setOutputRange(-0.1, 0.1);
     }
   }
 
@@ -38,7 +39,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     } else if (position < 0) {
       position = 0;
     }
-    motors[0].getPIDController().setReference(position, ControlType.kPosition);
+    motors[0].getPIDController().setReference(-position, ControlType.kPosition);
   }
 
   public Command increment(IntSupplier dir) {
@@ -60,5 +61,10 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void periodic() {
     Logger.recordOutput("Elevator/TargetPosition", position);
     Logger.recordOutput("Elevator/CurrentPosition", motors[0].getEncoder().getPosition());
+    if (-motors[0].getEncoder().getPosition() < position) {
+      motors[0].set(-0.1);
+    } else {
+      motors[0].set(0.1);
+    }
   }
 }

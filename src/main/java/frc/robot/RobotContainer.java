@@ -5,7 +5,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AimCommand;
 import frc.robot.commands.AmpCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -39,7 +39,8 @@ public class RobotContainer {
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
 
   // The driver's controller
-  CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+  CommandXboxController m_driverController =
+      new CommandXboxController(OIConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -63,11 +64,11 @@ public class RobotContainer {
                         m_driverController.getRightX(), OIConstants.kDriveDeadband),
                     -MathUtil.applyDeadband(
                         m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                    true,
+                    false,
                     true),
             m_driveSubsystem));
 
-      m_visionSubsystem.setDefaultCommand(m_visionSubsystem.visionCommand(m_driveSubsystem));
+    m_visionSubsystem.setDefaultCommand(m_visionSubsystem.visionCommand(m_driveSubsystem));
   }
 
   /**
@@ -77,18 +78,20 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_driverController.rightTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexerSubsystem));
-    m_driverController.leftBumper().whileTrue(
-            Commands.startEnd(
-              () -> {
-                m_shooterSubsystem.startShooter();
-              },
-              () -> {
-                m_shooterSubsystem.stopShooter();
-              },
-              m_shooterSubsystem
-            ));
-    m_driverController.rightBumper().whileTrue(new AmpCommand(() -> m_driverController.leftTrigger().getAsBoolean(),m_shooterSubsystem,m_elevatorSubsystem,m_indexerSubsystem));
+    m_driverController
+        .rightTrigger()
+        .whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem));
+    m_driverController
+        .leftBumper()
+        .whileTrue(new AimCommand(m_driveSubsystem, m_shooterSubsystem, m_visionSubsystem));
+    m_driverController
+        .rightBumper()
+        .whileTrue(
+            new AmpCommand(
+                () -> m_driverController.leftTrigger().getAsBoolean(),
+                m_shooterSubsystem,
+                m_elevatorSubsystem,
+                m_indexerSubsystem));
     m_driverController.y().whileTrue(m_elevatorSubsystem.increment(() -> 1));
     m_driverController.a().whileTrue(m_elevatorSubsystem.increment(() -> -1));
   }
@@ -103,20 +106,25 @@ public class RobotContainer {
   }
 
   private void registerNamedCommands() {
-    NamedCommands.registerCommand("start_shooter", m_shooterSubsystem.runOnce(()->m_shooterSubsystem.startShooter()));
-    NamedCommands.registerCommand("angle_sub", m_shooterSubsystem.runOnce(()->m_shooterSubsystem.subAngle()));
-    NamedCommands.registerCommand("shoot",
-      Commands.sequence(
-        m_indexerSubsystem.runOnce(()->{
-          m_indexerSubsystem.setUpperIndexer(1);
-        }),
-        Commands.waitSeconds(1),
-        m_indexerSubsystem.runOnce(()->{
-          m_indexerSubsystem.setUpperIndexer(0);
-        })
-      )
-    );
-    NamedCommands.registerCommand("intake", m_intakeSubsystem.runOnce(()->m_intakeSubsystem.setSpeed(1)));
-    NamedCommands.registerCommand("stop_intake", m_intakeSubsystem.runOnce(()->m_intakeSubsystem.setSpeed(0)));
+    NamedCommands.registerCommand(
+        "start_shooter", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.startShooter()));
+    NamedCommands.registerCommand(
+        "angle_sub", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.subAngle()));
+    NamedCommands.registerCommand(
+        "shoot",
+        Commands.sequence(
+            m_indexerSubsystem.runOnce(
+                () -> {
+                  m_indexerSubsystem.setUpperIndexer(1);
+                }),
+            Commands.waitSeconds(1),
+            m_indexerSubsystem.runOnce(
+                () -> {
+                  m_indexerSubsystem.setUpperIndexer(0);
+                })));
+    NamedCommands.registerCommand(
+        "intake", m_intakeSubsystem.runOnce(() -> m_intakeSubsystem.setSpeed(1)));
+    NamedCommands.registerCommand(
+        "stop_intake", m_intakeSubsystem.runOnce(() -> m_intakeSubsystem.setSpeed(0)));
   }
 }

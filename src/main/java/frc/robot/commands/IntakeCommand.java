@@ -3,15 +3,18 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class IntakeCommand extends Command {
   private final IntakeSubsystem m_intakeSubsystem;
   private final IndexerSubsystem m_indexerSubsystem;
+  private final ShooterSubsystem m_shooterSubsystem;
 
-  public IntakeCommand(IntakeSubsystem intake, IndexerSubsystem indexer) {
+  public IntakeCommand(IntakeSubsystem intake, IndexerSubsystem indexer, ShooterSubsystem shooter) {
     m_intakeSubsystem = intake;
     m_indexerSubsystem = indexer;
-    addRequirements(intake, indexer);
+    m_shooterSubsystem = shooter;
+    addRequirements(intake, indexer, shooter);
   }
 
   @Override
@@ -19,6 +22,7 @@ public class IntakeCommand extends Command {
     m_indexerSubsystem.setLowerIndexer(1);
     m_indexerSubsystem.setUpperIndexer(1);
     m_intakeSubsystem.setSpeed(1);
+    m_shooterSubsystem.indexAngle();
   }
 
   @Override
