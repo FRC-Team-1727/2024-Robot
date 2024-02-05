@@ -30,12 +30,12 @@ public final class Constants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-    public static final double kMaxSpeedMetersPerSecond = 1.5; // 4.8;
-    public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
+    public static final double kMaxSpeedMetersPerSecond = 15;
+    public static final double kMaxAngularSpeed = 3 * Math.PI; // radians per second
 
-    public static final double kDirectionSlewRate = 3.6; // 1.2; // radians per second
-    public static final double kMagnitudeSlewRate = 5.4; // 1.8; // percent per second (1 = 100%)
-    public static final double kRotationalSlewRate = 6.0; // 2.0; // percent per second (1 = 100%)
+    public static final double kDirectionSlewRate = 1.2; // 1.2; // radians per second
+    public static final double kMagnitudeSlewRate = 1.8; // 1.8; // percent per second (1 = 100%)
+    public static final double kRotationalSlewRate = 2; // 2.0; // percent per second (1 = 100%)
 
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(22.5);
@@ -121,8 +121,8 @@ public final class Constants {
     public static final double kTurningMinOutput = -1;
     public static final double kTurningMaxOutput = 1;
 
-    public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
-    public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
+    public static final IdleMode kDrivingMotorIdleMode = IdleMode.kCoast;
+    public static final IdleMode kTurningMotorIdleMode = IdleMode.kCoast;
 
     public static final int kDrivingMotorCurrentLimit = 50; // amps
     public static final int kTurningMotorCurrentLimit = 20; // amps
@@ -148,13 +148,13 @@ public final class Constants {
   public static final class ElevatorConstants {
     public static final int[] kElevatorPorts = {9, 10};
 
-    public static final double kP = 0.3;
+    public static final double kP = 0.1;
     public static final double kI = 0;
-    public static final double kD = 0;
+    public static final double kD = 0.1;
     public static final double kFF = 0;
 
-    public static final int kMaxPosition = 70;
-    public static final double kElevatorSpeed = 1;
+    public static final int kMaxPosition = 74;
+    public static final double kElevatorSpeed = 5;
     public static final double kAmpPosition = 50;
   }
 

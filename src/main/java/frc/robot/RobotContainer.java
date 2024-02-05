@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -64,11 +65,11 @@ public class RobotContainer {
                         m_driverController.getRightX(), OIConstants.kDriveDeadband),
                     -MathUtil.applyDeadband(
                         m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                    false,
-                    true),
+                    true,
+                    false),
             m_driveSubsystem));
 
-    m_visionSubsystem.setDefaultCommand(m_visionSubsystem.visionCommand(m_driveSubsystem));
+    // m_visionSubsystem.setDefaultCommand(m_visionSubsystem.visionCommand(m_driveSubsystem));
   }
 
   /**
@@ -94,6 +95,11 @@ public class RobotContainer {
                 m_indexerSubsystem));
     m_driverController.y().whileTrue(m_elevatorSubsystem.increment(() -> 1));
     m_driverController.a().whileTrue(m_elevatorSubsystem.increment(() -> -1));
+
+    m_driverController.b().onTrue(m_driveSubsystem.runOnce(() -> m_driveSubsystem.resetGyro()));
+    m_driverController
+        .x()
+        .onTrue(m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.resetPosition()));
   }
 
   /**
@@ -102,7 +108,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return Commands.none();
+    return new PathPlannerAuto("test");
   }
 
   private void registerNamedCommands() {

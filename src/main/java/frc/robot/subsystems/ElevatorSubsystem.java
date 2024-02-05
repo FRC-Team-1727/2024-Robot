@@ -20,7 +20,6 @@ public class ElevatorSubsystem extends SubsystemBase {
       };
 
   public ElevatorSubsystem() {
-    motors[1].follow(motors[0], true);
 
     for (CANSparkMax m : motors) {
       SparkPIDController controller = m.getPIDController();
@@ -28,7 +27,8 @@ public class ElevatorSubsystem extends SubsystemBase {
       controller.setI(kI);
       controller.setD(kD);
       controller.setFF(kFF);
-      controller.setOutputRange(-0.1, 0.1);
+      controller.setOutputRange(-1, 1);
+      controller.setFeedbackDevice(m.getEncoder());
     }
   }
 
@@ -40,6 +40,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       position = 0;
     }
     motors[0].getPIDController().setReference(-position, ControlType.kPosition);
+    motors[1].getPIDController().setReference(position, ControlType.kPosition);
   }
 
   public Command increment(IntSupplier dir) {
@@ -57,14 +58,20 @@ public class ElevatorSubsystem extends SubsystemBase {
     setPosition(kAmpPosition);
   }
 
+  public void resetPosition() {
+    position = 0;
+    motors[0].getEncoder().setPosition(0);
+  }
+
   @Override
   public void periodic() {
     Logger.recordOutput("Elevator/TargetPosition", position);
-    Logger.recordOutput("Elevator/CurrentPosition", motors[0].getEncoder().getPosition());
-    if (-motors[0].getEncoder().getPosition() < position) {
-      motors[0].set(-0.1);
-    } else {
-      motors[0].set(0.1);
-    }
+    Logger.recordOutput("Elevator/CurrentPosition", -motors[0].getEncoder().getPosition());
+    Logger.recordOutput("Elevator/Position2", motors[1].getEncoder().getPosition());
+    Logger.recordOutput("Elevator/Power", motors[0].getAppliedOutput());
+    Logger.recordOutput("Elevator/Power2", motors[1].getAppliedOutput());
+
+    // motors[0].set(-0.6);
+    // motors[1].set(0.6);
   }
 }

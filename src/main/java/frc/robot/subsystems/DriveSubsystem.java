@@ -154,6 +154,10 @@ public class DriveSubsystem extends SubsystemBase {
         pose);
   }
 
+  public void resetGyro() {
+    m_gyro.reset();
+  }
+
   public SwerveModuleState[] getSwerveModuleStates() {
     return new SwerveModuleState[] {
       m_frontLeft.getState(), m_frontRight.getState(), m_rearLeft.getState(), m_rearRight.getState()
@@ -248,7 +252,7 @@ public class DriveSubsystem extends SubsystemBase {
                     xSpeedDelivered,
                     ySpeedDelivered,
                     rotDelivered,
-                    Rotation2d.fromDegrees(m_gyro.getAngle()))
+                    Rotation2d.fromDegrees(-m_gyro.getAngle()))
                 : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);

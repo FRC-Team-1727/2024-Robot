@@ -40,14 +40,14 @@ public class AimCommand extends Command {
     double angle;
     LimelightResults results = m_visionSubsystem.getResults();
     if (results.targetingResults.targets_Fiducials.length > 0) {
-      pose = results.targetingResults.getBotPose2d().getTranslation();
+      pose = results.targetingResults.getBotPose2d_wpiBlue().getTranslation();
       Translation2d target =
           DriverStation.getAlliance().get() == Alliance.Blue
               ? new Translation2d(0, 5.5)
               : new Translation2d(16.54, 5.5);
       distance = pose.getDistance(target);
       angle = target.minus(pose).getAngle().getDegrees();
-      Logger.recordOutput("Aiming/Pose", pose);
+      Logger.recordOutput("Aiming/Pose", results.targetingResults.getBotPose2d_wpiBlue());
     } else {
       distance = 0;
       angle = 0;

@@ -26,7 +26,7 @@ public class VisionSubsystem extends SubsystemBase {
         () -> {
           LimelightResults results = LimelightHelpers.getLatestResults("");
           if (results.targetingResults.targets_Fiducials.length > 0) {
-            Pose2d pose = results.targetingResults.getBotPose2d();
+            Pose2d pose = results.targetingResults.getBotPose2d_wpiBlue();
             double latency =
                 results.targetingResults.latency_capture
                     + results.targetingResults.latency_jsonParse
