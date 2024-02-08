@@ -22,7 +22,6 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -37,7 +36,6 @@ public class RobotContainer {
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
-  private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
 
   // The driver's controller
   CommandXboxController m_driverController =
@@ -68,8 +66,6 @@ public class RobotContainer {
                     true,
                     false),
             m_driveSubsystem));
-
-    // m_visionSubsystem.setDefaultCommand(m_visionSubsystem.visionCommand(m_driveSubsystem));
   }
 
   /**
@@ -82,9 +78,7 @@ public class RobotContainer {
     m_driverController
         .rightTrigger()
         .whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem));
-    m_driverController
-        .leftBumper()
-        .whileTrue(new AimCommand(m_driveSubsystem, m_shooterSubsystem, m_visionSubsystem));
+    m_driverController.leftBumper().whileTrue(new AimCommand(m_driveSubsystem, m_shooterSubsystem));
     m_driverController
         .rightBumper()
         .whileTrue(

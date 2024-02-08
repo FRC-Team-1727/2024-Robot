@@ -67,10 +67,6 @@ public final class Constants {
     public static final int kRearRightTurningCanId = 8;
 
     public static final boolean kGyroReversed = false;
-
-    public static final double kAimingP = 0;
-    public static final double kAimingI = 0;
-    public static final double kAimingD = 0;
   }
 
   public static final class ModuleConstants {
@@ -139,6 +135,15 @@ public final class Constants {
 
   public static final class VortexMotorConstants {
     public static final double kFreeSpeedRpm = 6784;
+  }
+
+  public static final class AimingConstants {
+    public static final int kCameraAngle = 25;
+    public static final double kCameraHeight = 0.1;
+    public static final double kTargetHeight = 1.25;
+    public static final double kAimingP = 0.01;
+    public static final double kAimingI = 0;
+    public static final double kAimingD = 0;
   }
 
   public static final class IntakeConstants {

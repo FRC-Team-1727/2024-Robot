@@ -19,8 +19,11 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.LimelightHelpers;
+import frc.robot.LimelightHelpers.LimelightResults;
 import frc.utils.SwerveUtils;
 import org.littletonrobotics.junction.Logger;
 
@@ -126,6 +129,24 @@ public class DriveSubsystem extends SubsystemBase {
     Logger.recordOutput("Drive/Pose", getPose());
     Logger.recordOutput("Drive/SwerveModuleStates", getSwerveModuleStates());
     Logger.recordOutput("Drive/Heading", getHeading());
+
+    if (LimelightHelpers.getCurrentPipelineIndex("") == 0) {
+      trackPose();
+    }
+  }
+
+  public void trackPose() {
+    LimelightResults results = LimelightHelpers.getLatestResults("");
+    if (results.targetingResults.targets_Fiducials.length > 0) {
+      Pose2d pose = results.targetingResults.getBotPose2d_wpiBlue();
+      double latency =
+          results.targetingResults.latency_capture
+              + results.targetingResults.latency_jsonParse
+              + results.targetingResults.latency_pipeline;
+      addVisionMeasurement(pose, Timer.getFPGATimestamp() - latency);
+      Logger.recordOutput("Vision/Pose", pose);
+      Logger.recordOutput("Vision/Latency", latency);
+    }
   }
 
   /**
