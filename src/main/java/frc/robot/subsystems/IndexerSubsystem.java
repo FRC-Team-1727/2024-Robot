@@ -16,7 +16,9 @@ public class IndexerSubsystem extends SubsystemBase {
 
   private final DigitalInput beamBreak = new DigitalInput(kBeamBreakPort);
 
-  public IndexerSubsystem() {}
+  public IndexerSubsystem() {
+    lowerIndexer.setInverted(true);
+  }
 
   public void setLowerIndexer(double spd) {
     lowerIndexer.set(spd);

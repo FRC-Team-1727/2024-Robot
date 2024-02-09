@@ -36,7 +36,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void startShooter() {
-    setSpeed(kShooterSpeed);
+    // setSpeed(kShooterSpeed);
+    flywheel.set(1);
   }
 
   public void stopShooter() {

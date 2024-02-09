@@ -6,59 +6,66 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import org.littletonrobotics.junction.Logger;
 
-public class AimCommand extends Command {
+public class AmpAimCommand extends Command {
   private final DriveSubsystem m_driveSubsystem;
-  private final ShooterSubsystem m_shooterSubsystem;
   private PIDController rotationController;
-  private double angle;
-  private double distance;
+  private PIDController strafeController;
 
-  public AimCommand(DriveSubsystem drive, ShooterSubsystem shooter) {
+  public AmpAimCommand(DriveSubsystem drive) {
     m_driveSubsystem = drive;
-    m_shooterSubsystem = shooter;
-    addRequirements(shooter);
   }
 
   @Override
   public void initialize() {
-    m_shooterSubsystem.startShooter();
-    LimelightHelpers.setPipelineIndex("", 1);
+    LimelightHelpers.setPipelineIndex("", 2);
     rotationController = new PIDController(kAimingP, kAimingI, kAimingD);
+    strafeController = new PIDController(1, 0, 0);
+    rotationController.setSetpoint(0);
+    strafeController.setSetpoint(0);
   }
 
   @Override
   public void execute() {
+    double angle;
+    double strafe;
     if (LimelightHelpers.getTV("")) {
-      distance =
-          (kTargetHeight - kCameraHeight)
-              / Math.tan(Math.toRadians(kCameraAngle + LimelightHelpers.getTY("")));
-      angle = LimelightHelpers.getTX("");
+      double[] pose = LimelightHelpers.getTargetPose_RobotSpace("");
+      strafe = pose[0];
+      angle = pose[4];
     } else {
-      distance = 0;
       angle = 0;
+      strafe = 0;
     }
 
-    Logger.recordOutput("Aiming/Angle", angle);
-    Logger.recordOutput("Aiming/Distance", distance);
-
-    m_shooterSubsystem.aim(distance);
-    rotationController.setSetpoint(0);
     if (Math.abs(angle) > 2) {
       rotationController.setP(kAimingP);
+      strafe = 0;
     } else {
       rotationController.setP(kAimingP * 2);
     }
     m_driveSubsystem.setAimValue(rotationController.calculate(angle));
+    double strafeSpeed = strafeController.calculate(-strafe);
+    // m_driveSubsystem.setStrafeValue(strafeSpeed);
+    if (strafe > 0.1) {
+      m_driveSubsystem.setStrafeValue(0.05);
+    } else if (strafe < -0.1) {
+      m_driveSubsystem.setStrafeValue(-0.05);
+    } else {
+      m_driveSubsystem.setStrafeValue(0);
+    }
+
+    Logger.recordOutput("Aiming/AmpX", strafe);
+    Logger.recordOutput("Aiming/AmpYaw", angle);
+    Logger.recordOutput("Aiming/StrafeSpeed", strafeSpeed);
   }
 
   @Override
   public void end(boolean interrupted) {
     rotationController.close();
-    m_shooterSubsystem.indexAngle();
     m_driveSubsystem.stopAiming();
+    m_driveSubsystem.stopStrafing();
     LimelightHelpers.setPipelineIndex("", 0);
   }
 }

@@ -80,6 +80,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   private double aimValue = 0;
   private boolean aiming = false;
+  private double strafeValue = 0;
+  private boolean strafing = false;
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -143,7 +145,10 @@ public class DriveSubsystem extends SubsystemBase {
           results.targetingResults.latency_capture
               + results.targetingResults.latency_jsonParse
               + results.targetingResults.latency_pipeline;
-      addVisionMeasurement(pose, Timer.getFPGATimestamp() - latency);
+      if (m_poseEstimator.getEstimatedPosition().getTranslation().getDistance(pose.getTranslation())
+          < 1) {
+        addVisionMeasurement(pose, Timer.getFPGATimestamp() - latency / 1000.0);
+      }
       Logger.recordOutput("Vision/Pose", pose);
       Logger.recordOutput("Vision/Latency", latency);
     }
@@ -210,6 +215,11 @@ public class DriveSubsystem extends SubsystemBase {
 
     if (rot == 0 && aiming) {
       rot = aimValue;
+    }
+
+    if (strafing) {
+      fieldRelative = false;
+      ySpeed = strafeValue;
     }
 
     if (rateLimit) {
@@ -343,6 +353,15 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void stopAiming() {
     aiming = false;
+  }
+
+  public void setStrafeValue(double value) {
+    strafing = true;
+    strafeValue = value;
+  }
+
+  public void stopStrafing() {
+    strafing = false;
   }
 
   public void addVisionMeasurement(Pose2d pose, double timestampSeconds) {

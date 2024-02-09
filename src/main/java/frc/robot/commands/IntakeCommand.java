@@ -19,15 +19,16 @@ public class IntakeCommand extends Command {
 
   @Override
   public void initialize() {
-    m_indexerSubsystem.setLowerIndexer(0.5);
-    m_indexerSubsystem.setUpperIndexer(0.5);
+    m_indexerSubsystem.setLowerIndexer(1);
+    m_indexerSubsystem.setUpperIndexer(1);
     m_intakeSubsystem.setSpeed(1);
     m_shooterSubsystem.indexAngle();
   }
 
   @Override
   public boolean isFinished() {
-    return m_indexerSubsystem.getBeamBreak();
+    // return m_indexerSubsystem.getBeamBreak();
+    return false;
   }
 
   @Override

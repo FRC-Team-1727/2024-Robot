@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakeSubsystem extends SubsystemBase {
   private final CANSparkFlex intake = new CANSparkFlex(kIntakePort, MotorType.kBrushless);
 
-  public IntakeSubsystem() {}
+  public IntakeSubsystem() {
+    intake.setInverted(true);
+  }
 
   public void setSpeed(double spd) {
     intake.set(spd);
