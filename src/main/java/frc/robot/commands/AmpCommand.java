@@ -45,5 +45,6 @@ public class AmpCommand extends Command {
   public void end(boolean interrupted) {
     m_elevatorSubsystem.defaultPosition();
     m_shooterSubsystem.indexAngle();
+    m_shooterSubsystem.stopShooter();
   }
 }

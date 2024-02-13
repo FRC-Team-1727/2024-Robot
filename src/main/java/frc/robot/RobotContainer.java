@@ -71,7 +71,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_driverController
         .rightTrigger()
-        .whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem));
+        .whileTrue(
+            new IntakeCommand(
+                m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem));
     m_driverController
         .leftBumper()
         .and(m_driverController.rightBumper().negate())
@@ -95,6 +97,7 @@ public class RobotContainer {
     m_driverController
         .x()
         .onTrue(m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.resetPosition()));
+    // m_driverController.rightTrigger().onFalse(m_indexerSubsystem.index().onlyIf(m_indexerSubsystem::getBeamBreak));
   }
 
   /**

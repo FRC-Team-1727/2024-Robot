@@ -58,6 +58,7 @@ public class AimCommand extends Command {
   public void end(boolean interrupted) {
     rotationController.close();
     m_shooterSubsystem.indexAngle();
+    m_shooterSubsystem.stopShooter();
     m_driveSubsystem.stopAiming();
     LimelightHelpers.setPipelineIndex("", 0);
   }

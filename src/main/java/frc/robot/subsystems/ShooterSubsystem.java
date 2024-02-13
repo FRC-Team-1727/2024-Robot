@@ -28,6 +28,7 @@ public class ShooterSubsystem extends SubsystemBase {
     controller.setD(kAnglerD);
     controller.setFF(kAnglerFF);
     controller.setFeedbackDevice(angler.getAbsoluteEncoder(Type.kDutyCycle));
+    controller.setOutputRange(-0.75, 0.75);
   }
 
   private void setSpeed(int rpm) {
@@ -37,15 +38,17 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void startShooter() {
     // setSpeed(kShooterSpeed);
-    flywheel.set(1);
+    flywheel.set(0.95);
   }
 
   public void stopShooter() {
     flywheel.getPIDController().setReference(0, ControlType.kDutyCycle);
+    // flywheel.set(0);
   }
 
   public void setAngle(double degrees) {
     angler.getPIDController().setReference(degrees, ControlType.kPosition);
+    angle = degrees;
   }
 
   public void indexAngle() {
@@ -79,5 +82,6 @@ public class ShooterSubsystem extends SubsystemBase {
     Logger.recordOutput("Shooter/TargetAngle", angle);
     Logger.recordOutput(
         "Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
+    Logger.recordOutput("Shooter/AnglerPower", angler.getAppliedOutput());
   }
 }
