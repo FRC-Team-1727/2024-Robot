@@ -64,7 +64,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void scoreAmp() {
-    flywheel.set(0.5);
+    flywheel.set(kAmpSpeed);
   }
 
   public boolean atAngle() {

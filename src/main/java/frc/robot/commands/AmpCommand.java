@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -34,7 +35,7 @@ public class AmpCommand extends Command {
   public void execute() {
     if (scoring.getAsBoolean()) {
       m_shooterSubsystem.scoreAmp();
-      m_indexerSubsystem.setUpperIndexer(0.5);
+      m_indexerSubsystem.setUpperIndexer(ShooterConstants.kAmpSpeed);
     } else {
       m_shooterSubsystem.stopShooter();
       m_indexerSubsystem.setUpperIndexer(0);

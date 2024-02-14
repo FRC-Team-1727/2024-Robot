@@ -30,6 +30,7 @@ public class RobotContainer {
   private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
+  private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
 
   // The driver's controller
   CommandXboxController m_driverController =
@@ -60,6 +61,9 @@ public class RobotContainer {
                     true,
                     false),
             m_driveSubsystem));
+
+    m_climbSubsystem.setDefaultCommand(
+        m_climbSubsystem.manualControl(m_driverController.y(), m_driverController.a()));
   }
 
   /**
@@ -90,8 +94,8 @@ public class RobotContainer {
                 m_shooterSubsystem,
                 m_elevatorSubsystem,
                 m_indexerSubsystem));
-    m_driverController.y().whileTrue(m_elevatorSubsystem.increment(() -> 1));
-    m_driverController.a().whileTrue(m_elevatorSubsystem.increment(() -> -1));
+    // m_driverController.y().whileTrue(m_elevatorSubsystem.increment(() -> 1));
+    // m_driverController.a().whileTrue(m_elevatorSubsystem.increment(() -> -1));
 
     m_driverController.b().onTrue(m_driveSubsystem.runOnce(() -> m_driveSubsystem.resetGyro()));
     m_driverController

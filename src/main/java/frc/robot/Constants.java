@@ -161,7 +161,7 @@ public final class Constants {
 
     public static final int kMaxPosition = 74;
     public static final double kElevatorSpeed = 5;
-    public static final double kAmpPosition = 30;
+    public static final double kAmpPosition = 40;
   }
 
   public static final class ShooterConstants {
@@ -179,6 +179,7 @@ public final class Constants {
     public static final double kAnglerFF = 0;
 
     public static final int kShooterSpeed = 500;
+    public static final double kAmpSpeed = 1;
 
     public static final double kAngleTolerance = 0.1;
 
@@ -191,5 +192,15 @@ public final class Constants {
     public static final int kLowerIndexerPort = 14;
     public static final int kUpperIndexerPort = 15;
     public static final int kBeamBreakPort = 0;
+  }
+
+  public static final class ClimbConstants {
+    public static final int kClimbPort = 16;
+    public static final int kMaxPosition = 10;
+    public static final double kP = 0.1;
+    public static final double kI = 0;
+    public static final double kD = 0.1;
+    public static final double kFF = 0;
+    public static final double kClimbSpeed = 0.5;
   }
 }
