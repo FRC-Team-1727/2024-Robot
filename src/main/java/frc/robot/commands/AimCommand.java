@@ -32,10 +32,11 @@ public class AimCommand extends Command {
   @Override
   public void execute() {
     if (LimelightHelpers.getTV("")) {
-      distance =
-          (kTargetHeight - kCameraHeight)
-              / Math.tan(Math.toRadians(kCameraAngle + LimelightHelpers.getTY("")));
+      // distance =
+      //     (kTargetHeight - kCameraHeight)
+      //         / Math.tan(Math.toRadians(kCameraAngle + LimelightHelpers.getTY("")));
       angle = LimelightHelpers.getTX("");
+      distance = LimelightHelpers.getTargetPose_RobotSpace("")[2];
     } else {
       distance = 0;
       angle = 0;
@@ -44,7 +45,12 @@ public class AimCommand extends Command {
     Logger.recordOutput("Aiming/Angle", angle);
     Logger.recordOutput("Aiming/Distance", distance);
 
-    m_shooterSubsystem.aim(distance);
+    if (distance < 1.4) {
+      m_shooterSubsystem.subAngle();
+    } else {
+      m_shooterSubsystem.aim(distance);
+    }
+
     rotationController.setSetpoint(0);
     if (Math.abs(angle) > 2) {
       rotationController.setP(kAimingP);
@@ -57,7 +63,7 @@ public class AimCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     rotationController.close();
-    m_shooterSubsystem.indexAngle();
+    // m_shooterSubsystem.indexAngle();
     m_shooterSubsystem.stopShooter();
     m_driveSubsystem.stopAiming();
     LimelightHelpers.setPipelineIndex("", 0);

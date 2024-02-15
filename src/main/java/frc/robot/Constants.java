@@ -161,7 +161,7 @@ public final class Constants {
 
     public static final int kMaxPosition = 74;
     public static final double kElevatorSpeed = 5;
-    public static final double kAmpPosition = 40;
+    public static final double kAmpPosition = 50;
   }
 
   public static final class ShooterConstants {
@@ -184,7 +184,7 @@ public final class Constants {
     public static final double kAngleTolerance = 0.1;
 
     public static final double kIndexAngle = 0.14;
-    public static final double kSubAngle = 0.14;
+    public static final double kSubAngle = 0.1;
     public static final double kAmpAngle = 0.48;
   }
 

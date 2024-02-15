@@ -62,8 +62,8 @@ public class RobotContainer {
                     false),
             m_driveSubsystem));
 
-    m_climbSubsystem.setDefaultCommand(
-        m_climbSubsystem.manualControl(m_driverController.y(), m_driverController.a()));
+    // m_climbSubsystem.setDefaultCommand(m_climbSubsystem.manualControl(m_driverController.y(),
+    // m_driverController.a()));
   }
 
   /**
@@ -102,6 +102,8 @@ public class RobotContainer {
         .x()
         .onTrue(m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.resetPosition()));
     // m_driverController.rightTrigger().onFalse(m_indexerSubsystem.index().onlyIf(m_indexerSubsystem::getBeamBreak));
+    m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.01));
+    m_driverController.a().onTrue(m_shooterSubsystem.increment(() -> -0.01));
   }
 
   /**

@@ -8,7 +8,9 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.Logger;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -47,6 +49,11 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setAngle(double degrees) {
+    if (degrees > kAmpAngle) {
+      degrees = kAmpAngle;
+    } else if (degrees < kSubAngle) {
+      degrees = kSubAngle;
+    }
     angler.getPIDController().setReference(degrees, ControlType.kPosition);
     angle = degrees;
   }
@@ -72,8 +79,16 @@ public class ShooterSubsystem extends SubsystemBase {
         <= kAngleTolerance;
   }
 
+  public Command increment(DoubleSupplier val) {
+    return runOnce(
+        () -> {
+          setAngle(angle + val.getAsDouble());
+        });
+  }
+
   public void aim(double distance) {
     // set angle based on distance from target
+    setAngle(0.0328914 * distance + 0.0900833);
   }
 
   @Override
