@@ -23,6 +23,7 @@ public class ClimbSubsystem extends SubsystemBase {
     controller.setOutputRange(-0.5, 0.5);
     controller.setFeedbackDevice(motor.getEncoder());
     motor.setIdleMode(IdleMode.kBrake);
+    motor.setInverted(true);
     motor.burnFlash();
   }
 

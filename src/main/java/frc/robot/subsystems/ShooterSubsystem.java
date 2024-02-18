@@ -31,6 +31,8 @@ public class ShooterSubsystem extends SubsystemBase {
     controller.setFF(kAnglerFF);
     controller.setFeedbackDevice(angler.getAbsoluteEncoder(Type.kDutyCycle));
     controller.setOutputRange(-0.75, 0.75);
+    controller.setIZone(0.01);
+    controller.setIMaxAccum(0.1, 0);
   }
 
   private void setSpeed(int rpm) {
@@ -38,9 +40,13 @@ public class ShooterSubsystem extends SubsystemBase {
     Logger.recordOutput("Shooter/TargetVelocity", rpm);
   }
 
+  public void setPower(double pct) {
+    flywheel.set(pct);
+  }
+
   public void startShooter() {
-    // setSpeed(kShooterSpeed);
-    flywheel.set(0.95);
+    setSpeed(kShooterSpeed);
+    // flywheel.set(0.95);
   }
 
   public void stopShooter() {

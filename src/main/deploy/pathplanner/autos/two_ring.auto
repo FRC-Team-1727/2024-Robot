@@ -2,97 +2,30 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3591983318328855,
-      "y": 5.552895545959473
+      "x": 1.3516568676196845,
+      "y": 5.569763434144432
     },
-    "rotation": 0.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "angle_sub"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "start_shooter"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "shoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "intake"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "two_ring.1"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "two_ring.2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "stop_intake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "index"
-                }
-              }
-            ]
+            "pathName": "first_ring"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "angle_sub"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "shoot"
+            "name": "aim"
           }
         }
       ]
     }
   },
   "folder": null,
-  "choreoAuto": true
+  "choreoAuto": false
 }

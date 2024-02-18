@@ -62,8 +62,8 @@ public class RobotContainer {
                     false),
             m_driveSubsystem));
 
-    // m_climbSubsystem.setDefaultCommand(m_climbSubsystem.manualControl(m_driverController.y(),
-    // m_driverController.a()));
+    m_climbSubsystem.setDefaultCommand(
+        m_climbSubsystem.manualControl(m_driverController.y(), m_driverController.a()));
   }
 
   /**
@@ -102,8 +102,8 @@ public class RobotContainer {
         .x()
         .onTrue(m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.resetPosition()));
     // m_driverController.rightTrigger().onFalse(m_indexerSubsystem.index().onlyIf(m_indexerSubsystem::getBeamBreak));
-    m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.01));
-    m_driverController.a().onTrue(m_shooterSubsystem.increment(() -> -0.01));
+    // m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.01));
+    // m_driverController.a().onTrue(m_shooterSubsystem.increment(() -> -0.01));
   }
 
   /**
@@ -112,12 +112,15 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("test");
+    return new PathPlannerAuto("left_auto");
+    // return Autos.preload();
   }
 
   private void registerNamedCommands() {
     NamedCommands.registerCommand(
         "start_shooter", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.startShooter()));
+    NamedCommands.registerCommand(
+        "stop_shooter", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.stopShooter()));
     NamedCommands.registerCommand(
         "angle_sub", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.subAngle()));
     NamedCommands.registerCommand(
@@ -136,5 +139,8 @@ public class RobotContainer {
         "intake", m_intakeSubsystem.runOnce(() -> m_intakeSubsystem.setSpeed(1)));
     NamedCommands.registerCommand(
         "stop_intake", m_intakeSubsystem.runOnce(() -> m_intakeSubsystem.setSpeed(0)));
+    NamedCommands.registerCommand(
+        "aim",
+        new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem).raceWith(Commands.waitSeconds(1)));
   }
 }

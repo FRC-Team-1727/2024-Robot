@@ -168,17 +168,17 @@ public final class Constants {
     public static final int kFlywheelPort = 12;
     public static final int kAnglerPort = 11;
 
-    public static final double kFlywheelP = 0;
+    public static final double kFlywheelP = 0.002;
     public static final double kFlywheelI = 0;
     public static final double kFlywheelD = 0;
-    public static final double kFlywheelFF = 0;
+    public static final double kFlywheelFF = 0.00016;
 
     public static final double kAnglerP = 2;
-    public static final double kAnglerI = 0;
+    public static final double kAnglerI = 0.01;
     public static final double kAnglerD = 0;
     public static final double kAnglerFF = 0;
 
-    public static final int kShooterSpeed = 500;
+    public static final int kShooterSpeed = 6000;
     public static final double kAmpSpeed = 1;
 
     public static final double kAngleTolerance = 0.1;
@@ -186,6 +186,7 @@ public final class Constants {
     public static final double kIndexAngle = 0.14;
     public static final double kSubAngle = 0.1;
     public static final double kAmpAngle = 0.48;
+    public static final double kTrapAngle = 0.42;
   }
 
   public static final class IndexerConstants {
@@ -201,6 +202,6 @@ public final class Constants {
     public static final double kI = 0;
     public static final double kD = 0.1;
     public static final double kFF = 0;
-    public static final double kClimbSpeed = 0.5;
+    public static final double kClimbSpeed = 1;
   }
 }

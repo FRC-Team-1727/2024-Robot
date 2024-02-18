@@ -133,7 +133,7 @@ public class DriveSubsystem extends SubsystemBase {
     Logger.recordOutput("Drive/Heading", getHeading());
 
     if (LimelightHelpers.getCurrentPipelineIndex("") == 0) {
-      trackPose();
+      // trackPose();
     }
   }
 
@@ -366,5 +366,12 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void addVisionMeasurement(Pose2d pose, double timestampSeconds) {
     m_poseEstimator.addVisionMeasurement(pose, timestampSeconds);
+  }
+
+  public void autoRotate(double angle) {
+    angle *= DriveConstants.kMaxAngularSpeed;
+    setModuleStates(
+        DriveConstants.kDriveKinematics.toSwerveModuleStates(
+            ChassisSpeeds.fromRobotRelativeSpeeds(0, 0, angle, new Rotation2d())));
   }
 }

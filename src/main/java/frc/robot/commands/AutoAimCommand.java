@@ -9,22 +9,21 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import org.littletonrobotics.junction.Logger;
 
-public class AimCommand extends Command {
+public class AutoAimCommand extends Command {
   private final DriveSubsystem m_driveSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
   private PIDController rotationController;
   private double angle;
   private double distance;
 
-  public AimCommand(DriveSubsystem drive, ShooterSubsystem shooter) {
+  public AutoAimCommand(DriveSubsystem drive, ShooterSubsystem shooter) {
     m_driveSubsystem = drive;
     m_shooterSubsystem = shooter;
-    addRequirements(shooter);
+    addRequirements(shooter, drive);
   }
 
   @Override
   public void initialize() {
-    m_shooterSubsystem.startShooter();
     LimelightHelpers.setPipelineIndex("", 1);
     rotationController = new PIDController(kAimingP, kAimingI, kAimingD);
   }
@@ -57,15 +56,12 @@ public class AimCommand extends Command {
     } else {
       rotationController.setP(kAimingP * 2);
     }
-    m_driveSubsystem.setAimValue(rotationController.calculate(angle));
+    m_driveSubsystem.autoRotate(rotationController.calculate(angle));
   }
 
   @Override
   public void end(boolean interrupted) {
     rotationController.close();
-    // m_shooterSubsystem.indexAngle();
-    m_shooterSubsystem.stopShooter();
-    m_driveSubsystem.stopAiming();
     LimelightHelpers.setPipelineIndex("", 0);
   }
 }
