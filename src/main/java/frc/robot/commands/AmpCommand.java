@@ -29,15 +29,14 @@ public class AmpCommand extends Command {
   public void initialize() {
     m_elevatorSubsystem.ampPosition();
     m_shooterSubsystem.ampPosition();
+    m_shooterSubsystem.setPower(ShooterConstants.kAmpSpeed);
   }
 
   @Override
   public void execute() {
     if (scoring.getAsBoolean()) {
-      m_shooterSubsystem.scoreAmp();
       m_indexerSubsystem.setUpperIndexer(ShooterConstants.kAmpSpeed);
     } else {
-      m_shooterSubsystem.stopShooter();
       m_indexerSubsystem.setUpperIndexer(0);
     }
   }
@@ -46,6 +45,7 @@ public class AmpCommand extends Command {
   public void end(boolean interrupted) {
     m_elevatorSubsystem.defaultPosition();
     m_shooterSubsystem.indexAngle();
-    m_shooterSubsystem.stopShooter();
+    m_shooterSubsystem.setPower(0);
+    m_indexerSubsystem.setUpperIndexer(0);
   }
 }

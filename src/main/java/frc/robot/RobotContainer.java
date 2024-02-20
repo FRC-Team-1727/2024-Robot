@@ -33,7 +33,8 @@ public class RobotContainer {
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
 
   // The driver's controller
-  CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+  CommandXboxController m_driverController =
+      new CommandXboxController(OIConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -61,7 +62,8 @@ public class RobotContainer {
                     false),
             m_driveSubsystem));
 
-    m_climbSubsystem.setDefaultCommand(m_climbSubsystem.manualControl(m_driverController.y(), m_driverController.a()));
+    // m_climbSubsystem.setDefaultCommand(
+    //     m_climbSubsystem.manualControl(m_driverController.y(), m_driverController.a()));
   }
 
   /**
@@ -71,18 +73,42 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_driverController.rightTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem));
-    m_driverController.leftBumper().and(m_driverController.rightBumper().negate()).whileTrue(new AimCommand(m_driveSubsystem, m_shooterSubsystem));
-    m_driverController.leftBumper().and(m_driverController.rightBumper()).whileTrue(new AmpAimCommand(m_driveSubsystem));
-    m_driverController.rightBumper().whileTrue(new AmpCommand(() -> m_driverController.leftTrigger().getAsBoolean(), m_shooterSubsystem, m_elevatorSubsystem, m_indexerSubsystem));
+    m_driverController
+        .rightTrigger()
+        .whileTrue(
+            new IntakeCommand(
+                m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem));
+    m_driverController
+        .leftBumper()
+        .and(m_driverController.rightBumper().negate())
+        .whileTrue(
+            new AimCommand(
+                m_driveSubsystem,
+                m_shooterSubsystem,
+                m_indexerSubsystem,
+                () -> m_driverController.leftTrigger().getAsBoolean()));
+    m_driverController
+        .leftBumper()
+        .and(m_driverController.rightBumper())
+        .whileTrue(new AmpAimCommand(m_driveSubsystem));
+    m_driverController
+        .rightBumper()
+        .whileTrue(
+            new AmpCommand(
+                () -> m_driverController.leftTrigger().getAsBoolean(),
+                m_shooterSubsystem,
+                m_elevatorSubsystem,
+                m_indexerSubsystem));
     // m_driverController.y().whileTrue(m_elevatorSubsystem.increment(() -> 1));
     // m_driverController.a().whileTrue(m_elevatorSubsystem.increment(() -> -1));
 
     m_driverController.b().onTrue(m_driveSubsystem.runOnce(() -> m_driveSubsystem.resetGyro()));
-    m_driverController.x().onTrue(m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.resetPosition()));
+    m_driverController
+        .x()
+        .onTrue(m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.resetPosition()));
     // m_driverController.rightTrigger().onFalse(m_indexerSubsystem.index().onlyIf(m_indexerSubsystem::getBeamBreak));
-    // m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.01));
-    // m_driverController.a().onTrue(m_shooterSubsystem.increment(() -> -0.01));
+    m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.005));
+    m_driverController.a().onTrue(m_shooterSubsystem.increment(() -> -0.005));
   }
 
   /**
@@ -96,9 +122,12 @@ public class RobotContainer {
   }
 
   private void registerNamedCommands() {
-    NamedCommands.registerCommand("start_shooter", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.startShooter()));
-    NamedCommands.registerCommand("stop_shooter", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.stopShooter()));
-    NamedCommands.registerCommand("angle_sub", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.subAngle()));
+    NamedCommands.registerCommand(
+        "start_shooter", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.startShooter()));
+    NamedCommands.registerCommand(
+        "stop_shooter", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.stopShooter()));
+    NamedCommands.registerCommand(
+        "angle_sub", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.subAngle()));
     NamedCommands.registerCommand(
         "shoot",
         Commands.sequence(
@@ -111,8 +140,12 @@ public class RobotContainer {
                 () -> {
                   m_indexerSubsystem.setUpperIndexer(0);
                 })));
-    NamedCommands.registerCommand("intake", m_intakeSubsystem.runOnce(() -> m_intakeSubsystem.setSpeed(1)));
-    NamedCommands.registerCommand("stop_intake", m_intakeSubsystem.runOnce(() -> m_intakeSubsystem.setSpeed(0)));
-    NamedCommands.registerCommand("aim", new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem).raceWith(Commands.waitSeconds(1)));
+    NamedCommands.registerCommand(
+        "intake", m_intakeSubsystem.runOnce(() -> m_intakeSubsystem.setSpeed(1)));
+    NamedCommands.registerCommand(
+        "stop_intake", m_intakeSubsystem.runOnce(() -> m_intakeSubsystem.setSpeed(0)));
+    NamedCommands.registerCommand(
+        "aim",
+        new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem).raceWith(Commands.waitSeconds(1)));
   }
 }

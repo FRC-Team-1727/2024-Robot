@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.ClimbConstants.*;
 
-import org.littletonrobotics.junction.Logger;
-
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -12,6 +10,7 @@ import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import org.littletonrobotics.junction.Logger;
 
 public class ClimbSubsystem extends SubsystemBase {
   private double position = 0;
@@ -36,30 +35,29 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public Command upPosition() {
-    return runOnce(()->setPosition(kMaxPosition));
+    return runOnce(() -> setPosition(kMaxPosition));
   }
 
   public Command downPosition() {
-    return runOnce(()->setPosition(0));
+    return runOnce(() -> setPosition(0));
   }
 
   public Command manualControl(Trigger up, Trigger down) {
     return run(
-      () -> {
-        if (up.getAsBoolean()) {
-          motor.set(kClimbSpeed);
-        } else if (down.getAsBoolean()) {
-          motor.set(-kClimbSpeed);
-        } else {
-          motor.set(0);
-        }
-      }
-    );
+        () -> {
+          if (up.getAsBoolean()) {
+            motor.set(kClimbSpeed);
+          } else if (down.getAsBoolean()) {
+            motor.set(-kClimbSpeed);
+          } else {
+            motor.set(0);
+          }
+        });
   }
 
   @Override
   public void periodic() {
-      Logger.recordOutput("Climb/Target", position);
-      Logger.recordOutput("Climber/Position", motor.getEncoder().getPosition());
+    Logger.recordOutput("Climb/Target", position);
+    Logger.recordOutput("Climber/Position", motor.getEncoder().getPosition());
   }
 }
