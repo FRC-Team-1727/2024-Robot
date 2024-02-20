@@ -81,15 +81,15 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean atAngle() {
-    return Math.abs(angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition() - angle)
-        <= kAngleTolerance;
+    return Math.abs(angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition() - angle) <= kAngleTolerance;
   }
 
   public Command increment(DoubleSupplier val) {
     return runOnce(
-        () -> {
-          setAngle(angle + val.getAsDouble());
-        });
+      () -> {
+        setAngle(angle + val.getAsDouble());
+      }
+    );
   }
 
   public void aim(double distance) {
@@ -101,8 +101,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     Logger.recordOutput("Shooter/CurrentVelocity", flywheel.getEncoder().getVelocity());
     Logger.recordOutput("Shooter/TargetAngle", angle);
-    Logger.recordOutput(
-        "Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
+    Logger.recordOutput("Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
     Logger.recordOutput("Shooter/AnglerPower", angler.getAppliedOutput());
   }
 }
