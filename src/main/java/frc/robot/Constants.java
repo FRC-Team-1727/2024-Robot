@@ -193,6 +193,7 @@ public final class Constants {
     public static final int kLowerIndexerPort = 14;
     public static final int kUpperIndexerPort = 15;
     public static final int kBeamBreakPort = 0;
+    public static final double kIndexSpeed = 0.75;
   }
 
   public static final class ClimbConstants {

@@ -29,8 +29,13 @@ public class ClimbSubsystem extends SubsystemBase {
     motor.burnFlash();
   }
 
-  private void setPosition(int position) {
-    this.position = position;
+  private void setPosition(int newPosition) {
+    position = newPosition;
+    if (position > kMaxPosition) {
+      position = kMaxPosition;
+    } else if (position < 0) {
+      position = 0;
+    }
     motor.getPIDController().setReference(position, ControlType.kPosition);
   }
 

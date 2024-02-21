@@ -62,8 +62,8 @@ public class RobotContainer {
                     false),
             m_driveSubsystem));
 
-    // m_climbSubsystem.setDefaultCommand(
-    //     m_climbSubsystem.manualControl(m_driverController.y(), m_driverController.a()));
+    m_climbSubsystem.setDefaultCommand(
+        m_climbSubsystem.manualControl(m_driverController.y(), m_driverController.a()));
   }
 
   /**
@@ -75,9 +75,13 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_driverController
         .rightTrigger()
-        .whileTrue(
+        .onTrue(
             new IntakeCommand(
-                m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem));
+                () -> m_driverController.rightTrigger().getAsBoolean(),
+                m_intakeSubsystem,
+                m_indexerSubsystem,
+                m_shooterSubsystem,
+                m_elevatorSubsystem));
     m_driverController
         .leftBumper()
         .and(m_driverController.rightBumper().negate())
@@ -99,16 +103,17 @@ public class RobotContainer {
                 m_shooterSubsystem,
                 m_elevatorSubsystem,
                 m_indexerSubsystem));
-    // m_driverController.y().whileTrue(m_elevatorSubsystem.increment(() -> 1));
-    // m_driverController.a().whileTrue(m_elevatorSubsystem.increment(() -> -1));
 
     m_driverController.b().onTrue(m_driveSubsystem.runOnce(() -> m_driveSubsystem.resetGyro()));
     m_driverController
         .x()
         .onTrue(m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.resetPosition()));
-    // m_driverController.rightTrigger().onFalse(m_indexerSubsystem.index().onlyIf(m_indexerSubsystem::getBeamBreak));
-    m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.005));
-    m_driverController.a().onTrue(m_shooterSubsystem.increment(() -> -0.005));
+
+    // manual up/down controls
+    // m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.005));
+    // m_driverController.a().onTrue(m_shooterSubsystem.increment(() -> -0.005));
+    // m_driverController.y().whileTrue(m_elevatorSubsystem.increment(() -> 1));
+    // m_driverController.a().whileTrue(m_elevatorSubsystem.increment(() -> -1));
   }
 
   /**
