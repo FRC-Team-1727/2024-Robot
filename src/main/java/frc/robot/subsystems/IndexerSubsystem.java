@@ -32,6 +32,8 @@ public class IndexerSubsystem extends SubsystemBase {
     return !beamBreak.get();
   }
 
+  
+
   @Override
   public void periodic() {
     Logger.recordOutput("Indexer/BeamBreak", getBeamBreak());

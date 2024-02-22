@@ -71,8 +71,10 @@ public class AimCommand extends Command {
 
     if (shooting.getAsBoolean()) {
       m_indexerSubsystem.setUpperIndexer(1);
+      m_indexerSubsystem.setLowerIndexer(0.4);
     } else {
       m_indexerSubsystem.setUpperIndexer(0);
+      m_indexerSubsystem.setLowerIndexer(0.4);
     }
   }
 
@@ -83,6 +85,7 @@ public class AimCommand extends Command {
     m_shooterSubsystem.stopShooter();
     m_driveSubsystem.stopAiming();
     m_indexerSubsystem.setUpperIndexer(0);
+    m_indexerSubsystem.setLowerIndexer(0);
     LimelightHelpers.setPipelineIndex("", 0);
   }
 }

@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IndexerConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -39,15 +40,14 @@ public class IntakeCommand extends Command {
 
   @Override
   public void execute() {
-    hasNote = false;
     if (hasNote) {
-      m_indexerSubsystem.setLowerIndexer(IndexerConstants.kIndexSpeed);
-      m_indexerSubsystem.setUpperIndexer(IndexerConstants.kIndexSpeed);
+      m_indexerSubsystem.setLowerIndexer(0.25);
+      m_indexerSubsystem.setUpperIndexer(0.1);
       m_intakeSubsystem.setSpeed(IndexerConstants.kIndexSpeed);
     } else {
-      m_indexerSubsystem.setLowerIndexer(0.1);
-      m_indexerSubsystem.setUpperIndexer(0);
-      m_intakeSubsystem.setSpeed(1);
+      m_indexerSubsystem.setLowerIndexer(IndexerConstants.kIndexSpeed);
+      m_indexerSubsystem.setUpperIndexer(0.2);
+      m_intakeSubsystem.setSpeed(IntakeConstants.kIntakeSpeed);
       if (m_indexerSubsystem.getBeamBreak()) {
         hasNote = true;
       }
@@ -64,5 +64,6 @@ public class IntakeCommand extends Command {
   public void end(boolean interrupted) {
     m_indexerSubsystem.setLowerIndexer(0);
     m_intakeSubsystem.setSpeed(0);
+    m_indexerSubsystem.setUpperIndexer(0);
   }
 }

@@ -149,6 +149,7 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final int kIntakePort = 13;
+    public static final double kIntakeSpeed = 1;
   }
 
   public static final class ElevatorConstants {
@@ -193,7 +194,7 @@ public final class Constants {
     public static final int kLowerIndexerPort = 14;
     public static final int kUpperIndexerPort = 15;
     public static final int kBeamBreakPort = 0;
-    public static final double kIndexSpeed = 0.75;
+    public static final double kIndexSpeed = 0.5;
   }
 
   public static final class ClimbConstants {
@@ -203,6 +204,6 @@ public final class Constants {
     public static final double kI = 0;
     public static final double kD = 0.1;
     public static final double kFF = 0;
-    public static final double kClimbSpeed = 1;
+    public static final double kClimbSpeed = 0.2;
   }
 }
