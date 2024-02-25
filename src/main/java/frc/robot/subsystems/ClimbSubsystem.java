@@ -29,6 +29,7 @@ public class ClimbSubsystem extends SubsystemBase {
     motor.setInverted(true);
     motor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
     motor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+    motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
     motor.burnFlash();
   }
 
@@ -47,7 +48,23 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public Command downPosition() {
-    return runOnce(() -> setPosition(0));
+    return runOnce(
+        () -> {
+          setPosition(0);
+          motor.setIdleMode(IdleMode.kBrake);
+        });
+  }
+
+  public Command moveDown() {
+    return startEnd(
+        () -> {
+          motor.set(-1);
+          motor.setIdleMode(IdleMode.kCoast);
+        },
+        () -> {
+          motor.set(0);
+          motor.getEncoder().setPosition(0);
+        });
   }
 
   public Command manualControl(Trigger up, Trigger down) {
@@ -66,6 +83,6 @@ public class ClimbSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     Logger.recordOutput("Climb/Target", position);
-    // Logger.recordOutput("Climber/Position", motor.getEncoder().getPosition());
+    Logger.recordOutput("Climber/Position", motor.getEncoder().getPosition());
   }
 }

@@ -82,7 +82,8 @@ public class AimCommand extends Command {
   public void end(boolean interrupted) {
     rotationController.close();
     // m_shooterSubsystem.indexAngle();
-    m_shooterSubsystem.stopShooter();
+    // m_shooterSubsystem.stopShooter();
+    m_shooterSubsystem.idleShooter();
     m_driveSubsystem.stopAiming();
     m_indexerSubsystem.setUpperIndexer(0);
     m_indexerSubsystem.setLowerIndexer(0);

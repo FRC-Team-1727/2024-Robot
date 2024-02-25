@@ -36,6 +36,7 @@ public class ShooterSubsystem extends SubsystemBase {
     controller.setIMaxAccum(0.1, 0);
     flywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
     flywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+    flywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
   }
 
   private void setSpeed(int rpm) {
@@ -54,6 +55,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void stopShooter() {
     flywheel.getPIDController().setReference(0, ControlType.kDutyCycle);
+    // flywheel.set(0);
+  }
+
+  public void idleShooter() {
+    flywheel.getPIDController().setReference(1500, ControlType.kVelocity);
     // flywheel.set(0);
   }
 
@@ -82,6 +88,10 @@ public class ShooterSubsystem extends SubsystemBase {
     setAngle(kAmpAngle);
   }
 
+  public void trapPosition() {
+    setAngle(kTrapAngle);
+  }
+
   public void scoreAmp() {
     flywheel.set(kAmpSpeed);
   }
@@ -106,7 +116,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    Logger.recordOutput("Shooter/CurrentVelocity", flywheel.getEncoder().getVelocity());
+    // Logger.recordOutput("Shooter/CurrentVelocity", flywheel.getEncoder().getVelocity());
     // Logger.recordOutput("Shooter/TargetAngle", angle);
     // Logger.recordOutput(
     //     "Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());

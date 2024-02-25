@@ -134,13 +134,14 @@ public class DriveSubsystem extends SubsystemBase {
     Logger.recordOutput("Drive/Aiming", aiming);
 
     if (LimelightHelpers.getCurrentPipelineIndex("") == 0) {
-      // trackPose();
+      trackPose();
     }
   }
 
   public void trackPose() {
     LimelightResults results = LimelightHelpers.getLatestResults("");
-    if (results.targetingResults.targets_Fiducials.length > 0) {
+    if (results.targetingResults.targets_Fiducials.length > 0
+        && LimelightHelpers.getTA("") > 0.285) {
       Pose2d pose = results.targetingResults.getBotPose2d_wpiBlue();
       double latency =
           results.targetingResults.latency_capture

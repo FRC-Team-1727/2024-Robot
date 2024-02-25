@@ -32,6 +32,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       controller.setFeedbackDevice(m.getEncoder());
       m.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
       m.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+      m.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
     }
   }
 
@@ -59,6 +60,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   public void ampPosition() {
     setPosition(kAmpPosition);
+  }
+
+  public void trapPosition() {
+    setPosition(kMaxPosition);
   }
 
   public void resetPosition() {

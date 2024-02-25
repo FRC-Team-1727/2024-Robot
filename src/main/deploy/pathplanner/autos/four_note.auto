@@ -36,13 +36,19 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "sequential",
                 "data": {
                   "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "angle_intake"
+                      }
+                    },
                     {
                       "type": "path",
                       "data": {
@@ -80,13 +86,19 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "sequential",
                 "data": {
                   "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "angle_intake"
+                      }
+                    },
                     {
                       "type": "path",
                       "data": {
@@ -118,13 +130,19 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "sequential",
                 "data": {
                   "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "angle_intake"
+                      }
+                    },
                     {
                       "type": "path",
                       "data": {

@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import javax.swing.plaf.TreeUI;
-
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.MathUtil;
@@ -111,6 +109,42 @@ public class RobotContainer {
         .x()
         .onTrue(m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.resetPosition()));
 
+    // m_driverController.y().onTrue(m_climbSubsystem.upPosition());
+    // m_driverController.x().onTrue(m_climbSubsystem.downPosition());
+    // m_driverController.x().whileTrue(m_climbSubsystem.moveDown());
+    m_driverController
+        .povCenter()
+        .toggleOnFalse(
+            new TrapCommand(
+                () -> m_driverController.leftTrigger().getAsBoolean(),
+                () -> m_driverController.a().getAsBoolean(),
+                m_shooterSubsystem,
+                m_elevatorSubsystem,
+                m_indexerSubsystem));
+    m_driverController
+        .x()
+        .whileTrue(
+            Commands.startEnd(
+                () -> {
+                  m_indexerSubsystem.setLowerIndexer(-1);
+                  m_intakeSubsystem.setSpeed(-1);
+                },
+                () -> {
+                  m_indexerSubsystem.setLowerIndexer(0);
+                  m_intakeSubsystem.setSpeed(0);
+                },
+                m_indexerSubsystem,
+                m_intakeSubsystem));
+
+    m_driverController
+        .back()
+        .whileTrue(new SourceCommand(m_shooterSubsystem, m_elevatorSubsystem, m_indexerSubsystem));
+    m_driverController
+        .back()
+        .onFalse(
+            new SlowIndexCommand(
+                m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem));
+
     // manual up/down controls
     // m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.005));
     // m_driverController.a().onTrue(m_shooterSubsystem.increment(() -> -0.005));
@@ -148,9 +182,14 @@ public class RobotContainer {
                   m_indexerSubsystem.setUpperIndexer(0);
                 })));
     NamedCommands.registerCommand(
-        "intake", new IntakeCommand(()->true, m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem));
+        "intake",
+        new AutoIntakeCommand(
+            () -> true, m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem));
     NamedCommands.registerCommand(
         "aim",
-        new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem).raceWith(Commands.waitSeconds(0.5)));
+        new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem)
+            .raceWith(Commands.waitSeconds(0.5)));
+    NamedCommands.registerCommand(
+        "angle_intake", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.indexAngle()));
   }
 }

@@ -102,6 +102,8 @@ public class MAXSwerveModule {
     m_turningSparkMax.setSmartCurrentLimit(ModuleConstants.kTurningMotorCurrentLimit);
 
     m_drivingSparkFlex.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
+    m_drivingSparkFlex.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
+    m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
 
     // Save the SPARK MAX configurations. If a SPARK MAX browns out during
     // operation, it will maintain the above configurations.

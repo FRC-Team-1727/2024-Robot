@@ -14,6 +14,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intake.setInverted(true);
     intake.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
     intake.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+    intake.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
   }
 
   public void setSpeed(double spd) {

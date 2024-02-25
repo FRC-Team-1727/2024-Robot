@@ -193,17 +193,18 @@ public final class Constants {
   public static final class IndexerConstants {
     public static final int kLowerIndexerPort = 14;
     public static final int kUpperIndexerPort = 15;
-    public static final int kBeamBreakPort = 0;
+    public static final int kLowerSensorPort = 0;
+    public static final int kUpperSensorPort = 1;
     public static final double kIndexSpeed = 0.5;
   }
 
   public static final class ClimbConstants {
     public static final int kClimbPort = 16;
-    public static final int kMaxPosition = 10;
+    public static final int kMaxPosition = 0;
     public static final double kP = 0.1;
     public static final double kI = 0;
     public static final double kD = 0.1;
     public static final double kFF = 0;
-    public static final double kClimbSpeed = 0.2;
+    public static final double kClimbSpeed = 1;
   }
 }

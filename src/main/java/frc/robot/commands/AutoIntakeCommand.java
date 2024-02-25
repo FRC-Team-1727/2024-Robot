@@ -6,34 +6,29 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import java.util.function.BooleanSupplier;
 
-public class IntakeCommand extends Command {
+public class AutoIntakeCommand extends Command {
   private final IntakeSubsystem m_intakeSubsystem;
   private final IndexerSubsystem m_indexerSubsystem;
-  private final ShooterSubsystem m_shooterSubsystem;
   private final ElevatorSubsystem m_elevatorSubsystem;
   private final BooleanSupplier rt;
   private boolean hasNote;
 
-  public IntakeCommand(
+  public AutoIntakeCommand(
       BooleanSupplier rt,
       IntakeSubsystem intake,
       IndexerSubsystem indexer,
-      ShooterSubsystem shooter,
       ElevatorSubsystem elevator) {
     m_intakeSubsystem = intake;
     m_indexerSubsystem = indexer;
-    m_shooterSubsystem = shooter;
     m_elevatorSubsystem = elevator;
     this.rt = rt;
-    addRequirements(intake, indexer, shooter, elevator);
+    addRequirements(intake, indexer, elevator);
   }
 
   @Override
   public void initialize() {
-    m_shooterSubsystem.indexAngle();
     m_elevatorSubsystem.defaultPosition();
     hasNote = false;
   }
