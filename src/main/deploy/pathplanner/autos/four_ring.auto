@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.456931233406067,
-      "y": 7.021975517272949
+      "x": 1.3598593473434448,
+      "y": 5.5695295333862305
     },
     "rotation": 0.0
   },
@@ -18,25 +18,25 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "angle_sub"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "left_auto.1"
+            "pathName": "four_ring.1"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "aim"
+            "waitTime": 1.0
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "shoot"
-          }
-        },
-        {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -46,7 +46,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "left_auto.2"
+                        "pathName": "four_ring.2"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "four_ring.3"
                       }
                     },
                     {
@@ -84,13 +90,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "left_auto.3"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "left_auto.4"
+                        "pathName": "four_ring.4"
                       }
                     },
                     {
@@ -128,57 +128,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "left_auto.5"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "left_auto.6"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "aim"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "shoot"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "left_auto.7"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "left_auto.8"
+                        "pathName": "four_ring.5"
                       }
                     },
                     {

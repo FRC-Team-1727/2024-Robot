@@ -5,6 +5,7 @@ import static frc.robot.Constants.ShooterConstants.*;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
@@ -33,6 +34,8 @@ public class ShooterSubsystem extends SubsystemBase {
     controller.setOutputRange(-0.75, 0.75);
     controller.setIZone(0.01);
     controller.setIMaxAccum(0.1, 0);
+    flywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
+    flywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
   }
 
   private void setSpeed(int rpm) {
@@ -104,9 +107,9 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     Logger.recordOutput("Shooter/CurrentVelocity", flywheel.getEncoder().getVelocity());
-    Logger.recordOutput("Shooter/TargetAngle", angle);
-    Logger.recordOutput(
-        "Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
-    Logger.recordOutput("Shooter/AnglerPower", angler.getAppliedOutput());
+    // Logger.recordOutput("Shooter/TargetAngle", angle);
+    // Logger.recordOutput(
+    //     "Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
+    // Logger.recordOutput("Shooter/AnglerPower", angler.getAppliedOutput());
   }
 }

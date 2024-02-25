@@ -129,7 +129,7 @@ public class DriveSubsystem extends SubsystemBase {
         });
 
     Logger.recordOutput("Drive/Pose", getPose());
-    Logger.recordOutput("Drive/SwerveModuleStates", getSwerveModuleStates());
+    // Logger.recordOutput("Drive/SwerveModuleStates", getSwerveModuleStates());
     Logger.recordOutput("Drive/Heading", getHeading());
     Logger.recordOutput("Drive/Aiming", aiming);
 

@@ -2,30 +2,86 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3516568676196845,
-      "y": 5.569763434144432
+      "x": 1.3497350215911863,
+      "y": 5.5695295333862305
     },
-    "rotation": 0
+    "rotation": 2.3456329254345454e-41
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "first_ring"
+            "name": "start_shooter"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "aim"
+            "name": "angle_sub"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "two_ring.1"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "two_ring.2"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "aim"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
           }
         }
       ]
     }
   },
   "folder": null,
-  "choreoAuto": false
+  "choreoAuto": true
 }

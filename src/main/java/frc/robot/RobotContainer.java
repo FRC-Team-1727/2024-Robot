@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import javax.swing.plaf.TreeUI;
+
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.MathUtil;
@@ -140,17 +142,15 @@ public class RobotContainer {
                 () -> {
                   m_indexerSubsystem.setUpperIndexer(1);
                 }),
-            Commands.waitSeconds(1),
+            Commands.waitSeconds(0.5),
             m_indexerSubsystem.runOnce(
                 () -> {
                   m_indexerSubsystem.setUpperIndexer(0);
                 })));
     NamedCommands.registerCommand(
-        "intake", m_intakeSubsystem.runOnce(() -> m_intakeSubsystem.setSpeed(1)));
-    NamedCommands.registerCommand(
-        "stop_intake", m_intakeSubsystem.runOnce(() -> m_intakeSubsystem.setSpeed(0)));
+        "intake", new IntakeCommand(()->true, m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem));
     NamedCommands.registerCommand(
         "aim",
-        new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem).raceWith(Commands.waitSeconds(1)));
+        new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem).raceWith(Commands.waitSeconds(0.5)));
   }
 }
