@@ -59,8 +59,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void idleShooter() {
-    flywheel.getPIDController().setReference(1500, ControlType.kVelocity);
-    // flywheel.set(0);
+    // flywheel.getPIDController().setReference(1500, ControlType.kVelocity);
+    flywheel.set(0.25);
   }
 
   public void setAngle(double degrees) {

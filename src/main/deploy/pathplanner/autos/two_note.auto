@@ -5,7 +5,7 @@
       "x": 1.3497350215911863,
       "y": 5.5695295333862305
     },
-    "rotation": 2.3456329254345454e-41
+    "rotation": 9.84349065058093e-39
   },
   "command": {
     "type": "sequential",
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "two_ring.1"
+            "pathName": "two_note.1"
           }
         },
         {
@@ -58,7 +58,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "two_ring.2"
+                        "pathName": "two_note.2"
                       }
                     },
                     {

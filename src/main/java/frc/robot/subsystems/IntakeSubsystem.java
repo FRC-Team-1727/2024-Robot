@@ -11,7 +11,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private final CANSparkMax intake = new CANSparkMax(kIntakePort, MotorType.kBrushless);
 
   public IntakeSubsystem() {
-    intake.setInverted(true);
+    intake.setInverted(false);
     intake.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
     intake.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
     intake.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
