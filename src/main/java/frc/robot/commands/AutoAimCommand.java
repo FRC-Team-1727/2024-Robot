@@ -62,6 +62,7 @@ public class AutoAimCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     rotationController.close();
+    m_driveSubsystem.stopAiming();
     LimelightHelpers.setPipelineIndex("", 0);
   }
 }

@@ -26,6 +26,10 @@ public class IndexerSubsystem extends SubsystemBase {
     upperIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
     lowerIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
     upperIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
+    lowerIndexer.setSmartCurrentLimit(50);
+    upperIndexer.setSmartCurrentLimit(50);
+    lowerIndexer.burnFlash();
+    upperIndexer.burnFlash();
   }
 
   public void setLowerIndexer(double spd) {

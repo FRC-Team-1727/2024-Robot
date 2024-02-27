@@ -33,6 +33,7 @@ public class RobotContainer {
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
   private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
+  private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
 
   // The driver's controller
   CommandXboxController m_driverController =
@@ -189,11 +190,11 @@ public class RobotContainer {
                 () -> {
                   m_indexerSubsystem.setUpperIndexer(0);
                 })));
-    // NamedCommands.registerCommand(
-    //     "intake",
-    //     new AutoIntakeCommand(
-    //         () -> true, m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem));
-    NamedCommands.registerCommand("intake", Commands.none());
+    NamedCommands.registerCommand(
+        "intake",
+        new AutoIntakeCommand(
+            () -> true, m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem));
+    // NamedCommands.registerCommand("intake", Commands.none());
     NamedCommands.registerCommand(
         "aim",
         new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem)
