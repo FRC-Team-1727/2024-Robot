@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -47,7 +49,12 @@ public class RobotContainer {
     // Register PathPlanner Named Commands for auto
     registerNamedCommands();
 
-    autoChooser = AutoBuilder.buildAutoChooser();
+    // autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser = new SendableChooser<>();
+    autoChooser.setDefaultOption("None", Commands.none());
+    autoChooser.addOption("Two Note", new PathPlannerAuto("two_note"));
+    autoChooser.addOption("Four Note", new PathPlannerAuto("four_note"));
+    autoChooser.addOption("Five Note", new PathPlannerAuto("five_note"));
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
     // Configure the button bindings

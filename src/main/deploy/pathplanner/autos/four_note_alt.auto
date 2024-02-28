@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3450059890747068,
-      "y": 5.567087650299072
+      "x": 1.3598593473434448,
+      "y": 5.5695295333862305
     },
-    "rotation": 1.0323552959798088e-24
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "four_note.1"
+            "pathName": "four_note_alt.1"
           }
         },
         {
@@ -36,12 +36,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "shoot"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -58,7 +52,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "four_note.2"
+                        "pathName": "four_note_alt.2"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "four_note_alt.3"
                       }
                     },
                     {
@@ -102,7 +102,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "four_note.3"
+                        "pathName": "four_note_alt.4"
                       }
                     },
                     {
@@ -146,7 +146,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "four_note.4"
+                        "pathName": "four_note_alt.5"
                       }
                     },
                     {
