@@ -67,6 +67,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     setPosition(kMaxPosition);
   }
 
+  public void podiumPosition() {
+    setPosition(kPodiumPosition);
+  }
+
   public void resetPosition() {
     position = 0;
     motors[0].getEncoder().setPosition(0);

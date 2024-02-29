@@ -84,12 +84,16 @@ public class ShooterSubsystem extends SubsystemBase {
     setAngle(kSubAngle);
   }
 
-  public void ampPosition() {
+  public void ampAngle() {
     setAngle(kAmpAngle);
   }
 
-  public void trapPosition() {
+  public void trapAngle() {
     setAngle(kTrapAngle);
+  }
+  
+  public void podiumAngle() {
+    setAngle(kPodiumAngle);
   }
 
   public void scoreAmp() {

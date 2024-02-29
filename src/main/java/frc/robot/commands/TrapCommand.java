@@ -31,7 +31,7 @@ public class TrapCommand extends Command {
   @Override
   public void initialize() {
     m_elevatorSubsystem.trapPosition();
-    m_shooterSubsystem.trapPosition();
+    m_shooterSubsystem.trapAngle();
     m_shooterSubsystem.setPower(-0.1);
   }
 
