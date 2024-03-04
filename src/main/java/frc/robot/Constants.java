@@ -148,7 +148,7 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final int kIntakePort = 13;
+    public static final int kIntakePort = 16;
     public static final double kIntakeSpeed = 1;
   }
 
@@ -164,6 +164,7 @@ public final class Constants {
     public static final double kElevatorSpeed = 5;
     public static final double kAmpPosition = 40;
     public static final double kPodiumPosition = 60;
+    public static final double kTrapPosition = 60;
   }
 
   public static final class ShooterConstants {
@@ -188,7 +189,7 @@ public final class Constants {
     public static final double kIndexAngle = 0.14;
     public static final double kSubAngle = 0.1;
     public static final double kAmpAngle = 0.48;
-    public static final double kTrapAngle = 0.42;
+    public static final double kTrapAngle = 0.1;
     public static final double kPodiumAngle = 0.42;
   }
 
@@ -201,7 +202,7 @@ public final class Constants {
   }
 
   public static final class ClimbConstants {
-    public static final int kClimbPort = 16;
+    public static final int kClimbPort = 13;
     public static final int kMaxPosition = 0;
     public static final double kP = 0.1;
     public static final double kI = 0;

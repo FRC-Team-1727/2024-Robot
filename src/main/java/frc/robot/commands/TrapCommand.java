@@ -32,20 +32,21 @@ public class TrapCommand extends Command {
   public void initialize() {
     m_elevatorSubsystem.trapPosition();
     m_shooterSubsystem.trapAngle();
-    m_shooterSubsystem.setPower(-0.1);
   }
 
   @Override
   public void execute() {
-    if (climbing.getAsBoolean()) {
-      m_shooterSubsystem.setPower(-0.1);
-    } else {
-      m_shooterSubsystem.setPower(0.1);
-    }
+    // if (climbing.getAsBoolean()) {
+    //   m_shooterSubsystem.setPower(-0.1);
+    // } else {
+    //   m_shooterSubsystem.setPower(0.1);
+    // }
     if (scoring.getAsBoolean()) {
       m_indexerSubsystem.setUpperIndexer(ShooterConstants.kAmpSpeed);
+      m_shooterSubsystem.setPower(ShooterConstants.kAmpSpeed);
     } else {
       m_indexerSubsystem.setUpperIndexer(0);
+      m_shooterSubsystem.setPower(0);
     }
   }
 

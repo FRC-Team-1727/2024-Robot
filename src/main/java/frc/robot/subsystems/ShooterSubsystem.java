@@ -91,7 +91,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void trapAngle() {
     setAngle(kTrapAngle);
   }
-  
+
   public void podiumAngle() {
     setAngle(kPodiumAngle);
   }

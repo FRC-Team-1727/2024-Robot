@@ -64,7 +64,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void trapPosition() {
-    setPosition(kMaxPosition);
+    setPosition(kTrapPosition);
   }
 
   public void podiumPosition() {

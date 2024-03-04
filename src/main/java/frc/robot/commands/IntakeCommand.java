@@ -15,7 +15,6 @@ public class IntakeCommand extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
   private final ElevatorSubsystem m_elevatorSubsystem;
   private final BooleanSupplier rt;
-  private boolean hasNote;
 
   public IntakeCommand(
       BooleanSupplier rt,
@@ -35,29 +34,19 @@ public class IntakeCommand extends Command {
   public void initialize() {
     m_shooterSubsystem.indexAngle();
     m_elevatorSubsystem.defaultPosition();
-    hasNote = false;
+    m_indexerSubsystem.setNote(false);
   }
 
   @Override
   public void execute() {
-    if (hasNote) {
-      m_indexerSubsystem.setLowerIndexer(0.25);
-      m_indexerSubsystem.setUpperIndexer(0.1);
-      m_intakeSubsystem.setSpeed(IndexerConstants.kIndexSpeed);
-    } else {
-      m_indexerSubsystem.setLowerIndexer(IndexerConstants.kIndexSpeed);
-      m_indexerSubsystem.setUpperIndexer(0.2);
-      m_intakeSubsystem.setSpeed(IntakeConstants.kIntakeSpeed);
-      if (m_indexerSubsystem.getLowerSensor()) {
-        hasNote = true;
-      }
-    }
+    m_indexerSubsystem.setLowerIndexer(IndexerConstants.kIndexSpeed);
+    m_indexerSubsystem.setUpperIndexer(0.2);
+    m_intakeSubsystem.setSpeed(IntakeConstants.kIntakeSpeed);
   }
 
   @Override
   public boolean isFinished() {
-    return hasNote ? !m_indexerSubsystem.getLowerSensor() : !rt.getAsBoolean();
-    // return false;
+    return m_indexerSubsystem.getLowerSensor() || !rt.getAsBoolean();
   }
 
   @Override
@@ -65,5 +54,6 @@ public class IntakeCommand extends Command {
     m_indexerSubsystem.setLowerIndexer(0);
     m_intakeSubsystem.setSpeed(0);
     m_indexerSubsystem.setUpperIndexer(0);
+    if (m_indexerSubsystem.getLowerSensor()) m_indexerSubsystem.setNote(true);
   }
 }

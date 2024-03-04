@@ -4,10 +4,8 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -92,11 +90,17 @@ public class RobotContainer {
         .rightTrigger()
         .onTrue(
             new IntakeCommand(
-                () -> m_driverController.rightTrigger().getAsBoolean(),
-                m_intakeSubsystem,
-                m_indexerSubsystem,
-                m_shooterSubsystem,
-                m_elevatorSubsystem));
+                    () -> m_driverController.rightTrigger().getAsBoolean(),
+                    m_intakeSubsystem,
+                    m_indexerSubsystem,
+                    m_shooterSubsystem,
+                    m_elevatorSubsystem)
+                .andThen(
+                    new IndexCommand(
+                        m_intakeSubsystem,
+                        m_indexerSubsystem,
+                        m_shooterSubsystem,
+                        m_elevatorSubsystem)));
     m_driverController
         .leftBumper()
         .and(m_driverController.rightBumper().negate())
@@ -154,11 +158,6 @@ public class RobotContainer {
     m_driverController
         .back()
         .whileTrue(new SourceCommand(m_shooterSubsystem, m_elevatorSubsystem, m_indexerSubsystem));
-    m_driverController
-        .back()
-        .onFalse(
-            new SlowIndexCommand(
-                m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem));
 
     // manual up/down controls
     // m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.005));

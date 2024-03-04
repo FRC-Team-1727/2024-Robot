@@ -18,6 +18,8 @@ public class IndexerSubsystem extends SubsystemBase {
   private DigitalInput lowerSensor = new DigitalInput(kLowerSensorPort);
   private DigitalInput upperSensor = new DigitalInput(kUpperSensorPort);
 
+  private boolean hasNote = false;
+
   public IndexerSubsystem() {
     lowerIndexer.setInverted(true);
     lowerIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
@@ -46,6 +48,14 @@ public class IndexerSubsystem extends SubsystemBase {
 
   public boolean getUpperSensor() {
     return !upperSensor.get();
+  }
+
+  public void setNote(boolean value) {
+    hasNote = value;
+  }
+
+  public boolean hasNote() {
+    return hasNote;
   }
 
   @Override

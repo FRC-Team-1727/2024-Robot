@@ -1,19 +1,22 @@
 package frc.robot.commands;
 
+import static frc.robot.Constants.IndexerConstants.*;
+import static frc.robot.Constants.IntakeConstants.*;
+
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.IndexerConstants;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class SlowIndexCommand extends Command {
+public class IndexCommand extends Command {
   private final IntakeSubsystem m_intakeSubsystem;
   private final IndexerSubsystem m_indexerSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
   private final ElevatorSubsystem m_elevatorSubsystem;
 
-  public SlowIndexCommand(
+  public IndexCommand(
       IntakeSubsystem intake,
       IndexerSubsystem indexer,
       ShooterSubsystem shooter,
@@ -29,19 +32,27 @@ public class SlowIndexCommand extends Command {
   public void initialize() {
     m_shooterSubsystem.indexAngle();
     m_elevatorSubsystem.defaultPosition();
+    if (!m_indexerSubsystem.hasNote()) CommandScheduler.getInstance().cancel(this);
   }
 
   @Override
   public void execute() {
-    m_indexerSubsystem.setLowerIndexer(0.1);
-    m_indexerSubsystem.setUpperIndexer(0.1);
-    m_intakeSubsystem.setSpeed(IndexerConstants.kIndexSpeed);
+    boolean upper = m_indexerSubsystem.getUpperSensor();
+    boolean lower = m_indexerSubsystem.getLowerSensor();
+
+    if (!lower && !upper) {
+      m_indexerSubsystem.setUpperIndexer(-kIndexSpeed);
+      m_indexerSubsystem.setLowerIndexer(kIndexSpeed);
+      m_intakeSubsystem.setSpeed(kIntakeSpeed);
+    } else if (lower) {
+      m_indexerSubsystem.setUpperIndexer(kIndexSpeed);
+      m_indexerSubsystem.setUpperIndexer(kIndexSpeed);
+    }
   }
 
   @Override
   public boolean isFinished() {
-    return !m_indexerSubsystem.getLowerSensor();
-    // return false;
+    return m_indexerSubsystem.getUpperSensor() && !m_indexerSubsystem.getLowerSensor();
   }
 
   @Override
@@ -49,5 +60,6 @@ public class SlowIndexCommand extends Command {
     m_indexerSubsystem.setLowerIndexer(0);
     m_intakeSubsystem.setSpeed(0);
     m_indexerSubsystem.setUpperIndexer(0);
+    m_indexerSubsystem.setNote(false);
   }
 }
