@@ -2,9 +2,11 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.IndexerConstants.*;
 
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
+import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
@@ -18,8 +20,6 @@ public class IndexerSubsystem extends SubsystemBase {
   private DigitalInput lowerSensor = new DigitalInput(kLowerSensorPort);
   private DigitalInput upperSensor = new DigitalInput(kUpperSensorPort);
 
-  private boolean hasNote = false;
-
   public IndexerSubsystem() {
     lowerIndexer.setInverted(true);
     lowerIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
@@ -30,6 +30,12 @@ public class IndexerSubsystem extends SubsystemBase {
     upperIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
     lowerIndexer.setSmartCurrentLimit(50);
     upperIndexer.setSmartCurrentLimit(50);
+    SparkPIDController controller = lowerIndexer.getPIDController();
+    controller.setP(kP);
+    controller.setI(kI);
+    controller.setD(kD);
+    controller.setFF(kFF);
+    controller.setOutputRange(-1, 1);
     lowerIndexer.burnFlash();
     upperIndexer.burnFlash();
   }
@@ -42,6 +48,10 @@ public class IndexerSubsystem extends SubsystemBase {
     upperIndexer.set(spd);
   }
 
+  public void indexSpeed() {
+    lowerIndexer.getPIDController().setReference(3000, ControlType.kVelocity);
+  }
+
   public boolean getLowerSensor() {
     return !lowerSensor.get();
   }
@@ -50,18 +60,11 @@ public class IndexerSubsystem extends SubsystemBase {
     return !upperSensor.get();
   }
 
-  public void setNote(boolean value) {
-    hasNote = value;
-  }
-
-  public boolean hasNote() {
-    return hasNote;
-  }
-
   @Override
   public void periodic() {
     Logger.recordOutput("Indexer/LowerSensor", getLowerSensor());
     Logger.recordOutput("Indexer/UpperSensor", getUpperSensor());
     // Logger.recordOutput("Indexer/Position", lowerIndexer.getEncoder().getPosition());
+    Logger.recordOutput("Indexer/RPM", lowerIndexer.getEncoder().getVelocity());
   }
 }

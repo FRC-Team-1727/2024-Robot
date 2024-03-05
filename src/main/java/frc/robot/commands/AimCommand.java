@@ -71,10 +71,10 @@ public class AimCommand extends Command {
 
     if (shooting.getAsBoolean()) {
       m_indexerSubsystem.setUpperIndexer(1);
-      m_indexerSubsystem.setLowerIndexer(0.4);
+      m_indexerSubsystem.setLowerIndexer(1);
     } else {
       m_indexerSubsystem.setUpperIndexer(0);
-      m_indexerSubsystem.setLowerIndexer(0.4);
+      m_indexerSubsystem.setLowerIndexer(0);
     }
   }
 

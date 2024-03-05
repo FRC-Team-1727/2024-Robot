@@ -29,7 +29,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       controller.setD(kD);
       controller.setFF(kFF);
       controller.setOutputRange(-1, 1);
-      controller.setOutputRange(0, 0);
+      // controller.setOutputRange(0, 0);
       controller.setFeedbackDevice(m.getEncoder());
       m.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
       m.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);

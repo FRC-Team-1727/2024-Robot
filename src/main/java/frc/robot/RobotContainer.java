@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -53,6 +54,7 @@ public class RobotContainer {
     autoChooser.addOption("Two Note", new PathPlannerAuto("two_note"));
     autoChooser.addOption("Four Note", new PathPlannerAuto("four_note"));
     autoChooser.addOption("Five Note", new PathPlannerAuto("five_note"));
+    autoChooser.addOption("Aim Test", new PathPlannerAuto("aim_test"));
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
     // Configure the button bindings
@@ -86,21 +88,21 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
+    // intaking
     m_driverController
         .rightTrigger()
-        .onTrue(
+        .whileTrue(
             new IntakeCommand(
-                    () -> m_driverController.rightTrigger().getAsBoolean(),
-                    m_intakeSubsystem,
-                    m_indexerSubsystem,
-                    m_shooterSubsystem,
-                    m_elevatorSubsystem)
-                .andThen(
-                    new IndexCommand(
-                        m_intakeSubsystem,
-                        m_indexerSubsystem,
-                        m_shooterSubsystem,
-                        m_elevatorSubsystem)));
+                m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem));
+    // indexing
+    new Trigger(m_indexerSubsystem::getLowerSensor)
+        .onTrue(new IndexCommand(m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem));
+    m_driverController
+        .rightTrigger()
+        .onFalse(
+            new IndexCommand(m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem)
+                .onlyIf(m_indexerSubsystem::getLowerSensor));
+    // speaker aiming
     m_driverController
         .leftBumper()
         .and(m_driverController.rightBumper().negate())
@@ -110,10 +112,12 @@ public class RobotContainer {
                 m_shooterSubsystem,
                 m_indexerSubsystem,
                 () -> m_driverController.leftTrigger().getAsBoolean()));
+    // amp aiming (experimental)
     m_driverController
         .leftBumper()
         .and(m_driverController.rightBumper())
         .whileTrue(new AmpAimCommand(m_driveSubsystem));
+    // amp scoring
     m_driverController
         .rightBumper()
         .whileTrue(
@@ -131,6 +135,8 @@ public class RobotContainer {
     // m_driverController.y().onTrue(m_climbSubsystem.upPosition());
     // m_driverController.x().onTrue(m_climbSubsystem.downPosition());
     // m_driverController.x().whileTrue(m_climbSubsystem.moveDown());
+
+    // toggle trap position
     m_driverController
         .povCenter()
         .toggleOnFalse(
@@ -140,21 +146,25 @@ public class RobotContainer {
                 m_shooterSubsystem,
                 m_elevatorSubsystem,
                 m_indexerSubsystem));
+    // outtake
     m_driverController
         .x()
         .whileTrue(
             Commands.startEnd(
                 () -> {
+                  m_indexerSubsystem.setUpperIndexer(-1);
                   m_indexerSubsystem.setLowerIndexer(-1);
                   m_intakeSubsystem.setSpeed(-1);
                 },
                 () -> {
+                  m_indexerSubsystem.setUpperIndexer(0);
                   m_indexerSubsystem.setLowerIndexer(0);
                   m_intakeSubsystem.setSpeed(0);
                 },
                 m_indexerSubsystem,
                 m_intakeSubsystem));
 
+    // source intake
     m_driverController
         .back()
         .whileTrue(new SourceCommand(m_shooterSubsystem, m_elevatorSubsystem, m_indexerSubsystem));
@@ -190,21 +200,20 @@ public class RobotContainer {
             m_indexerSubsystem.runOnce(
                 () -> {
                   m_indexerSubsystem.setUpperIndexer(1);
+                  m_indexerSubsystem.setLowerIndexer(1);
                 }),
             Commands.waitSeconds(0.5),
             m_indexerSubsystem.runOnce(
                 () -> {
                   m_indexerSubsystem.setUpperIndexer(0);
+                  m_indexerSubsystem.setLowerIndexer(0);
                 })));
     NamedCommands.registerCommand(
         "intake",
-        new AutoIntakeCommand(
-            () -> true, m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem));
+        new AutoIntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem)
+            .andThen(new AutoIndexCommand(m_indexerSubsystem, m_elevatorSubsystem)));
     // NamedCommands.registerCommand("intake", Commands.none());
-    NamedCommands.registerCommand(
-        "aim",
-        new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem)
-            .raceWith(Commands.waitSeconds(0.5)));
+    NamedCommands.registerCommand("aim", new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem));
     NamedCommands.registerCommand(
         "angle_intake", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.indexAngle()));
   }

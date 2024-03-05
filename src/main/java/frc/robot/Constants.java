@@ -155,16 +155,16 @@ public final class Constants {
   public static final class ElevatorConstants {
     public static final int[] kElevatorPorts = {9, 10};
 
-    public static final double kP = 0; // 0.1;
+    public static final double kP = 0.1;
     public static final double kI = 0;
-    public static final double kD = 0; // 0.1;
+    public static final double kD = 0.1;
     public static final double kFF = 0;
 
     public static final int kMaxPosition = 74;
     public static final double kElevatorSpeed = 5;
     public static final double kAmpPosition = 40;
     public static final double kPodiumPosition = 60;
-    public static final double kTrapPosition = 60;
+    public static final double kTrapPosition = kMaxPosition;
   }
 
   public static final class ShooterConstants {
@@ -199,6 +199,11 @@ public final class Constants {
     public static final int kLowerSensorPort = 0;
     public static final int kUpperSensorPort = 1;
     public static final double kIndexSpeed = 0.5;
+
+    public static final double kP = 0.0001;
+    public static final double kI = 0;
+    public static final double kD = 0;
+    public static final double kFF = 0.0001625;
   }
 
   public static final class ClimbConstants {

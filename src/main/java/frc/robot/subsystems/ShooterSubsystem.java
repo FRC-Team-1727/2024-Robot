@@ -121,7 +121,7 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Logger.recordOutput("Shooter/CurrentVelocity", flywheel.getEncoder().getVelocity());
-    // Logger.recordOutput("Shooter/TargetAngle", angle);
+    Logger.recordOutput("Shooter/TargetAngle", angle);
     // Logger.recordOutput(
     //     "Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
     // Logger.recordOutput("Shooter/AnglerPower", angler.getAppliedOutput());

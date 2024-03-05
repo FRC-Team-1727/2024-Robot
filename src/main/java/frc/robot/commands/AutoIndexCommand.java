@@ -5,25 +5,21 @@ import static frc.robot.Constants.IndexerConstants.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
-public class IndexCommand extends Command {
+public class AutoIndexCommand extends Command {
   private final IndexerSubsystem m_indexerSubsystem;
-  private final ShooterSubsystem m_shooterSubsystem;
   private final ElevatorSubsystem m_elevatorSubsystem;
 
-  public IndexCommand(
-      IndexerSubsystem indexer, ShooterSubsystem shooter, ElevatorSubsystem elevator) {
+  public AutoIndexCommand(IndexerSubsystem indexer, ElevatorSubsystem elevator) {
     m_indexerSubsystem = indexer;
-    m_shooterSubsystem = shooter;
     m_elevatorSubsystem = elevator;
-    addRequirements(indexer, shooter, elevator);
+    addRequirements(indexer, elevator);
   }
 
   @Override
   public void initialize() {
-    m_shooterSubsystem.indexAngle();
     m_elevatorSubsystem.defaultPosition();
+    System.out.println("start indexing");
   }
 
   @Override
@@ -51,5 +47,6 @@ public class IndexCommand extends Command {
   public void end(boolean interrupted) {
     m_indexerSubsystem.setLowerIndexer(0);
     m_indexerSubsystem.setUpperIndexer(0);
+    System.out.println("Done indexing");
   }
 }

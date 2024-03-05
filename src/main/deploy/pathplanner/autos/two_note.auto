@@ -5,7 +5,7 @@
       "x": 1.3497350215911863,
       "y": 5.5695295333862305
     },
-    "rotation": 9.84349065058093e-39
+    "rotation": 8.659797397256029e-33
   },
   "command": {
     "type": "sequential",
@@ -62,9 +62,22 @@
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "race",
                       "data": {
-                        "name": "aim"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "aim"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 0.5
+                            }
+                          }
+                        ]
                       }
                     }
                   ]
