@@ -7,6 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -96,6 +97,7 @@ public class RobotContainer {
                 m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem));
     // indexing
     new Trigger(m_indexerSubsystem::getLowerSensor)
+        .and(() -> !DriverStation.isAutonomousEnabled())
         .onTrue(new IndexCommand(m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem));
     m_driverController
         .rightTrigger()
@@ -112,14 +114,20 @@ public class RobotContainer {
                 m_shooterSubsystem,
                 m_indexerSubsystem,
                 () -> m_driverController.leftTrigger().getAsBoolean()));
-    // amp aiming (experimental)
+    // podium shot
     m_driverController
         .leftBumper()
         .and(m_driverController.rightBumper())
-        .whileTrue(new AmpAimCommand(m_driveSubsystem));
+        .whileTrue(
+            new PodiumCommand(
+                m_shooterSubsystem,
+                m_indexerSubsystem,
+                m_elevatorSubsystem,
+                () -> m_driverController.leftTrigger().getAsBoolean()));
     // amp scoring
     m_driverController
         .rightBumper()
+        .and(m_driverController.leftBumper().negate())
         .whileTrue(
             new AmpCommand(
                 () -> m_driverController.leftTrigger().getAsBoolean(),
@@ -128,9 +136,6 @@ public class RobotContainer {
                 m_indexerSubsystem));
 
     m_driverController.b().onTrue(m_driveSubsystem.runOnce(() -> m_driveSubsystem.resetGyro()));
-    m_driverController
-        .x()
-        .onTrue(m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.resetPosition()));
 
     // m_driverController.y().onTrue(m_climbSubsystem.upPosition());
     // m_driverController.x().onTrue(m_climbSubsystem.downPosition());
@@ -166,8 +171,14 @@ public class RobotContainer {
 
     // source intake
     m_driverController
-        .back()
+        .rightTrigger()
+        .and(m_driverController.leftTrigger())
         .whileTrue(new SourceCommand(m_shooterSubsystem, m_elevatorSubsystem, m_indexerSubsystem));
+
+    // zero elevator
+    m_driverController
+        .back()
+        .onTrue(m_elevatorSubsystem.runOnce(m_elevatorSubsystem::resetPosition));
 
     // manual up/down controls
     // m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.005));
@@ -183,7 +194,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // return new PathPlannerAuto("left_auto");
-    return autoChooser.getSelected();
+    return m_driveSubsystem.runOnce(m_driveSubsystem::resetGyro).andThen(autoChooser.getSelected());
     // return Autos.preload();
   }
 
@@ -202,7 +213,7 @@ public class RobotContainer {
                   m_indexerSubsystem.setUpperIndexer(1);
                   m_indexerSubsystem.setLowerIndexer(1);
                 }),
-            Commands.waitSeconds(0.5),
+            Commands.waitSeconds(0.75),
             m_indexerSubsystem.runOnce(
                 () -> {
                   m_indexerSubsystem.setUpperIndexer(0);
@@ -210,10 +221,11 @@ public class RobotContainer {
                 })));
     NamedCommands.registerCommand(
         "intake",
-        new AutoIntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem)
-            .andThen(new AutoIndexCommand(m_indexerSubsystem, m_elevatorSubsystem)));
-    // NamedCommands.registerCommand("intake", Commands.none());
-    NamedCommands.registerCommand("aim", new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem));
+        new AutoIntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem));
+    NamedCommands.registerCommand(
+        "aim",
+        new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem)
+            .raceWith(Commands.waitSeconds(0.75)));
     NamedCommands.registerCommand(
         "angle_intake", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.indexAngle()));
   }

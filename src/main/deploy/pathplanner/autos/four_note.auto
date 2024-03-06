@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3450059890747068,
+      "x": 1.345005989074707,
       "y": 5.567087650299072
     },
-    "rotation": 1.0323552959798088e-24
+    "rotation": 8.266300946214172e-28
   },
   "command": {
     "type": "sequential",
@@ -42,32 +42,56 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "angle_intake"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "angle_intake"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "four_note.2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "aim"
-                      }
-                    }
-                  ]
+                  "name": "intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "four_note.2"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "aim"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "angle_intake"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "four_note.3"
                 }
               },
               {
@@ -82,7 +106,19 @@
         {
           "type": "named",
           "data": {
+            "name": "aim"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "angle_intake"
           }
         },
         {
@@ -90,28 +126,9 @@
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "angle_intake"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "four_note.3"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "aim"
-                      }
-                    }
-                  ]
+                  "pathName": "four_note.4"
                 }
               },
               {
@@ -126,45 +143,7 @@
         {
           "type": "named",
           "data": {
-            "name": "shoot"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "angle_intake"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "four_note.4"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "aim"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intake"
-                }
-              }
-            ]
+            "name": "aim"
           }
         },
         {

@@ -18,28 +18,21 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "first_ring"
+            "name": "angle_intake"
           }
         },
         {
-          "type": "race",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "aim"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 3.0
-                }
-              }
-            ]
+            "name": "intake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "aim"
           }
         },
         {

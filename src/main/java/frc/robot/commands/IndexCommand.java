@@ -24,6 +24,7 @@ public class IndexCommand extends Command {
   public void initialize() {
     m_shooterSubsystem.indexAngle();
     m_elevatorSubsystem.defaultPosition();
+    System.out.println("tele indexing");
   }
 
   @Override
@@ -51,5 +52,6 @@ public class IndexCommand extends Command {
   public void end(boolean interrupted) {
     m_indexerSubsystem.setLowerIndexer(0);
     m_indexerSubsystem.setUpperIndexer(0);
+    System.out.println("stop tele indexing");
   }
 }

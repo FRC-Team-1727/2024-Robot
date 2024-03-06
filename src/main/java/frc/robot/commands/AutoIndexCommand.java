@@ -19,7 +19,7 @@ public class AutoIndexCommand extends Command {
   @Override
   public void initialize() {
     m_elevatorSubsystem.defaultPosition();
-    System.out.println("start indexing");
+    System.out.println("start auto indexing");
   }
 
   @Override
@@ -47,6 +47,6 @@ public class AutoIndexCommand extends Command {
   public void end(boolean interrupted) {
     m_indexerSubsystem.setLowerIndexer(0);
     m_indexerSubsystem.setUpperIndexer(0);
-    System.out.println("Done indexing");
+    System.out.println("Done auto indexing");
   }
 }

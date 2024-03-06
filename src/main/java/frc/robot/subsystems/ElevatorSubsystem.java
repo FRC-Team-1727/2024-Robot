@@ -79,7 +79,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     Logger.recordOutput("Elevator/TargetPosition", position);
-    // Logger.recordOutput("Elevator/CurrentPosition", -motors[0].getEncoder().getPosition());
+    Logger.recordOutput("Elevator/CurrentPosition", -motors[0].getEncoder().getPosition());
     // Logger.recordOutput("Elevator/Position2", motors[1].getEncoder().getPosition());
     // Logger.recordOutput("Elevator/Power", motors[0].getAppliedOutput());
     // Logger.recordOutput("Elevator/Power2", motors[1].getAppliedOutput());

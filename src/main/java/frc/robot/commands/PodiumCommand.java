@@ -28,6 +28,7 @@ public class PodiumCommand extends Command {
   public void initialize() {
     m_shooterSubsystem.startShooter();
     m_shooterSubsystem.podiumAngle();
+    m_elevatorSubsystem.podiumPosition();
   }
 
   @Override

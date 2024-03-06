@@ -42,54 +42,34 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "angle_intake"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "angle_intake"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "two_note.2"
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "aim"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 0.5
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              },
               {
                 "type": "named",
                 "data": {
                   "name": "intake"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "two_note.2"
+                }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "aim"
           }
         },
         {

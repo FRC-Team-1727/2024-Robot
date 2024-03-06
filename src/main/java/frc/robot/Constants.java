@@ -190,7 +190,7 @@ public final class Constants {
     public static final double kSubAngle = 0.1;
     public static final double kAmpAngle = 0.48;
     public static final double kTrapAngle = 0.1;
-    public static final double kPodiumAngle = 0.42;
+    public static final double kPodiumAngle = 0.215;
   }
 
   public static final class IndexerConstants {
