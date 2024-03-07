@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.LEDMode;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import java.util.function.BooleanSupplier;
 import org.littletonrobotics.junction.Logger;
@@ -15,6 +17,7 @@ public class AimCommand extends Command {
   private final DriveSubsystem m_driveSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
   private final IndexerSubsystem m_indexerSubsystem;
+  private final LEDSubsystem m_ledSubsystem;
   private final BooleanSupplier shooting;
   private PIDController rotationController;
   private double angle;
@@ -24,12 +27,14 @@ public class AimCommand extends Command {
       DriveSubsystem drive,
       ShooterSubsystem shooter,
       IndexerSubsystem indexer,
-      BooleanSupplier shooting) {
+      BooleanSupplier shooting,
+      LEDSubsystem led) {
     m_driveSubsystem = drive;
     m_shooterSubsystem = shooter;
     m_indexerSubsystem = indexer;
+    m_ledSubsystem = led;
     this.shooting = shooting;
-    addRequirements(shooter, indexer);
+    addRequirements(shooter, indexer, led);
   }
 
   @Override
@@ -72,9 +77,15 @@ public class AimCommand extends Command {
     if (shooting.getAsBoolean()) {
       m_indexerSubsystem.setUpperIndexer(1);
       m_indexerSubsystem.setLowerIndexer(1);
+
+      m_ledSubsystem.setMode(LEDMode.kShooting);
     } else {
       m_indexerSubsystem.setUpperIndexer(0);
       m_indexerSubsystem.setLowerIndexer(0);
+
+      if (m_shooterSubsystem.atSpeed() && m_shooterSubsystem.atAngle()) {
+        m_ledSubsystem.setMode(LEDMode.kReady);
+      }
     }
   }
 
@@ -88,5 +99,6 @@ public class AimCommand extends Command {
     m_indexerSubsystem.setUpperIndexer(0);
     m_indexerSubsystem.setLowerIndexer(0);
     LimelightHelpers.setPipelineIndex("", 0);
+    m_ledSubsystem.setMode(LEDMode.kEmpty);
   }
 }

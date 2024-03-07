@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.simulation.AddressableLEDSim;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.Optional;
 
@@ -17,7 +19,7 @@ public class LEDSubsystem extends SubsystemBase {
 
   public LEDSubsystem() {
     animStart = 0;
-    mode = LEDMode.kRainbow;
+    mode = LEDMode.kDefault;
 
     led = new AddressableLED(0);
     buffer = new AddressableLEDBuffer(20);
@@ -31,8 +33,10 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
   public void setMode(LEDMode mode) {
-    this.mode = mode;
-    animStart = 0;
+    if (this.mode != mode) {
+      this.mode = mode;
+      animStart = 0;
+    }
   }
 
   @Override
@@ -43,6 +47,23 @@ public class LEDSubsystem extends SubsystemBase {
         break;
       case kRainbow:
         rainbow();
+        break;
+      case kEmpty:
+        setColor(Color.kRed);
+        break;
+      case kIndexing:
+        setColor(Color.kRed);
+        blink();
+        break;
+      case kIndexed:
+        setColor(Color.kGreen);
+        break;
+      case kReady:
+        setColor(Color.kBlue);
+        break;
+      case kShooting:
+        setColor(Color.kBlue);
+        shootingPattern();
         break;
     }
     led.setData(buffer);
@@ -68,5 +89,37 @@ public class LEDSubsystem extends SubsystemBase {
     }
     animStart += 7;
     animStart %= 510;
+  }
+
+  private void shootingPattern() {
+    for (int i = animStart / 4 % 4; i < buffer.getLength(); i += 4) {
+      buffer.setLED(i, Color.kBlack);
+    }
+    animStart++;
+  }
+
+  private void setColor(Color c) {
+    for (int i = 0; i < buffer.getLength(); i++) {
+      buffer.setLED(i, c);
+    }
+  }
+
+  private void blink(int period) {
+    if (animStart % (period * 2) > period) {
+      setColor(Color.kBlack);
+    }
+    animStart++;
+  }
+
+  private void blink() {
+    blink(5);
+  }
+
+  public Command setRandom() {
+    return runOnce(
+        () -> {
+          setMode(LEDMode.values()[(int) (LEDMode.values().length * Math.random())]);
+          System.out.println(mode.toString());
+        });
   }
 }

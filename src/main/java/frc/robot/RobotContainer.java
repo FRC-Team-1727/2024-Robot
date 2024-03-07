@@ -94,15 +94,22 @@ public class RobotContainer {
         .rightTrigger()
         .whileTrue(
             new IntakeCommand(
-                m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem));
+                m_intakeSubsystem,
+                m_indexerSubsystem,
+                m_shooterSubsystem,
+                m_elevatorSubsystem,
+                m_ledSubsystem));
     // indexing
     new Trigger(m_indexerSubsystem::getLowerSensor)
         .and(() -> !DriverStation.isAutonomousEnabled())
-        .onTrue(new IndexCommand(m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem));
+        .onTrue(
+            new IndexCommand(
+                m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem, m_ledSubsystem));
     m_driverController
         .rightTrigger()
         .onFalse(
-            new IndexCommand(m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem)
+            new IndexCommand(
+                    m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem, m_ledSubsystem)
                 .onlyIf(m_indexerSubsystem::getLowerSensor));
     // speaker aiming
     m_driverController
@@ -113,7 +120,8 @@ public class RobotContainer {
                 m_driveSubsystem,
                 m_shooterSubsystem,
                 m_indexerSubsystem,
-                () -> m_driverController.leftTrigger().getAsBoolean()));
+                () -> m_driverController.leftTrigger().getAsBoolean(),
+                m_ledSubsystem));
     // podium shot
     m_driverController
         .leftBumper()
@@ -173,12 +181,16 @@ public class RobotContainer {
     m_driverController
         .rightTrigger()
         .and(m_driverController.leftTrigger())
-        .whileTrue(new SourceCommand(m_shooterSubsystem, m_elevatorSubsystem, m_indexerSubsystem));
+        .whileTrue(
+            new SourceCommand(
+                m_shooterSubsystem, m_elevatorSubsystem, m_indexerSubsystem, m_ledSubsystem));
 
     // zero elevator
     m_driverController
         .back()
         .onTrue(m_elevatorSubsystem.runOnce(m_elevatorSubsystem::resetPosition));
+
+    m_driverController.back().onTrue(m_ledSubsystem.setRandom());
 
     // manual up/down controls
     // m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.005));

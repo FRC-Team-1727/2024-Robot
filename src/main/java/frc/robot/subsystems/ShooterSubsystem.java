@@ -105,6 +105,10 @@ public class ShooterSubsystem extends SubsystemBase {
         <= kAngleTolerance;
   }
 
+  public boolean atSpeed() {
+    return Math.abs(flywheel.getEncoder().getVelocity() - kShooterSpeed) <= 100;
+  }
+
   public Command increment(DoubleSupplier val) {
     return runOnce(
         () -> {

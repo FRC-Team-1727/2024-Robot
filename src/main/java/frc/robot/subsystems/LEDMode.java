@@ -2,5 +2,10 @@ package frc.robot.subsystems;
 
 public enum LEDMode {
   kRainbow,
-  kDefault
+  kDefault,
+  kEmpty,
+  kIndexing,
+  kIndexed,
+  kReady,
+  kShooting
 }
