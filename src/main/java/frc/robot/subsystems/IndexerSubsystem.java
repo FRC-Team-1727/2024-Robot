@@ -48,8 +48,8 @@ public class IndexerSubsystem extends SubsystemBase {
     upperIndexer.set(spd);
   }
 
-  public void indexSpeed() {
-    lowerIndexer.getPIDController().setReference(3000, ControlType.kVelocity);
+  public void setRPM(int rpm) {
+    lowerIndexer.getPIDController().setReference(rpm, ControlType.kVelocity);
   }
 
   public boolean getLowerSensor() {

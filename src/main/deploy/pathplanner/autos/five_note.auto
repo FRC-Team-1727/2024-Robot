@@ -5,7 +5,7 @@
       "x": 1.456931233406067,
       "y": 7.021975517272949
     },
-    "rotation": 0.0
+    "rotation": 4.963838250772554e-16
   },
   "command": {
     "type": "sequential",
@@ -152,56 +152,6 @@
                       "type": "path",
                       "data": {
                         "pathName": "five_note.6"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "aim"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "shoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "angle_intake"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "intake"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "five_note.7"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "five_note.8"
                       }
                     }
                   ]

@@ -233,7 +233,8 @@ public class RobotContainer {
                 })));
     NamedCommands.registerCommand(
         "intake",
-        new AutoIntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem));
+        new AutoIntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem)
+            .raceWith(Commands.waitSeconds(3)));
     NamedCommands.registerCommand(
         "aim",
         new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem)

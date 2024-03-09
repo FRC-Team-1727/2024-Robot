@@ -31,7 +31,7 @@ public class AutoIntakeCommand extends Command {
   @Override
   public void execute() {
     if (!hasNote) {
-      m_indexerSubsystem.indexSpeed();
+      m_indexerSubsystem.setRPM(3000);
       m_indexerSubsystem.setUpperIndexer(0.2);
       m_intakeSubsystem.setSpeed(IntakeConstants.kIntakeSpeed);
       if (m_indexerSubsystem.getLowerSensor()) {
@@ -43,10 +43,10 @@ public class AutoIntakeCommand extends Command {
 
       if (!lower && !upper) {
         m_indexerSubsystem.setUpperIndexer(-IndexerConstants.kIndexSpeed);
-        m_indexerSubsystem.indexSpeed();
+        m_indexerSubsystem.setRPM(1000);
       } else if (lower) {
-        m_indexerSubsystem.setUpperIndexer(0.2);
-        m_indexerSubsystem.indexSpeed();
+        m_indexerSubsystem.setUpperIndexer(0.1);
+        m_indexerSubsystem.setRPM(1000);
       }
     }
   }

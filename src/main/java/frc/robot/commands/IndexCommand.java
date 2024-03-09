@@ -43,11 +43,11 @@ public class IndexCommand extends Command {
     if (!lower && !upper) {
       m_indexerSubsystem.setUpperIndexer(-kIndexSpeed);
       // m_indexerSubsystem.setLowerIndexer(kIndexSpeed);
-      m_indexerSubsystem.indexSpeed();
+      m_indexerSubsystem.setRPM(1000);
     } else if (lower) {
-      m_indexerSubsystem.setUpperIndexer(0.2);
+      m_indexerSubsystem.setUpperIndexer(0.1);
       // m_indexerSubsystem.setLowerIndexer(kIndexSpeed);
-      m_indexerSubsystem.indexSpeed();
+      m_indexerSubsystem.setRPM(1000);
     }
   }
 

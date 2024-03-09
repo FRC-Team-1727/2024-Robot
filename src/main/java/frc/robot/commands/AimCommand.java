@@ -63,7 +63,7 @@ public class AimCommand extends Command {
     if (distance < 1.4) {
       // m_shooterSubsystem.subAngle();
     } else {
-      m_shooterSubsystem.aim(distance);
+      m_shooterSubsystem.autoAim(distance);
     }
 
     rotationController.setSetpoint(0);

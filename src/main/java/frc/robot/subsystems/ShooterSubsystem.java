@@ -122,6 +122,10 @@ public class ShooterSubsystem extends SubsystemBase {
     setAngle(-0.00863736 * distance * distance + 0.0919203 * distance + -0.0124384);
   }
 
+  public void autoAim(double distance) {
+    setAngle(-0.0123551 * distance * distance + 0.110271 * distance + -0.0324104);
+  }
+
   @Override
   public void periodic() {
     // Logger.recordOutput("Shooter/CurrentVelocity", flywheel.getEncoder().getVelocity());

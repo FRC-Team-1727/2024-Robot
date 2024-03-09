@@ -40,7 +40,7 @@ public class IntakeCommand extends Command {
   @Override
   public void execute() {
     // m_indexerSubsystem.setLowerIndexer(IndexerConstants.kIndexSpeed);
-    m_indexerSubsystem.indexSpeed();
+    m_indexerSubsystem.setRPM(3000);
     m_indexerSubsystem.setUpperIndexer(0.2);
     m_intakeSubsystem.setSpeed(IntakeConstants.kIntakeSpeed);
   }
