@@ -74,6 +74,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void resetPosition() {
     position = 0;
     motors[0].getEncoder().setPosition(0);
+    motors[1].getEncoder().setPosition(0);
   }
 
   public Command zeroElevator() {
