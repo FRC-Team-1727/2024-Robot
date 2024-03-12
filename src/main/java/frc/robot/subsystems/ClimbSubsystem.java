@@ -11,10 +11,11 @@ import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import java.util.function.IntSupplier;
 import org.littletonrobotics.junction.Logger;
 
 public class ClimbSubsystem extends SubsystemBase {
-  private double position = 0;
+  private int position = 0;
   private final CANSparkMax motor = new CANSparkMax(kClimbPort, MotorType.kBrushless);
 
   public ClimbSubsystem() {
@@ -23,7 +24,7 @@ public class ClimbSubsystem extends SubsystemBase {
     controller.setI(kI);
     controller.setD(kD);
     controller.setFF(kFF);
-    controller.setOutputRange(-0.5, 0.5);
+    controller.setOutputRange(-1, 1);
     controller.setFeedbackDevice(motor.getEncoder());
     motor.setIdleMode(IdleMode.kBrake);
     motor.setInverted(true);
@@ -50,20 +51,16 @@ public class ClimbSubsystem extends SubsystemBase {
   public Command downPosition() {
     return runOnce(
         () -> {
-          setPosition(0);
+          setPosition(kMinPosition);
           motor.setIdleMode(IdleMode.kBrake);
         });
   }
 
-  public Command moveDown() {
-    return startEnd(
+  public Command zeroClimb() {
+    return runOnce(
         () -> {
-          motor.set(-1);
-          motor.setIdleMode(IdleMode.kCoast);
-        },
-        () -> {
-          motor.set(0);
           motor.getEncoder().setPosition(0);
+          setPosition(0);
         });
   }
 
@@ -80,9 +77,17 @@ public class ClimbSubsystem extends SubsystemBase {
         });
   }
 
+  public Command moveSpeed(IntSupplier speed) {
+    return startEnd(
+        () -> {
+          motor.set(speed.getAsInt());
+        },
+        () -> motor.set(0));
+  }
+
   @Override
   public void periodic() {
     Logger.recordOutput("Climb/Target", position);
-    Logger.recordOutput("Climber/Position", motor.getEncoder().getPosition());
+    Logger.recordOutput("Climb/Position", motor.getEncoder().getPosition());
   }
 }

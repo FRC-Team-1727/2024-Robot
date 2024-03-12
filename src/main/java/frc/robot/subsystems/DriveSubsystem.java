@@ -20,6 +20,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.LimelightHelpers;
@@ -154,6 +155,8 @@ public class DriveSubsystem extends SubsystemBase {
       Logger.recordOutput("Vision/Pose", pose);
       Logger.recordOutput("Vision/Latency", latency);
     }
+    SmartDashboard.putBoolean("NavX Connected", m_gyro.isConnected());
+    SmartDashboard.putNumber("NavX Reading", m_gyro.getAngle());
   }
 
   /**

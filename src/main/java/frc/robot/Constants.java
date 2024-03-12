@@ -208,10 +208,11 @@ public final class Constants {
 
   public static final class ClimbConstants {
     public static final int kClimbPort = 13;
-    public static final int kMaxPosition = 0;
+    public static final int kMaxPosition = 225;
+    public static final int kMinPosition = 40;
     public static final double kP = 0.1;
     public static final double kI = 0;
-    public static final double kD = 0.1;
+    public static final double kD = 0;
     public static final double kFF = 0;
     public static final double kClimbSpeed = 1;
   }

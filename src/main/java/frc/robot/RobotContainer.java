@@ -41,6 +41,8 @@ public class RobotContainer {
   CommandXboxController m_driverController =
       new CommandXboxController(OIConstants.kDriverControllerPort);
 
+  CommandXboxController m_secondController = new CommandXboxController(1);
+
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -77,9 +79,6 @@ public class RobotContainer {
                     true,
                     false),
             m_driveSubsystem));
-
-    m_climbSubsystem.setDefaultCommand(
-        m_climbSubsystem.manualControl(m_driverController.y(), m_driverController.a()));
   }
 
   /**
@@ -143,11 +142,8 @@ public class RobotContainer {
                 m_elevatorSubsystem,
                 m_indexerSubsystem));
 
+    // gyro reset
     m_driverController.b().onTrue(m_driveSubsystem.runOnce(() -> m_driveSubsystem.resetGyro()));
-
-    // m_driverController.y().onTrue(m_climbSubsystem.upPosition());
-    // m_driverController.x().onTrue(m_climbSubsystem.downPosition());
-    // m_driverController.x().whileTrue(m_climbSubsystem.moveDown());
 
     // toggle trap position
     m_driverController
@@ -155,10 +151,10 @@ public class RobotContainer {
         .toggleOnFalse(
             new TrapCommand(
                 () -> m_driverController.leftTrigger().getAsBoolean(),
-                () -> m_driverController.a().getAsBoolean(),
                 m_shooterSubsystem,
                 m_elevatorSubsystem,
-                m_indexerSubsystem));
+                m_indexerSubsystem,
+                m_ledSubsystem));
     // outtake
     m_driverController
         .x()
@@ -185,18 +181,22 @@ public class RobotContainer {
             new SourceCommand(
                 m_shooterSubsystem, m_elevatorSubsystem, m_indexerSubsystem, m_ledSubsystem));
 
-    // zero elevator
-    m_driverController
-        .back()
-        .onTrue(m_elevatorSubsystem.runOnce(m_elevatorSubsystem::resetPosition));
-
-    m_driverController.back().onTrue(m_ledSubsystem.setRandom());
+    // climb presets
+    m_driverController.y().onTrue(m_climbSubsystem.upPosition());
+    m_driverController.a().onTrue(m_climbSubsystem.downPosition());
 
     // manual up/down controls
     // m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.005));
     // m_driverController.a().onTrue(m_shooterSubsystem.increment(() -> -0.005));
     // m_driverController.y().whileTrue(m_elevatorSubsystem.increment(() -> 1));
     // m_driverController.a().whileTrue(m_elevatorSubsystem.increment(() -> -1));
+
+    // SECOND CONTROLLER CONTROLS
+    m_secondController.y().whileTrue(m_climbSubsystem.moveSpeed(() -> 1));
+    m_secondController.a().whileTrue(m_climbSubsystem.moveSpeed(() -> -1));
+    m_secondController.b().onTrue(m_climbSubsystem.zeroClimb());
+    m_secondController.x().whileTrue(m_elevatorSubsystem.zeroElevator());
+    m_secondController.back().onTrue(m_ledSubsystem.setRandom());
   }
 
   /**

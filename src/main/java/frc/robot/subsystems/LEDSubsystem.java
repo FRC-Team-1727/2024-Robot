@@ -22,8 +22,7 @@ public class LEDSubsystem extends SubsystemBase {
     mode = LEDMode.kDefault;
 
     led = new AddressableLED(0);
-    buffer = new AddressableLEDBuffer(20);
-
+    buffer = new AddressableLEDBuffer(19);
     led.setLength(buffer.getLength());
     led.setData(buffer);
     led.start();
@@ -92,8 +91,9 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
   private void shootingPattern() {
-    for (int i = animStart / 4 % 4; i < buffer.getLength(); i += 4) {
+    for (int i = animStart / 4 % 4; i < buffer.getLength() - 1; i += 4) {
       buffer.setLED(i, Color.kBlack);
+      buffer.setLED(i + 1, Color.kBlack);
     }
     animStart++;
   }

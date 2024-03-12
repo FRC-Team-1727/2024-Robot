@@ -1,9 +1,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.LEDMode;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import java.util.function.BooleanSupplier;
 
@@ -11,27 +12,28 @@ public class TrapCommand extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
   private final ElevatorSubsystem m_elevatorSubsystem;
   private final IndexerSubsystem m_indexerSubsystem;
+  private final LEDSubsystem m_ledSubsystem;
   private final BooleanSupplier scoring;
-  private final BooleanSupplier climbing;
 
   public TrapCommand(
       BooleanSupplier scoring,
-      BooleanSupplier climbing,
       ShooterSubsystem shooter,
       ElevatorSubsystem elevator,
-      IndexerSubsystem indexer) {
+      IndexerSubsystem indexer,
+      LEDSubsystem led) {
     m_shooterSubsystem = shooter;
     m_elevatorSubsystem = elevator;
     m_indexerSubsystem = indexer;
+    m_ledSubsystem = led;
     this.scoring = scoring;
-    this.climbing = climbing;
-    addRequirements(shooter, elevator, indexer);
+    addRequirements(shooter, elevator, indexer, led);
   }
 
   @Override
   public void initialize() {
     m_elevatorSubsystem.trapPosition();
     m_shooterSubsystem.trapAngle();
+    m_ledSubsystem.setMode(LEDMode.kRainbow);
   }
 
   @Override
@@ -42,8 +44,8 @@ public class TrapCommand extends Command {
     //   m_shooterSubsystem.setPower(0.1);
     // }
     if (scoring.getAsBoolean()) {
-      m_indexerSubsystem.setUpperIndexer(ShooterConstants.kAmpSpeed);
-      m_shooterSubsystem.setPower(ShooterConstants.kAmpSpeed);
+      m_indexerSubsystem.setUpperIndexer(0.5);
+      m_shooterSubsystem.setPower(0.5);
     } else {
       m_indexerSubsystem.setUpperIndexer(0);
       m_shooterSubsystem.setPower(0);

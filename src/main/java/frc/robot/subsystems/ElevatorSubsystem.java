@@ -76,6 +76,19 @@ public class ElevatorSubsystem extends SubsystemBase {
     motors[0].getEncoder().setPosition(0);
   }
 
+  public Command zeroElevator() {
+    return startEnd(
+        () -> {
+          motors[0].set(0.05);
+          motors[1].set(-0.05);
+        },
+        () -> {
+          motors[0].set(0);
+          motors[1].set(0);
+          resetPosition();
+        });
+  }
+
   @Override
   public void periodic() {
     Logger.recordOutput("Elevator/TargetPosition", position);

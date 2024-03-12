@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -66,5 +67,7 @@ public class IndexerSubsystem extends SubsystemBase {
     Logger.recordOutput("Indexer/UpperSensor", getUpperSensor());
     // Logger.recordOutput("Indexer/Position", lowerIndexer.getEncoder().getPosition());
     Logger.recordOutput("Indexer/RPM", lowerIndexer.getEncoder().getVelocity());
+    SmartDashboard.putBoolean("Lower Sensor", getLowerSensor());
+    SmartDashboard.putBoolean("Upper Sensor", getUpperSensor());
   }
 }
