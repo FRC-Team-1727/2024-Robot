@@ -193,7 +193,7 @@ public class RobotContainer {
 
     // SECOND CONTROLLER CONTROLS
     m_secondController.y().whileTrue(m_climbSubsystem.moveSpeed(() -> 1));
-    m_secondController.a().whileTrue(m_climbSubsystem.moveSpeed(() -> -1));
+    m_secondController.a().whileTrue(m_climbSubsystem.moveSpeed(() -> -0.4));
     m_secondController.b().onTrue(m_climbSubsystem.zeroClimb());
     m_secondController.x().whileTrue(m_elevatorSubsystem.zeroElevator());
     m_secondController.back().onTrue(m_ledSubsystem.setRandom());

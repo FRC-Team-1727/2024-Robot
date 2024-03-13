@@ -106,7 +106,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean atSpeed() {
-    return Math.abs(flywheel.getEncoder().getVelocity() - kShooterSpeed) <= 100;
+    return Math.abs(flywheel.getEncoder().getVelocity() - kShooterSpeed) <= kVelocityTolerance;
   }
 
   public Command increment(DoubleSupplier val) {
@@ -130,6 +130,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     // Logger.recordOutput("Shooter/CurrentVelocity", flywheel.getEncoder().getVelocity());
     Logger.recordOutput("Shooter/TargetAngle", angle);
+    // Logger.recordOutput("Shooter/VelocityError", 6000 - flywheel.getEncoder().getVelocity());
     // Logger.recordOutput(
     //     "Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
     // Logger.recordOutput("Shooter/AnglerPower", angler.getAppliedOutput());

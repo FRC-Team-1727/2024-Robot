@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.LEDMode;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -30,6 +31,7 @@ public class SourceCommand extends Command {
     m_shooterSubsystem.indexAngle();
     m_shooterSubsystem.setPower(-0.3);
     m_indexerSubsystem.setUpperIndexer(-0.3);
+    m_ledSubsystem.setMode(LEDMode.kEmpty);
   }
 
   @Override

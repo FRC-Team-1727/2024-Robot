@@ -59,6 +59,8 @@ public class AimCommand extends Command {
 
     Logger.recordOutput("Aiming/Angle", angle);
     Logger.recordOutput("Aiming/Distance", distance);
+    Logger.recordOutput("Aiming/AtSpeed", m_shooterSubsystem.atSpeed());
+    Logger.recordOutput("Aiming/AtAngle", m_shooterSubsystem.atAngle());
 
     if (distance < 1.4) {
       // m_shooterSubsystem.subAngle();

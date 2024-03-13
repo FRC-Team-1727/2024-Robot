@@ -11,7 +11,7 @@ import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import java.util.function.IntSupplier;
+import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.Logger;
 
 public class ClimbSubsystem extends SubsystemBase {
@@ -77,10 +77,10 @@ public class ClimbSubsystem extends SubsystemBase {
         });
   }
 
-  public Command moveSpeed(IntSupplier speed) {
+  public Command moveSpeed(DoubleSupplier speed) {
     return startEnd(
         () -> {
-          motor.set(speed.getAsInt());
+          motor.set(speed.getAsDouble());
         },
         () -> motor.set(0));
   }

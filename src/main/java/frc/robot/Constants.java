@@ -184,7 +184,8 @@ public final class Constants {
     public static final int kShooterSpeed = 6000;
     public static final double kAmpSpeed = 0.25;
 
-    public static final double kAngleTolerance = 0.1;
+    public static final double kAngleTolerance = 0.01;
+    public static final int kVelocityTolerance = 500;
 
     public static final double kIndexAngle = 0.14;
     public static final double kSubAngle = 0.1;
@@ -208,7 +209,7 @@ public final class Constants {
 
   public static final class ClimbConstants {
     public static final int kClimbPort = 13;
-    public static final int kMaxPosition = 225;
+    public static final int kMaxPosition = 290;
     public static final int kMinPosition = 40;
     public static final double kP = 0.1;
     public static final double kI = 0;
