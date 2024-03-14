@@ -34,7 +34,7 @@ public class TrapCommand extends Command {
     m_elevatorSubsystem.trapPosition();
     m_elevatorSubsystem.setBrake();
     m_shooterSubsystem.trapAngle();
-    m_shooterSubsystem.setPower(0.9);
+    m_shooterSubsystem.setPower(0);
     m_ledSubsystem.setMode(LEDMode.kRainbow);
   }
 
