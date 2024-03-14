@@ -66,7 +66,7 @@ public class IndexerSubsystem extends SubsystemBase {
     Logger.recordOutput("Indexer/LowerSensor", getLowerSensor());
     Logger.recordOutput("Indexer/UpperSensor", getUpperSensor());
     // Logger.recordOutput("Indexer/Position", lowerIndexer.getEncoder().getPosition());
-    Logger.recordOutput("Indexer/RPM", lowerIndexer.getEncoder().getVelocity());
+    // Logger.recordOutput("Indexer/RPM", lowerIndexer.getEncoder().getVelocity());
     SmartDashboard.putBoolean("Lower Sensor", getLowerSensor());
     SmartDashboard.putBoolean("Upper Sensor", getUpperSensor());
   }

@@ -88,6 +88,6 @@ public class ClimbSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     Logger.recordOutput("Climb/Target", position);
-    Logger.recordOutput("Climb/Position", motor.getEncoder().getPosition());
+    // Logger.recordOutput("Climb/Position", motor.getEncoder().getPosition());
   }
 }

@@ -61,6 +61,10 @@ public class IndexCommand extends Command {
     m_indexerSubsystem.setLowerIndexer(0);
     m_indexerSubsystem.setUpperIndexer(0);
     System.out.println("stop tele indexing");
-    m_ledSubsystem.setMode(LEDMode.kIndexed);
+    if (interrupted) {
+      m_ledSubsystem.setMode(LEDMode.kEmpty);
+    } else {
+      m_ledSubsystem.setMode(LEDMode.kIndexed);
+    }
   }
 }

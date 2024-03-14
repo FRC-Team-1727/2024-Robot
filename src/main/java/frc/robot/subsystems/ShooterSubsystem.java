@@ -126,11 +126,16 @@ public class ShooterSubsystem extends SubsystemBase {
     setAngle(-0.0123551 * distance * distance + 0.110271 * distance + -0.0324104);
   }
 
+  public void logError() {
+    Logger.recordOutput("Shooter/VelocityError", 6000 - flywheel.getEncoder().getVelocity());
+    Logger.recordOutput("Shooter/AngleError", angle - angler.getAbsoluteEncoder().getPosition());
+  }
+
   @Override
   public void periodic() {
     // Logger.recordOutput("Shooter/CurrentVelocity", flywheel.getEncoder().getVelocity());
     Logger.recordOutput("Shooter/TargetAngle", angle);
-    // Logger.recordOutput("Shooter/VelocityError", 6000 - flywheel.getEncoder().getVelocity());
+    
     // Logger.recordOutput(
     //     "Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
     // Logger.recordOutput("Shooter/AnglerPower", angler.getAppliedOutput());

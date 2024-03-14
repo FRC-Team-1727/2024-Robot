@@ -32,6 +32,7 @@ public class TrapCommand extends Command {
   @Override
   public void initialize() {
     m_elevatorSubsystem.trapPosition();
+    m_elevatorSubsystem.setBrake();
     m_shooterSubsystem.trapAngle();
     m_shooterSubsystem.setPower(0.9);
     m_ledSubsystem.setMode(LEDMode.kRainbow);
@@ -39,11 +40,6 @@ public class TrapCommand extends Command {
 
   @Override
   public void execute() {
-    // if (climbing.getAsBoolean()) {
-    //   m_shooterSubsystem.setPower(-0.1);
-    // } else {
-    //   m_shooterSubsystem.setPower(0.1);
-    // }
     if (scoring.getAsBoolean()) {
       m_indexerSubsystem.setUpperIndexer(1);
     } else {

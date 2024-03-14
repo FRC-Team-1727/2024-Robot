@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import static frc.robot.Constants.ElevatorConstants.*;
 
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.CANSparkMax;
@@ -31,6 +32,8 @@ public class ElevatorSubsystem extends SubsystemBase {
       controller.setOutputRange(-1, 1);
       // controller.setOutputRange(0, 0);
       controller.setFeedbackDevice(m.getEncoder());
+      m.setIdleMode(IdleMode.kCoast);
+      m.burnFlash();
       m.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
       m.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
       m.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
@@ -90,10 +93,15 @@ public class ElevatorSubsystem extends SubsystemBase {
         });
   }
 
+  public void setBrake() {
+    motors[0].setIdleMode(IdleMode.kBrake);
+    motors[1].setIdleMode(IdleMode.kBrake);
+  }
+
   @Override
   public void periodic() {
     Logger.recordOutput("Elevator/TargetPosition", position);
-    Logger.recordOutput("Elevator/CurrentPosition", -motors[0].getEncoder().getPosition());
+    // Logger.recordOutput("Elevator/CurrentPosition", -motors[0].getEncoder().getPosition());
     // Logger.recordOutput("Elevator/Position2", motors[1].getEncoder().getPosition());
     // Logger.recordOutput("Elevator/Power", motors[0].getAppliedOutput());
     // Logger.recordOutput("Elevator/Power2", motors[1].getAppliedOutput());

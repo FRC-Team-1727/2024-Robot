@@ -81,6 +81,7 @@ public class AimCommand extends Command {
       m_indexerSubsystem.setLowerIndexer(1);
 
       m_ledSubsystem.setMode(LEDMode.kShooting);
+      m_shooterSubsystem.logError();
     } else {
       m_indexerSubsystem.setUpperIndexer(0);
       m_indexerSubsystem.setLowerIndexer(0);
