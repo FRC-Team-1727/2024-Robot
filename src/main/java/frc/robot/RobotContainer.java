@@ -57,6 +57,7 @@ public class RobotContainer {
     autoChooser.addOption("Two Note", new PathPlannerAuto("two_note"));
     autoChooser.addOption("Four Note", new PathPlannerAuto("four_note"));
     autoChooser.addOption("Five Note", new PathPlannerAuto("five_note"));
+    autoChooser.addOption("Source Side", new PathPlannerAuto("source_side"));
     autoChooser.addOption("Aim Test", new PathPlannerAuto("aim_test"));
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -237,6 +238,9 @@ public class RobotContainer {
         "intake",
         new AutoIntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem)
             .raceWith(Commands.waitSeconds(3)));
+    NamedCommands.registerCommand(
+        "intake_only",
+        new AutoIntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem));
     NamedCommands.registerCommand(
         "aim",
         new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem)
