@@ -31,6 +31,7 @@ public class ClimbSubsystem extends SubsystemBase {
     motor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
     motor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
     motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
+    // motor.setSmartCurrentLimit(40);
     motor.burnFlash();
   }
 

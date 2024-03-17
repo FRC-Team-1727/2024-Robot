@@ -15,6 +15,8 @@ public class IntakeSubsystem extends SubsystemBase {
     intake.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
     intake.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
     intake.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
+    // intake.setSmartCurrentLimit(40);
+    intake.burnFlash();
   }
 
   public void setSpeed(double spd) {

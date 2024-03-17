@@ -30,7 +30,7 @@ public class IndexerSubsystem extends SubsystemBase {
     lowerIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
     upperIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
     lowerIndexer.setSmartCurrentLimit(50);
-    upperIndexer.setSmartCurrentLimit(50);
+    upperIndexer.setSmartCurrentLimit(40);
     SparkPIDController controller = lowerIndexer.getPIDController();
     controller.setP(kP);
     controller.setI(kI);

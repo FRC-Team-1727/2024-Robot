@@ -64,6 +64,9 @@ public class LEDSubsystem extends SubsystemBase {
         setColor(Color.kBlue);
         shootingPattern();
         break;
+      case kSource:
+        setColor(Color.kPurple);
+        break;
     }
     led.setData(buffer);
   }

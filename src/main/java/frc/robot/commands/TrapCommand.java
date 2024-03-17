@@ -14,18 +14,21 @@ public class TrapCommand extends Command {
   private final IndexerSubsystem m_indexerSubsystem;
   private final LEDSubsystem m_ledSubsystem;
   private final BooleanSupplier scoring;
+  private final BooleanSupplier stop;
 
   public TrapCommand(
       BooleanSupplier scoring,
       ShooterSubsystem shooter,
       ElevatorSubsystem elevator,
       IndexerSubsystem indexer,
-      LEDSubsystem led) {
+      LEDSubsystem led,
+      BooleanSupplier stop) {
     m_shooterSubsystem = shooter;
     m_elevatorSubsystem = elevator;
     m_indexerSubsystem = indexer;
     m_ledSubsystem = led;
     this.scoring = scoring;
+    this.stop = stop;
     addRequirements(shooter, elevator, indexer, led);
   }
 
@@ -34,7 +37,7 @@ public class TrapCommand extends Command {
     m_elevatorSubsystem.trapPosition();
     m_elevatorSubsystem.setBrake();
     m_shooterSubsystem.trapAngle();
-    m_shooterSubsystem.setPower(0);
+    m_shooterSubsystem.setPower(0.45);
     m_ledSubsystem.setMode(LEDMode.kRainbow);
   }
 
@@ -44,6 +47,10 @@ public class TrapCommand extends Command {
       m_indexerSubsystem.setUpperIndexer(1);
     } else {
       m_indexerSubsystem.setUpperIndexer(0);
+    }
+
+    if (stop.getAsBoolean()) {
+      m_shooterSubsystem.setPower(0);
     }
   }
 

@@ -7,5 +7,6 @@ public enum LEDMode {
   kIndexing,
   kIndexed,
   kReady,
-  kShooting
+  kShooting,
+  kSource
 }

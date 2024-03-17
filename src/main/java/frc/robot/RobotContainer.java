@@ -154,7 +154,8 @@ public class RobotContainer {
                 m_shooterSubsystem,
                 m_elevatorSubsystem,
                 m_indexerSubsystem,
-                m_ledSubsystem));
+                m_ledSubsystem,
+                () -> m_secondController.rightBumper().getAsBoolean()));
     // outtake
     m_driverController
         .x()
@@ -183,7 +184,8 @@ public class RobotContainer {
 
     // climb presets
     m_driverController.y().onTrue(m_climbSubsystem.upPosition());
-    m_driverController.a().onTrue(m_climbSubsystem.downPosition());
+    m_driverController.a().whileTrue(m_climbSubsystem.moveSpeed(() -> -0.4));
+    // m_driverController.a().onTrue(m_climbSubsystem.downPosition());
 
     // manual up/down controls
     // m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.005));
@@ -196,7 +198,7 @@ public class RobotContainer {
     m_secondController.a().whileTrue(m_climbSubsystem.moveSpeed(() -> -0.4));
     m_secondController.b().onTrue(m_climbSubsystem.zeroClimb());
     m_secondController.x().whileTrue(m_elevatorSubsystem.zeroElevator());
-    m_secondController.back().onTrue(m_ledSubsystem.setRandom());
+    // m_secondController.back().onTrue(m_ledSubsystem.setRandom());
   }
 
   /**
@@ -225,7 +227,7 @@ public class RobotContainer {
                   m_indexerSubsystem.setUpperIndexer(1);
                   m_indexerSubsystem.setLowerIndexer(1);
                 }),
-            Commands.waitSeconds(0.75),
+            Commands.waitSeconds(0.25),
             m_indexerSubsystem.runOnce(
                 () -> {
                   m_indexerSubsystem.setUpperIndexer(0);

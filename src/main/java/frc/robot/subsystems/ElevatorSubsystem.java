@@ -33,6 +33,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       // controller.setOutputRange(0, 0);
       controller.setFeedbackDevice(m.getEncoder());
       m.setIdleMode(IdleMode.kCoast);
+      // m.setSmartCurrentLimit(40);
       m.burnFlash();
       m.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
       m.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);

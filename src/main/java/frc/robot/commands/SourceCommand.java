@@ -31,7 +31,7 @@ public class SourceCommand extends Command {
     m_shooterSubsystem.indexAngle();
     m_shooterSubsystem.setPower(-0.3);
     m_indexerSubsystem.setUpperIndexer(-0.3);
-    m_ledSubsystem.setMode(LEDMode.kEmpty);
+    m_ledSubsystem.setMode(LEDMode.kSource);
   }
 
   @Override

@@ -37,6 +37,10 @@ public class ShooterSubsystem extends SubsystemBase {
     flywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
     flywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
     flywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
+    angler.setSmartCurrentLimit(40);
+    flywheel.setSmartCurrentLimit(60);
+    angler.burnFlash();
+    flywheel.burnFlash();
   }
 
   private void setSpeed(int rpm) {
