@@ -9,6 +9,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -17,6 +19,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -84,6 +88,8 @@ public class DriveSubsystem extends SubsystemBase {
   private double strafeValue = 0;
   private boolean strafing = false;
 
+  private ProfiledPIDController headingController = new ProfiledPIDController(5, 0, 0, new Constraints(2 * Math.PI, 4 * Math.PI));
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     AutoBuilder.configureHolonomic(
@@ -134,6 +140,9 @@ public class DriveSubsystem extends SubsystemBase {
     Logger.recordOutput("Drive/Heading", getHeading());
     Logger.recordOutput("Drive/Aiming", aiming);
 
+    SmartDashboard.putBoolean("NavX Connected", m_gyro.isConnected());
+    SmartDashboard.putNumber("NavX Reading", m_gyro.getAngle());
+
     if (LimelightHelpers.getCurrentPipelineIndex("") == 0) {
       trackPose();
     }
@@ -155,8 +164,6 @@ public class DriveSubsystem extends SubsystemBase {
       Logger.recordOutput("Vision/Pose", pose);
       Logger.recordOutput("Vision/Latency", latency);
     }
-    SmartDashboard.putBoolean("NavX Connected", m_gyro.isConnected());
-    SmartDashboard.putNumber("NavX Reading", m_gyro.getAngle());
   }
 
   /**
@@ -187,6 +194,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void resetGyro() {
     m_gyro.reset();
+    resetTargetHeading();
   }
 
   public SwerveModuleState[] getSwerveModuleStates() {
@@ -280,6 +288,12 @@ public class DriveSubsystem extends SubsystemBase {
     double xSpeedDelivered = xSpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double ySpeedDelivered = ySpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed;
+    
+    if (rotDelivered == 0) {
+      rotDelivered = headingController.calculate(Math.toRadians(-m_gyro.getAngle())) + headingController.getSetpoint().velocity;
+    } else {
+      resetTargetHeading();
+    }
 
     var swerveModuleStates =
         DriveConstants.kDriveKinematics.toSwerveModuleStates(
@@ -378,5 +392,9 @@ public class DriveSubsystem extends SubsystemBase {
     setModuleStates(
         DriveConstants.kDriveKinematics.toSwerveModuleStates(
             ChassisSpeeds.fromRobotRelativeSpeeds(0, 0, angle, new Rotation2d())));
+  }
+
+  public void resetTargetHeading() {
+    headingController.setGoal(new TrapezoidProfile.State(Math.toRadians(m_gyro.getAngle()), 0));
   }
 }

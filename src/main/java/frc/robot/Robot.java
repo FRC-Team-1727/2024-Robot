@@ -133,6 +133,7 @@ public class Robot extends LoggedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
+    robotContainer.resetHeadingControl();
   }
 
   /** This function is called periodically during operator control. */
