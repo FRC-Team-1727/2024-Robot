@@ -6,10 +6,6 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -25,6 +21,8 @@ import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.LimelightHelpers;
@@ -88,7 +86,8 @@ public class DriveSubsystem extends SubsystemBase {
   private double strafeValue = 0;
   private boolean strafing = false;
 
-  private ProfiledPIDController headingController = new ProfiledPIDController(5, 0, 0, new Constraints(2 * Math.PI, 4 * Math.PI));
+  private ProfiledPIDController headingController =
+      new ProfiledPIDController(5, 0, 0, new Constraints(2 * Math.PI, 4 * Math.PI));
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -99,15 +98,7 @@ public class DriveSubsystem extends SubsystemBase {
         this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE
         // ChassisSpeeds
-        new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in
-            // your Constants class
-            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-            new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
-            4.5, // Max module speed, in m/s
-            0.4, // Drive base radius in meters. Distance from robot center to furthest module.
-            new ReplanningConfig() // Default path replanning config. See the API for the options
-            // here
-            ),
+        DriveConstants.kConfig,
         () -> {
           // Boolean supplier that controls when the path will be mirrored for the red alliance
           // This will flip the path being followed to the red side of the field.
@@ -142,6 +133,9 @@ public class DriveSubsystem extends SubsystemBase {
 
     SmartDashboard.putBoolean("NavX Connected", m_gyro.isConnected());
     SmartDashboard.putNumber("NavX Reading", m_gyro.getAngle());
+
+    Logger.recordOutput("Drive/TargetHeading", headingController.getGoal().position);
+    Logger.recordOutput("Drive/CurrentHeading", Math.toRadians(-m_gyro.getAngle()));
 
     if (LimelightHelpers.getCurrentPipelineIndex("") == 0) {
       trackPose();
@@ -288,12 +282,15 @@ public class DriveSubsystem extends SubsystemBase {
     double xSpeedDelivered = xSpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double ySpeedDelivered = ySpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed;
-    
-    if (rotDelivered == 0) {
-      rotDelivered = headingController.calculate(Math.toRadians(-m_gyro.getAngle())) + headingController.getSetpoint().velocity;
-    } else {
-      resetTargetHeading();
-    }
+
+    // if (rotDelivered == 0) {
+    //   if (Math.abs(Math.toRadians(-m_gyro.getAngle()) - headingController.getGoal().position) >
+    // 0.3)
+    //     rotDelivered = headingController.calculate(Math.toRadians(-m_gyro.getAngle()));
+    //   // + headingController.getSetpoint().velocity;
+    // } else {
+    //   resetTargetHeading();
+    // }
 
     var swerveModuleStates =
         DriveConstants.kDriveKinematics.toSwerveModuleStates(
@@ -395,6 +392,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void resetTargetHeading() {
-    headingController.setGoal(new TrapezoidProfile.State(Math.toRadians(m_gyro.getAngle()), 0));
+    headingController.setGoal(new TrapezoidProfile.State(Math.toRadians(-m_gyro.getAngle()), 0));
+  }
+
+  public Command alignToAmp() {
+    return Commands.none();
+    // create path to approach to amp then PathfindThenFollowPath
   }
 }

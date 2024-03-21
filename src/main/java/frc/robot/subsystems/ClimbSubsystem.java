@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import java.util.function.DoubleSupplier;
@@ -84,6 +85,20 @@ public class ClimbSubsystem extends SubsystemBase {
           motor.set(speed.getAsDouble());
         },
         () -> motor.set(0));
+  }
+
+  public Command climb() {
+    return new FunctionalCommand(
+        () -> {},
+        () -> {
+          if (motor.getEncoder().getPosition() > kMinPosition) {
+            motor.set(-1);
+          } else {
+            motor.set(0);
+          }
+        },
+        (isFinished) -> motor.set(0),
+        () -> false);
   }
 
   @Override

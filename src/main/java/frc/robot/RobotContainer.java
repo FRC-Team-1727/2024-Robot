@@ -142,7 +142,8 @@ public class RobotContainer {
                 () -> m_driverController.leftTrigger().getAsBoolean(),
                 m_shooterSubsystem,
                 m_elevatorSubsystem,
-                m_indexerSubsystem));
+                m_indexerSubsystem,
+                m_ledSubsystem));
 
     // gyro reset
     m_driverController.b().onTrue(m_driveSubsystem.runOnce(() -> m_driveSubsystem.resetGyro()));
@@ -186,7 +187,8 @@ public class RobotContainer {
 
     // climb presets
     m_driverController.y().onTrue(m_climbSubsystem.upPosition());
-    m_driverController.a().whileTrue(m_climbSubsystem.moveSpeed(() -> -0.4));
+    m_driverController.a().whileTrue(m_climbSubsystem.climb());
+    // m_driverController.a().whileTrue(m_climbSubsystem.moveSpeed(() -> -0.4));
     // m_driverController.a().onTrue(m_climbSubsystem.downPosition());
 
     // manual up/down controls
@@ -251,6 +253,7 @@ public class RobotContainer {
   }
 
   public void resetHeadingControl() {
-    CommandScheduler.getInstance().schedule(m_driveSubsystem.runOnce(m_driveSubsystem::resetTargetHeading));
+    CommandScheduler.getInstance()
+        .schedule(m_driveSubsystem.runOnce(m_driveSubsystem::resetTargetHeading));
   }
 }

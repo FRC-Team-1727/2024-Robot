@@ -32,6 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
     controller.setFF(kAnglerFF);
     controller.setFeedbackDevice(angler.getAbsoluteEncoder(Type.kDutyCycle));
     controller.setOutputRange(-0.75, 0.75);
+    // controller.setOutputRange(0, 0);
     controller.setIZone(0.01);
     controller.setIMaxAccum(0.1, 0);
     flywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
@@ -54,7 +55,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void startShooter() {
     setSpeed(kShooterSpeed);
-    // flywheel.set(0.95);
+    flywheel.set(0.95);
   }
 
   public void stopShooter() {
@@ -127,7 +128,12 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void autoAim(double distance) {
-    setAngle(-0.0123551 * distance * distance + 0.110271 * distance + -0.0324104);
+    setAngle(
+        -0.000376091 * distance * distance * distance
+            + -0.00671801 * distance * distance
+            + 0.0890526 * distance
+            + -0.0111599
+            + 0.02);
   }
 
   public void logError() {

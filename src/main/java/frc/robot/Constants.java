@@ -1,5 +1,8 @@
 package frc.robot;
 
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -28,6 +31,16 @@ public final class Constants {
   }
 
   public static final class DriveConstants {
+    public static final HolonomicPathFollowerConfig kConfig =
+        new HolonomicPathFollowerConfig(
+            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+            new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
+            4.5, // Max module speed, in m/s
+            0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+            new ReplanningConfig() // Default path replanning config. See the API for the options
+            // here
+            );
+
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
     public static final double kMaxSpeedMetersPerSecond = 15;
@@ -191,7 +204,7 @@ public final class Constants {
     public static final double kSubAngle = 0.1;
     public static final double kAmpAngle = 0.48;
     public static final double kTrapAngle = 0.1;
-    public static final double kPodiumAngle = 0.215;
+    public static final double kPodiumAngle = 0.215 + 0.02;
   }
 
   public static final class IndexerConstants {
@@ -210,7 +223,7 @@ public final class Constants {
   public static final class ClimbConstants {
     public static final int kClimbPort = 13;
     public static final int kMaxPosition = 290;
-    public static final int kMinPosition = 40;
+    public static final int kMinPosition = 25;
     public static final double kP = 0.1;
     public static final double kI = 0;
     public static final double kD = 0;
