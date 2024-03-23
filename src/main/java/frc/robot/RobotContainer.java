@@ -240,7 +240,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "intake",
         new AutoIntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem)
-            .raceWith(Commands.waitSeconds(3)));
+            .raceWith(Commands.waitSeconds(5)));
     NamedCommands.registerCommand(
         "intake_only",
         new AutoIntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem));

@@ -133,7 +133,7 @@ public class ShooterSubsystem extends SubsystemBase {
             + -0.00671801 * distance * distance
             + 0.0890526 * distance
             + -0.0111599
-            + 0.02);
+            + 0.027); // 0.02
   }
 
   public void logError() {

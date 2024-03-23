@@ -37,14 +37,14 @@ public class TrapCommand extends Command {
     m_elevatorSubsystem.trapPosition();
     m_elevatorSubsystem.setBrake();
     m_shooterSubsystem.trapAngle();
-    m_shooterSubsystem.setPower(0.18);
+    m_shooterSubsystem.setPower(0.15); // .18
     m_ledSubsystem.setMode(LEDMode.kRainbow);
   }
 
   @Override
   public void execute() {
     if (scoring.getAsBoolean()) {
-      m_indexerSubsystem.setUpperIndexer(0.2);
+      m_indexerSubsystem.setUpperIndexer(0.2); // .2
     } else {
       m_indexerSubsystem.setUpperIndexer(0);
     }
