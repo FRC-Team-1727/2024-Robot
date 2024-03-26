@@ -5,7 +5,7 @@
       "x": 1.4301601648330688,
       "y": 4.1052751541137695
     },
-    "rotation": 0.0
+    "rotation": -3.989825155226165e-18
   },
   "command": {
     "type": "sequential",
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "source_side.1"
+            "pathName": "disrupt2.1"
           }
         },
         {
@@ -58,9 +58,22 @@
                 }
               },
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "source_side.2"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "disrupt2.2"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "disrupt2.3"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -76,12 +89,6 @@
           "type": "named",
           "data": {
             "name": "shoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "angle_intake"
           }
         },
         {
@@ -97,34 +104,10 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "source_side.3"
+                  "pathName": "disrupt2.4"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "source_side.4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "aim"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "source_side.5"
           }
         }
       ]

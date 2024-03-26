@@ -60,6 +60,8 @@ public class RobotContainer {
     autoChooser.addOption("Five Note", new PathPlannerAuto("five_note"));
     autoChooser.addOption("Source Side", new PathPlannerAuto("source_side"));
     autoChooser.addOption("Aim Test", new PathPlannerAuto("aim_test"));
+    autoChooser.addOption("Disrupt", new PathPlannerAuto("disrupt"));
+    autoChooser.addOption("Disrupt2", new PathPlannerAuto("disrupt2"));
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
     // Configure the button bindings
@@ -240,7 +242,7 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "intake",
         new AutoIntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem)
-            .raceWith(Commands.waitSeconds(5)));
+            .raceWith(Commands.waitSeconds(3)));
     NamedCommands.registerCommand(
         "intake_only",
         new AutoIntakeCommand(m_intakeSubsystem, m_indexerSubsystem, m_elevatorSubsystem));
