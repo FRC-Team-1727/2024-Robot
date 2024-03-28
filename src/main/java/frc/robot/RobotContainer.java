@@ -107,12 +107,30 @@ public class RobotContainer {
         .and(() -> !DriverStation.isAutonomousEnabled())
         .onTrue(
             new IndexCommand(
-                m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem, m_ledSubsystem));
+                m_indexerSubsystem,
+                m_shooterSubsystem,
+                m_elevatorSubsystem,
+                m_intakeSubsystem,
+                m_ledSubsystem));
     m_driverController
         .rightTrigger()
         .onFalse(
             new IndexCommand(
-                    m_indexerSubsystem, m_shooterSubsystem, m_elevatorSubsystem, m_ledSubsystem)
+                    m_indexerSubsystem,
+                    m_shooterSubsystem,
+                    m_elevatorSubsystem,
+                    m_intakeSubsystem,
+                    m_ledSubsystem)
+                .onlyIf(m_indexerSubsystem::getLowerSensor));
+    m_driverController
+        .x()
+        .onFalse(
+            new IndexCommand(
+                    m_indexerSubsystem,
+                    m_shooterSubsystem,
+                    m_elevatorSubsystem,
+                    m_intakeSubsystem,
+                    m_ledSubsystem)
                 .onlyIf(m_indexerSubsystem::getLowerSensor));
     // speaker aiming
     m_driverController
@@ -145,7 +163,12 @@ public class RobotContainer {
                 m_shooterSubsystem,
                 m_elevatorSubsystem,
                 m_indexerSubsystem,
+                m_driveSubsystem,
                 m_ledSubsystem));
+    // m_driverController
+    //     .rightBumper()
+    //     .and(m_driverController.leftBumper().negate())
+    //     .whileTrue(new AmpAimCommand(m_driveSubsystem, m_elevatorSubsystem, m_shooterSubsystem));
 
     // gyro reset
     m_driverController.b().onTrue(m_driveSubsystem.runOnce(() -> m_driveSubsystem.resetGyro()));
@@ -188,14 +211,14 @@ public class RobotContainer {
                 m_shooterSubsystem, m_elevatorSubsystem, m_indexerSubsystem, m_ledSubsystem));
 
     // climb presets
-    m_driverController.y().onTrue(m_climbSubsystem.upPosition());
-    m_driverController.a().whileTrue(m_climbSubsystem.climb());
+    // m_driverController.y().onTrue(m_climbSubsystem.upPosition());
+    // m_driverController.a().whileTrue(m_climbSubsystem.climb());
     // m_driverController.a().whileTrue(m_climbSubsystem.moveSpeed(() -> -0.4));
     // m_driverController.a().onTrue(m_climbSubsystem.downPosition());
 
     // manual up/down controls
-    // m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.005));
-    // m_driverController.a().onTrue(m_shooterSubsystem.increment(() -> -0.005));
+    m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.005));
+    m_driverController.a().onTrue(m_shooterSubsystem.increment(() -> -0.005));
     // m_driverController.y().whileTrue(m_elevatorSubsystem.increment(() -> 1));
     // m_driverController.a().whileTrue(m_elevatorSubsystem.increment(() -> -1));
 
@@ -249,9 +272,13 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "aim",
         new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem)
-            .raceWith(Commands.waitSeconds(0.75)));
+            .raceWith(Commands.waitSeconds(0.25)));
+    NamedCommands.registerCommand(
+        "aim_long",
+        new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem).raceWith(Commands.waitSeconds(1)));
     NamedCommands.registerCommand(
         "angle_intake", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.indexAngle()));
+    NamedCommands.registerCommand("aim_constant", new AimConstantCommand(m_shooterSubsystem));
   }
 
   public void resetHeadingControl() {

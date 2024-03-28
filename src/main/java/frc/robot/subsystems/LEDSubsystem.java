@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.simulation.AddressableLEDSim;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
 import java.util.Optional;
 
 public class LEDSubsystem extends SubsystemBase {
@@ -35,6 +36,12 @@ public class LEDSubsystem extends SubsystemBase {
     if (this.mode != mode) {
       this.mode = mode;
       animStart = 0;
+    }
+
+    if (mode == LEDMode.kIndexing) {
+      LimelightHelpers.setLEDMode_ForceBlink("limelight-main");
+    } else {
+      LimelightHelpers.setLEDMode_ForceOff("limelight-main");
     }
   }
 

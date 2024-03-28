@@ -5,6 +5,7 @@ import static frc.robot.Constants.AimingConstants.*;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
+import frc.robot.LimelightHelpers.RawFiducial;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.LEDMode;
@@ -40,19 +41,29 @@ public class AimCommand extends Command {
   @Override
   public void initialize() {
     m_shooterSubsystem.startShooter();
-    LimelightHelpers.setPipelineIndex("", 1);
+    // LimelightHelpers.setPipelineIndex("limelight-main", 1);
     rotationController = new PIDController(kAimingP, kAimingI, kAimingD);
   }
 
   @Override
   public void execute() {
-    if (LimelightHelpers.getTV("")) {
+    boolean hasTag = false;
+    if (LimelightHelpers.getTV("limelight-main")) {
       // distance =
       //     (kTargetHeight - kCameraHeight)
       //         / Math.tan(Math.toRadians(kCameraAngle + LimelightHelpers.getTY("")));
-      angle = LimelightHelpers.getTX("");
-      distance = LimelightHelpers.getTargetPose_RobotSpace("")[2];
-    } else {
+      // angle = LimelightHelpers.getTX("limelight-main");
+      //   distance = LimelightHelpers.getTargetPose_RobotSpace("limelight-main")[2];
+      for (RawFiducial f :
+          LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-main").rawFiducials) {
+        if (f.id == 4 || f.id == 7) {
+          angle = f.txnc;
+          distance = f.distToRobot;
+          hasTag = true;
+        }
+      }
+    }
+    if (!hasTag) {
       distance = 0;
       angle = 0;
     }
@@ -67,6 +78,8 @@ public class AimCommand extends Command {
     } else {
       m_shooterSubsystem.autoAim(distance);
     }
+
+    // m_shooterSubsystem.goToTestAngle();
 
     rotationController.setSetpoint(0);
     if (Math.abs(angle) > 2) {
@@ -101,7 +114,7 @@ public class AimCommand extends Command {
     m_driveSubsystem.stopAiming();
     m_indexerSubsystem.setUpperIndexer(0);
     m_indexerSubsystem.setLowerIndexer(0);
-    LimelightHelpers.setPipelineIndex("", 0);
+    LimelightHelpers.setPipelineIndex("limelight-main", 0);
     m_ledSubsystem.setMode(LEDMode.kEmpty);
   }
 }

@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.LEDMode;
@@ -13,6 +14,7 @@ public class AmpCommand extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
   private final ElevatorSubsystem m_elevatorSubsystem;
   private final IndexerSubsystem m_indexerSubsystem;
+  private final DriveSubsystem m_driveSubsystem;
   private final LEDSubsystem m_ledSubsystem;
   private final BooleanSupplier scoring;
 
@@ -21,10 +23,12 @@ public class AmpCommand extends Command {
       ShooterSubsystem shooter,
       ElevatorSubsystem elevator,
       IndexerSubsystem indexer,
+      DriveSubsystem drive,
       LEDSubsystem led) {
     m_shooterSubsystem = shooter;
     m_elevatorSubsystem = elevator;
     m_indexerSubsystem = indexer;
+    m_driveSubsystem = drive;
     m_ledSubsystem = led;
     this.scoring = scoring;
     addRequirements(shooter, elevator, indexer, led);
@@ -44,6 +48,8 @@ public class AmpCommand extends Command {
     } else {
       m_indexerSubsystem.setUpperIndexer(0);
     }
+
+    m_driveSubsystem.angleToAmp();
   }
 
   @Override
@@ -53,5 +59,6 @@ public class AmpCommand extends Command {
     m_shooterSubsystem.setPower(0);
     m_indexerSubsystem.setUpperIndexer(0);
     m_ledSubsystem.setMode(LEDMode.kEmpty);
+    m_driveSubsystem.stopAiming();
   }
 }

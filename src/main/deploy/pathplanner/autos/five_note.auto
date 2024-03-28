@@ -5,7 +5,7 @@
       "x": 1.456931233406067,
       "y": 7.021975517272949
     },
-    "rotation": 4.963838250772554e-16
+    "rotation": 3.5396466742463945e-21
   },
   "command": {
     "type": "sequential",
@@ -42,13 +42,26 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "intake"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "aim_constant"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -63,7 +76,7 @@
         {
           "type": "named",
           "data": {
-            "name": "aim"
+            "name": "aim_long"
           }
         },
         {
@@ -79,13 +92,26 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "intake"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "aim_constant"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -129,13 +155,26 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "intake"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "aim_constant"
+                      }
+                    }
+                  ]
                 }
               },
               {

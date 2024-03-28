@@ -18,6 +18,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private final CANSparkFlex flywheel = new CANSparkFlex(kFlywheelPort, MotorType.kBrushless);
   private final CANSparkMax angler = new CANSparkMax(kAnglerPort, MotorType.kBrushless);
   private double angle;
+  private double testAngle;
 
   public ShooterSubsystem() {
     SparkPIDController controller = flywheel.getPIDController();
@@ -101,6 +102,10 @@ public class ShooterSubsystem extends SubsystemBase {
     setAngle(kPodiumAngle);
   }
 
+  public void ampAimAngle() {
+    setAngle(kAmpAimAngle);
+  }
+
   public void scoreAmp() {
     flywheel.set(kAmpSpeed);
   }
@@ -117,7 +122,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public Command increment(DoubleSupplier val) {
     return runOnce(
         () -> {
-          setAngle(angle + val.getAsDouble());
+          // setAngle(angle + val.getAsDouble());
+          testAngle += val.getAsDouble();
         });
   }
 
@@ -129,11 +135,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void autoAim(double distance) {
     setAngle(
-        -0.000376091 * distance * distance * distance
-            + -0.00671801 * distance * distance
-            + 0.0890526 * distance
-            + -0.0111599
-            + 0.027); // 0.02
+        0.00788115 * distance * distance * distance
+            + -0.100033 * distance * distance
+            + 0.442847 * distance
+            + -0.45554);
   }
 
   public void logError() {
@@ -141,13 +146,17 @@ public class ShooterSubsystem extends SubsystemBase {
     Logger.recordOutput("Shooter/AngleError", angle - angler.getAbsoluteEncoder().getPosition());
   }
 
+  public void goToTestAngle() {
+    setAngle(testAngle);
+  }
+
   @Override
   public void periodic() {
     // Logger.recordOutput("Shooter/CurrentVelocity", flywheel.getEncoder().getVelocity());
     Logger.recordOutput("Shooter/TargetAngle", angle);
 
-    // Logger.recordOutput(
-    //     "Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
+    Logger.recordOutput(
+        "Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
     // Logger.recordOutput("Shooter/AnglerPower", angler.getAppliedOutput());
   }
 }

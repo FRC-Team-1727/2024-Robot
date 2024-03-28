@@ -200,11 +200,12 @@ public final class Constants {
     public static final double kAngleTolerance = 0.01;
     public static final int kVelocityTolerance = 500;
 
-    public static final double kIndexAngle = 0.14;
-    public static final double kSubAngle = 0.1;
+    public static final double kIndexAngle = 0.154;
+    public static final double kSubAngle = 0.13;
     public static final double kAmpAngle = 0.48;
-    public static final double kTrapAngle = 0.1;
+    public static final double kTrapAngle = 0.13;
     public static final double kPodiumAngle = 0.215 + 0.035; // +.02
+    public static final double kAmpAimAngle = 0.479;
   }
 
   public static final class IndexerConstants {

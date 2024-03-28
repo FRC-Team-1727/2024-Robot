@@ -5,7 +5,7 @@
       "x": 1.345005989074707,
       "y": 5.567087650299072
     },
-    "rotation": -3.843742571688299e-32
+    "rotation": 9.122902050648412e-33
   },
   "command": {
     "type": "sequential",
@@ -48,13 +48,26 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "intake"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "aim_constant"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -85,19 +98,32 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "aim_constant"
+                      }
+                    }
+                  ]
+                }
+              },
               {
                 "type": "path",
                 "data": {
                   "pathName": "four_note.3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intake"
                 }
               }
             ]
@@ -122,9 +148,28 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "aim_constant"
+                      }
+                    }
+                  ]
+                }
+              },
               {
                 "type": "sequential",
                 "data": {
@@ -136,12 +181,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intake"
                 }
               }
             ]
@@ -157,6 +196,44 @@
           "type": "named",
           "data": {
             "name": "shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stop_shooter"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "four_note.5"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "four_note.6"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       ]

@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -19,6 +21,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,7 +29,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.LimelightHelpers;
-import frc.robot.LimelightHelpers.LimelightResults;
+import frc.robot.LimelightHelpers.PoseEstimate;
+import frc.robot.LimelightHelpers.RawFiducial;
 import frc.utils.SwerveUtils;
 import org.littletonrobotics.junction.Logger;
 
@@ -85,9 +89,12 @@ public class DriveSubsystem extends SubsystemBase {
   private boolean aiming = false;
   private double strafeValue = 0;
   private boolean strafing = false;
+  private boolean manualAmpMode;
 
   private ProfiledPIDController headingController =
       new ProfiledPIDController(5, 0, 0, new Constraints(2 * Math.PI, 4 * Math.PI));
+
+  private PIDController ampController = new PIDController(0.01, 0.03, 0.001);
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -143,20 +150,22 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void trackPose() {
-    LimelightResults results = LimelightHelpers.getLatestResults("");
-    if (results.targetingResults.targets_Fiducials.length > 0
-        && LimelightHelpers.getTA("") > 0.285) {
-      Pose2d pose = results.targetingResults.getBotPose2d_wpiBlue();
-      double latency =
-          results.targetingResults.latency_capture
-              + results.targetingResults.latency_jsonParse
-              + results.targetingResults.latency_pipeline;
+    PoseEstimate poseEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-main");
+    Logger.recordOutput("Vision/TagCount", poseEstimate.tagCount);
+    if (poseEstimate.tagCount > 0 && LimelightHelpers.getTA("limelight-main") > 0.285) {
+      Pose2d pose = poseEstimate.pose;
       if (m_poseEstimator.getEstimatedPosition().getTranslation().getDistance(pose.getTranslation())
           < 1) {
-        addVisionMeasurement(pose, Timer.getFPGATimestamp() - latency / 1000.0);
+        addVisionMeasurement(pose, Timer.getFPGATimestamp() - poseEstimate.latency / 1000.0);
       }
       Logger.recordOutput("Vision/Pose", pose);
-      Logger.recordOutput("Vision/Latency", latency);
+      Logger.recordOutput("Vision/Latency", poseEstimate.latency);
+    }
+
+    for (RawFiducial f : poseEstimate.rawFiducials) {
+      if (f.id == 7) {
+        Logger.recordOutput("Aiming/RawDistance", f.distToRobot);
+      }
     }
   }
 
@@ -224,9 +233,8 @@ public class DriveSubsystem extends SubsystemBase {
       rot = aimValue;
     }
 
-    if (strafing) {
-      fieldRelative = false;
-      ySpeed = strafeValue;
+    if (xSpeed == 0 && strafing) {
+      xSpeed = strafeValue;
     }
 
     if (rateLimit) {
@@ -398,5 +406,31 @@ public class DriveSubsystem extends SubsystemBase {
   public Command alignToAmp() {
     return Commands.none();
     // create path to approach to amp then PathfindThenFollowPath
+  }
+
+  public void setManualAmpMode(boolean value) {
+    manualAmpMode = value;
+  }
+
+  public boolean getManualAmpMode() {
+    return manualAmpMode;
+  }
+
+  public void angleToAmp() {
+    if (!aiming) ampController.reset();
+    int targetAngle =
+        DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red
+            ? 90
+            : -90;
+    ampController.setSetpoint(targetAngle);
+    setAimValue(MathUtil.clamp(ampController.calculate(-getGyroWrapped()), -0.85, 0.85));
+    if (Math.abs(ampController.getPositionError()) > 5) ampController.setIntegratorRange(0, 0);
+    else ampController.setIntegratorRange(-1, 1);
+  }
+
+  private double getGyroWrapped() {
+    double angle = m_gyro.getAngle() % 360;
+    if (Math.abs(angle) > 180) angle = -Math.signum(angle) * 360 + angle;
+    return angle;
   }
 }

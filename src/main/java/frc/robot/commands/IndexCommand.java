@@ -5,6 +5,7 @@ import static frc.robot.Constants.IndexerConstants.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDMode;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -13,18 +14,21 @@ public class IndexCommand extends Command {
   private final IndexerSubsystem m_indexerSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
   private final ElevatorSubsystem m_elevatorSubsystem;
+  private final IntakeSubsystem m_intakeSubsystem;
   private final LEDSubsystem m_ledSubsystem;
 
   public IndexCommand(
       IndexerSubsystem indexer,
       ShooterSubsystem shooter,
       ElevatorSubsystem elevator,
+      IntakeSubsystem intake,
       LEDSubsystem led) {
     m_indexerSubsystem = indexer;
     m_shooterSubsystem = shooter;
     m_elevatorSubsystem = elevator;
+    m_intakeSubsystem = intake;
     m_ledSubsystem = led;
-    addRequirements(indexer, shooter, elevator, led);
+    addRequirements(indexer, shooter, elevator, intake, led);
   }
 
   @Override
@@ -33,6 +37,7 @@ public class IndexCommand extends Command {
     m_elevatorSubsystem.defaultPosition();
     System.out.println("tele indexing");
     m_ledSubsystem.setMode(LEDMode.kIndexing);
+    m_intakeSubsystem.setSpeed(0.3);
   }
 
   @Override
@@ -63,8 +68,10 @@ public class IndexCommand extends Command {
     System.out.println("stop tele indexing");
     if (interrupted) {
       m_ledSubsystem.setMode(LEDMode.kEmpty);
+      m_intakeSubsystem.setSpeed(0);
     } else {
       m_ledSubsystem.setMode(LEDMode.kIndexed);
+      m_intakeSubsystem.setSpeed(-0.3);
     }
   }
 }

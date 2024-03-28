@@ -5,7 +5,7 @@
       "x": 1.4301601648330688,
       "y": 4.1052751541137695
     },
-    "rotation": -4.562125004005113e-18
+    "rotation": -7.786030047272784e-21
   },
   "command": {
     "type": "sequential",
@@ -48,13 +48,26 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "intake"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "aim_constant"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -92,19 +105,51 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "angle_intake"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "intake"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "aim_constant"
+                      }
+                    }
+                  ]
                 }
               },
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "disrupt.4"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "disrupt.4"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "disrupt.5"
+                      }
+                    }
+                  ]
                 }
               }
             ]
