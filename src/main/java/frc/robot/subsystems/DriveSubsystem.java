@@ -420,17 +420,19 @@ public class DriveSubsystem extends SubsystemBase {
     if (!aiming) ampController.reset();
     int targetAngle =
         DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red
-            ? 90
-            : -90;
-    ampController.setSetpoint(targetAngle);
-    setAimValue(MathUtil.clamp(ampController.calculate(-getGyroWrapped()), -0.85, 0.85));
+            ? -90
+            : 90;
+    ampController.setSetpoint(0);
+    setAimValue(MathUtil.clamp(ampController.calculate(getMinAngle(targetAngle)), -0.85, 0.85));
     if (Math.abs(ampController.getPositionError()) > 5) ampController.setIntegratorRange(0, 0);
     else ampController.setIntegratorRange(-1, 1);
   }
 
-  private double getGyroWrapped() {
-    double angle = m_gyro.getAngle() % 360;
-    if (Math.abs(angle) > 180) angle = -Math.signum(angle) * 360 + angle;
+  private double getMinAngle(double target) {
+    double angle = target - getHeading();
+    if (angle > 180 || angle < -180) {
+      angle = -1 * Math.signum(angle) * (360 - Math.abs(angle));
+    }
     return angle;
   }
 }

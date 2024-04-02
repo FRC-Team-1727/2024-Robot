@@ -150,6 +150,15 @@ public class ShooterSubsystem extends SubsystemBase {
     setAngle(testAngle);
   }
 
+  public void passMode() {
+    setPower(kPassSpeed);
+    setAngle(kPassAngle);
+  }
+
+  public boolean readyToPass() {
+    return Math.abs(flywheel.getEncoder().getVelocity() - kPassSpeed * 6000) < 100;
+  }
+
   @Override
   public void periodic() {
     // Logger.recordOutput("Shooter/CurrentVelocity", flywheel.getEncoder().getVelocity());

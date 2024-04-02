@@ -210,15 +210,24 @@ public class RobotContainer {
             new SourceCommand(
                 m_shooterSubsystem, m_elevatorSubsystem, m_indexerSubsystem, m_ledSubsystem));
 
+    // passing
+    m_driverController
+        .leftTrigger()
+        .and(m_driverController.rightTrigger().negate())
+        .and(m_driverController.rightBumper().negate())
+        .and(m_driverController.leftBumper().negate())
+        .and(new Trigger(m_elevatorSubsystem::isTrapping).negate())
+        .whileTrue(new PassCommand(m_shooterSubsystem, m_indexerSubsystem, m_ledSubsystem));
+
     // climb presets
-    // m_driverController.y().onTrue(m_climbSubsystem.upPosition());
-    // m_driverController.a().whileTrue(m_climbSubsystem.climb());
+    m_driverController.y().onTrue(m_climbSubsystem.upPosition());
+    m_driverController.a().whileTrue(m_climbSubsystem.climb());
     // m_driverController.a().whileTrue(m_climbSubsystem.moveSpeed(() -> -0.4));
     // m_driverController.a().onTrue(m_climbSubsystem.downPosition());
 
     // manual up/down controls
-    m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.005));
-    m_driverController.a().onTrue(m_shooterSubsystem.increment(() -> -0.005));
+    // m_driverController.y().onTrue(m_shooterSubsystem.increment(() -> 0.005));
+    // m_driverController.a().onTrue(m_shooterSubsystem.increment(() -> -0.005));
     // m_driverController.y().whileTrue(m_elevatorSubsystem.increment(() -> 1));
     // m_driverController.a().whileTrue(m_elevatorSubsystem.increment(() -> -1));
 

@@ -15,6 +15,7 @@ import org.littletonrobotics.junction.Logger;
 
 public class ElevatorSubsystem extends SubsystemBase {
   private double position = 0;
+  private boolean trapping = false;
   private final CANSparkMax[] motors =
       new CANSparkMax[] {
         new CANSparkMax(kElevatorPorts[0], MotorType.kBrushless),
@@ -97,6 +98,14 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void setBrake() {
     motors[0].setIdleMode(IdleMode.kBrake);
     motors[1].setIdleMode(IdleMode.kBrake);
+  }
+
+  public void setTrapping(boolean value) {
+    trapping = value;
+  }
+
+  public boolean isTrapping() {
+    return trapping;
   }
 
   @Override

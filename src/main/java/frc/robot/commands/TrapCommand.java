@@ -37,14 +37,15 @@ public class TrapCommand extends Command {
     m_elevatorSubsystem.trapPosition();
     m_elevatorSubsystem.setBrake();
     m_shooterSubsystem.trapAngle();
-    // m_shooterSubsystem.setPower(0.15); // .18
+    m_shooterSubsystem.setPower(0.18); // .18
     m_ledSubsystem.setMode(LEDMode.kRainbow);
+    m_elevatorSubsystem.setTrapping(true);
   }
 
   @Override
   public void execute() {
     if (scoring.getAsBoolean()) {
-      m_indexerSubsystem.setUpperIndexer(0.2); // .2
+      m_indexerSubsystem.setUpperIndexer(0.7); // .2
     } else {
       m_indexerSubsystem.setUpperIndexer(0);
     }
@@ -60,5 +61,6 @@ public class TrapCommand extends Command {
     m_shooterSubsystem.indexAngle();
     m_shooterSubsystem.setPower(0);
     m_indexerSubsystem.setUpperIndexer(0);
+    m_elevatorSubsystem.setTrapping(false);
   }
 }

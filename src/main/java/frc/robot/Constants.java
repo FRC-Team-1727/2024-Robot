@@ -173,7 +173,7 @@ public final class Constants {
     public static final double kD = 0.1;
     public static final double kFF = 0;
 
-    public static final int kMaxPosition = 74;
+    public static final int kMaxPosition = 76; // 74;
     public static final double kElevatorSpeed = 5;
     public static final double kAmpPosition = 40;
     public static final double kPodiumPosition = 70; // 60;
@@ -196,16 +196,18 @@ public final class Constants {
 
     public static final int kShooterSpeed = 6000;
     public static final double kAmpSpeed = 0.25;
+    public static final double kPassSpeed = 0.75;
 
     public static final double kAngleTolerance = 0.01;
     public static final int kVelocityTolerance = 500;
 
     public static final double kIndexAngle = 0.154;
     public static final double kSubAngle = 0.13;
-    public static final double kAmpAngle = 0.48;
+    public static final double kAmpAngle = 0.52;
     public static final double kTrapAngle = 0.13;
     public static final double kPodiumAngle = 0.215 + 0.035; // +.02
     public static final double kAmpAimAngle = 0.479;
+    public static final double kPassAngle = kIndexAngle;
   }
 
   public static final class IndexerConstants {
