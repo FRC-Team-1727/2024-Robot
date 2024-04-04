@@ -26,8 +26,8 @@ public class PassCommand extends Command {
   @Override
   public void execute() {
     if (m_shooterSubsystem.readyToPass()) {
-      m_indexerSubsystem.setUpperIndexer(0.25);
-      m_indexerSubsystem.setLowerIndexer(0.25);
+      m_indexerSubsystem.setUpperIndexer(0.75);
+      m_indexerSubsystem.setLowerIndexer(0.75);
     }
   }
 

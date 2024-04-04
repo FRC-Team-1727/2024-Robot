@@ -94,7 +94,7 @@ public class ClimbSubsystem extends SubsystemBase {
           if (motor.getEncoder().getPosition() > kMinPosition) {
             motor.set(-1);
           } else {
-            motor.set(0);
+            motor.set(-0.25);
           }
         },
         (isFinished) -> motor.set(0),
