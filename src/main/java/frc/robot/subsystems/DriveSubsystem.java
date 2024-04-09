@@ -144,15 +144,20 @@ public class DriveSubsystem extends SubsystemBase {
     Logger.recordOutput("Drive/TargetHeading", headingController.getGoal().position);
     Logger.recordOutput("Drive/CurrentHeading", Math.toRadians(-m_gyro.getAngle()));
 
-    if (LimelightHelpers.getCurrentPipelineIndex("") == 0) {
-      trackPose();
-    }
+    trackPose();
   }
 
   public void trackPose() {
-    PoseEstimate poseEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-main");
+    double heading = -m_gyro.getAngle();
+    if (DriverStation.getAlliance().isPresent()
+        && DriverStation.getAlliance().get() == Alliance.Red) {
+      heading += 180;
+    }
+    LimelightHelpers.SetRobotOrientation("", heading, 0, 0, 0, 0, 0);
+    PoseEstimate poseEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("");
     Logger.recordOutput("Vision/TagCount", poseEstimate.tagCount);
-    if (poseEstimate.tagCount > 0 && LimelightHelpers.getTA("limelight-main") > 0.285) {
+    if (poseEstimate.tagCount > 0
+        && Math.abs(m_gyro.getRate()) < 720 /*&& LimelightHelpers.getTA("") > 0.285*/) {
       Pose2d pose = poseEstimate.pose;
       if (m_poseEstimator.getEstimatedPosition().getTranslation().getDistance(pose.getTranslation())
           < 1) {

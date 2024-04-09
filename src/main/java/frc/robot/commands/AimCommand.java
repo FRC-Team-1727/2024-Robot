@@ -41,21 +41,14 @@ public class AimCommand extends Command {
   @Override
   public void initialize() {
     m_shooterSubsystem.startShooter();
-    // LimelightHelpers.setPipelineIndex("limelight-main", 1);
     rotationController = new PIDController(kAimingP, kAimingI, kAimingD);
   }
 
   @Override
   public void execute() {
     boolean hasTag = false;
-    if (LimelightHelpers.getTV("limelight-main")) {
-      // distance =
-      //     (kTargetHeight - kCameraHeight)
-      //         / Math.tan(Math.toRadians(kCameraAngle + LimelightHelpers.getTY("")));
-      // angle = LimelightHelpers.getTX("limelight-main");
-      //   distance = LimelightHelpers.getTargetPose_RobotSpace("limelight-main")[2];
-      for (RawFiducial f :
-          LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-main").rawFiducials) {
+    if (LimelightHelpers.getTV("")) {
+      for (RawFiducial f : LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("").rawFiducials) {
         if (f.id == 4 || f.id == 7) {
           angle = f.txnc;
           distance = f.distToRobot;
@@ -114,7 +107,6 @@ public class AimCommand extends Command {
     m_driveSubsystem.stopAiming();
     m_indexerSubsystem.setUpperIndexer(0);
     m_indexerSubsystem.setLowerIndexer(0);
-    LimelightHelpers.setPipelineIndex("limelight-main", 0);
     m_ledSubsystem.setMode(LEDMode.kEmpty);
   }
 }

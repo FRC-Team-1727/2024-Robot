@@ -166,10 +166,6 @@ public class RobotContainer {
                 m_indexerSubsystem,
                 m_driveSubsystem,
                 m_ledSubsystem));
-    // m_driverController
-    //     .rightBumper()
-    //     .and(m_driverController.leftBumper().negate())
-    //     .whileTrue(new AmpAimCommand(m_driveSubsystem, m_elevatorSubsystem, m_shooterSubsystem));
 
     // gyro reset
     m_driverController.b().onTrue(m_driveSubsystem.runOnce(() -> m_driveSubsystem.resetGyro()));

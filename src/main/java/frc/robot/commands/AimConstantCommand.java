@@ -17,9 +17,8 @@ public class AimConstantCommand extends Command {
   @Override
   public void execute() {
     boolean hasTag = false;
-    if (LimelightHelpers.getTV("limelight-main")) {
-      for (RawFiducial f :
-          LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-main").rawFiducials) {
+    if (LimelightHelpers.getTV("")) {
+      for (RawFiducial f : LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("").rawFiducials) {
         if (f.id == 4 || f.id == 7) {
           distance = f.distToRobot;
           hasTag = true;
