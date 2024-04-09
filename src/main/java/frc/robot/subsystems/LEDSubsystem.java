@@ -22,7 +22,7 @@ public class LEDSubsystem extends SubsystemBase {
     animStart = 0;
     mode = LEDMode.kDefault;
 
-    led = new AddressableLED(0);
+    led = new AddressableLED(1);
     buffer = new AddressableLEDBuffer(19);
     led.setLength(buffer.getLength());
     led.setData(buffer);

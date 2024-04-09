@@ -5,7 +5,7 @@
       "x": 1.345005989074707,
       "y": 5.567087650299072
     },
-    "rotation": 9.122902050648412e-33
+    "rotation": 2.132909113673483e-32
   },
   "command": {
     "type": "sequential",
@@ -205,35 +205,47 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "intake"
-                }
-              },
               {
                 "type": "sequential",
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "four_note.5"
+                        "name": "intake"
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "four_note.6"
+                        "name": "aim_constant"
                       }
                     }
                   ]
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "four_note.5"
+                }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "aim"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
           }
         }
       ]

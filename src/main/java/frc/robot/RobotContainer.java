@@ -62,6 +62,7 @@ public class RobotContainer {
     autoChooser.addOption("Aim Test", new PathPlannerAuto("aim_test"));
     autoChooser.addOption("Disrupt", new PathPlannerAuto("disrupt"));
     autoChooser.addOption("Disrupt2", new PathPlannerAuto("disrupt2"));
+    autoChooser.addOption("Secret Sauce", new PathPlannerAuto("secret_sauce"));
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
     // Configure the button bindings
