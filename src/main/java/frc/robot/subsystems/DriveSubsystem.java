@@ -434,7 +434,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   private double getMinAngle(double target) {
-    double angle = target - getHeading();
+    double angle = target - getHeading() % 360;
     if (angle > 180 || angle < -180) {
       angle = -1 * Math.signum(angle) * (360 - Math.abs(angle));
     }

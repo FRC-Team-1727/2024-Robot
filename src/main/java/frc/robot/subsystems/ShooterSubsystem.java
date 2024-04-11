@@ -138,7 +138,9 @@ public class ShooterSubsystem extends SubsystemBase {
         0.00788115 * distance * distance * distance
             + -0.100033 * distance * distance
             + 0.442847 * distance
-            + -0.45554);
+            + -0.45554
+            + -0.02 // OFFSET FOR NEW PID
+        );
   }
 
   public void logError() {
@@ -162,10 +164,11 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Logger.recordOutput("Shooter/CurrentVelocity", flywheel.getEncoder().getVelocity());
-    Logger.recordOutput("Shooter/TargetAngle", angle);
+    // Logger.recordOutput("Shooter/TargetAngle", angle);
 
-    Logger.recordOutput(
-        "Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
+    // Logger.recordOutput(
+    //     "Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
+    // Logger.recordOutput("Shooter/AngleError", angle - angler.getAbsoluteEncoder().getPosition());
     // Logger.recordOutput("Shooter/AnglerPower", angler.getAppliedOutput());
   }
 }

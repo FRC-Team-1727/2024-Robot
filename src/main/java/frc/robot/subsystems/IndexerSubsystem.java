@@ -22,14 +22,14 @@ public class IndexerSubsystem extends SubsystemBase {
   private DigitalInput upperSensor = new DigitalInput(kUpperSensorPort);
 
   public IndexerSubsystem() {
-    lowerIndexer.setInverted(true);
+    lowerIndexer.setInverted(false);
     lowerIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
     upperIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
     lowerIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
     upperIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
     lowerIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
     upperIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
-    lowerIndexer.setSmartCurrentLimit(50);
+    lowerIndexer.setSmartCurrentLimit(40);
     upperIndexer.setSmartCurrentLimit(40);
     SparkPIDController controller = lowerIndexer.getPIDController();
     controller.setP(kP);
