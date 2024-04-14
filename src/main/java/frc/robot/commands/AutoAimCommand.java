@@ -32,7 +32,7 @@ public class AutoAimCommand extends Command {
   public void execute() {
     boolean hasTag = false;
     if (LimelightHelpers.getTV("")) {
-      for (RawFiducial f : LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("").rawFiducials) {
+      for (RawFiducial f : LimelightHelpers.getBotPoseEstimate_wpiBlue("").rawFiducials) {
         if (f.id == 4 || f.id == 7) {
           angle = f.txnc;
           distance = f.distToRobot;

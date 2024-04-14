@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.IntakeConstants.*;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.CANSparkMax;
@@ -15,6 +16,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intake.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
     intake.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
     intake.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
+    intake.setIdleMode(IdleMode.kCoast);
     // intake.setSmartCurrentLimit(40);
     intake.burnFlash();
   }
