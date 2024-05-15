@@ -23,10 +23,10 @@ public class IndexerSubsystem extends SubsystemBase {
 
   public IndexerSubsystem() {
     lowerIndexer.setInverted(false);
-    lowerIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
-    upperIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
-    lowerIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
-    upperIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+    lowerIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 500);
+    upperIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 500);
+    lowerIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500);
+    upperIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500);
     lowerIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
     upperIndexer.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
     lowerIndexer.setSmartCurrentLimit(40);

@@ -5,7 +5,7 @@
       "x": 1.4301601648330688,
       "y": 4.1052751541137695
     },
-    "rotation": 0.0
+    "rotation": -1.4112015848475053e-20
   },
   "command": {
     "type": "sequential",
@@ -85,28 +85,48 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "intake"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "aim_constant"
+                      }
+                    }
+                  ]
                 }
               },
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "source_side.3"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "source_side.3"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "source_side.4"
+                      }
+                    }
+                  ]
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "source_side.4"
           }
         },
         {
@@ -122,9 +142,66 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "source_side.5"
+            "name": "angle_intake"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "intake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "aim_constant"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "source_side.5"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "source_side.6"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "aim"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
           }
         }
       ]

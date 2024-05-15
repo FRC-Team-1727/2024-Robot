@@ -36,8 +36,8 @@ public class ElevatorSubsystem extends SubsystemBase {
       m.setIdleMode(IdleMode.kCoast);
       // m.setSmartCurrentLimit(40);
       m.burnFlash();
-      m.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
-      m.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+      m.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 500);
+      m.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500);
       m.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
     }
   }

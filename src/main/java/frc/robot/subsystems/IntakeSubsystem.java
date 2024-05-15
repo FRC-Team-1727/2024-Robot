@@ -13,8 +13,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
     intake.setInverted(false);
-    intake.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
-    intake.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+    intake.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 500);
+    intake.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500);
     intake.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
     intake.setIdleMode(IdleMode.kCoast);
     // intake.setSmartCurrentLimit(40);

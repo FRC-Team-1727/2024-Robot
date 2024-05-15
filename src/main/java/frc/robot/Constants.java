@@ -205,7 +205,7 @@ public final class Constants {
     public static final double kSubAngle = 0.13;
     public static final double kAmpAngle = 0.52;
     public static final double kTrapAngle = 0.13;
-    public static final double kPodiumAngle = 0.215 + 0.035; // +.02
+    public static final double kPodiumAngle = 0.215 + 0.035 - 0.0195; // +.02
     public static final double kAmpAimAngle = 0.479;
     public static final double kPassAngle = kIndexAngle;
   }

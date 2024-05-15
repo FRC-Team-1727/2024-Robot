@@ -98,11 +98,15 @@ public class RobotContainer {
         .rightTrigger()
         .whileTrue(
             new IntakeCommand(
-                m_intakeSubsystem,
-                m_indexerSubsystem,
-                m_shooterSubsystem,
-                m_elevatorSubsystem,
-                m_ledSubsystem));
+                    m_intakeSubsystem,
+                    m_indexerSubsystem,
+                    m_shooterSubsystem,
+                    m_elevatorSubsystem,
+                    m_ledSubsystem)
+                .onlyIf(
+                    () ->
+                        m_indexerSubsystem.getLowerSensor()
+                            || !m_indexerSubsystem.getUpperSensor()));
     // indexing
     new Trigger(m_indexerSubsystem::getLowerSensor)
         .and(() -> !DriverStation.isAutonomousEnabled())
@@ -282,6 +286,10 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "aim_long",
         new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem).raceWith(Commands.waitSeconds(1)));
+    NamedCommands.registerCommand(
+        "aim_mid",
+        new AutoAimCommand(m_driveSubsystem, m_shooterSubsystem)
+            .raceWith(Commands.waitSeconds(0.5)));
     NamedCommands.registerCommand(
         "angle_intake", m_shooterSubsystem.runOnce(() -> m_shooterSubsystem.indexAngle()));
     NamedCommands.registerCommand("aim_constant", new AimConstantCommand(m_shooterSubsystem));

@@ -36,8 +36,8 @@ public class ShooterSubsystem extends SubsystemBase {
     // controller.setOutputRange(0, 0);
     controller.setIZone(0.01);
     controller.setIMaxAccum(0.1, 0);
-    flywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
-    flywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+    flywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 500);
+    flywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500);
     flywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
     angler.setSmartCurrentLimit(40);
     flywheel.setSmartCurrentLimit(60);
@@ -166,8 +166,8 @@ public class ShooterSubsystem extends SubsystemBase {
     // Logger.recordOutput("Shooter/CurrentVelocity", flywheel.getEncoder().getVelocity());
     // Logger.recordOutput("Shooter/TargetAngle", angle);
 
-    // Logger.recordOutput(
-    //     "Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
+    Logger.recordOutput(
+        "Shooter/CurrentAngle", angler.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
     // Logger.recordOutput("Shooter/AngleError", angle - angler.getAbsoluteEncoder().getPosition());
     // Logger.recordOutput("Shooter/AnglerPower", angler.getAppliedOutput());
   }
