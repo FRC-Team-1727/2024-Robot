@@ -71,7 +71,7 @@ public class IndexCommand extends Command {
       m_intakeSubsystem.setSpeed(0);
     } else {
       m_ledSubsystem.setMode(LEDMode.kIndexed);
-      m_intakeSubsystem.setSpeed(-0.3);
+      // m_intakeSubsystem.setSpeed(-0.3);
     }
   }
 }

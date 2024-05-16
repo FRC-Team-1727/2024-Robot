@@ -74,13 +74,16 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () ->
-                m_driveSubsystem.drive(
+                m_driveSubsystem.demoDrive(
                     -MathUtil.applyDeadband(
                         m_driverController.getRightY(), OIConstants.kDriveDeadband),
                     -MathUtil.applyDeadband(
                         m_driverController.getRightX(), OIConstants.kDriveDeadband),
                     -MathUtil.applyDeadband(
                         m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+                    -MathUtil.applyDeadband(m_secondController.getRightY(), 0.1),
+                    -MathUtil.applyDeadband(m_secondController.getRightX(), 0.1),
+                    -MathUtil.applyDeadband(m_secondController.getLeftX(), 0.1),
                     true,
                     false),
             m_driveSubsystem));
@@ -147,6 +150,17 @@ public class RobotContainer {
                 m_shooterSubsystem,
                 m_indexerSubsystem,
                 () -> m_driverController.leftTrigger().getAsBoolean(),
+                m_ledSubsystem));
+
+    // speaker aiming
+    m_secondController
+        .leftBumper()
+        .whileTrue(
+            new DemoShootCommand(
+                m_driveSubsystem,
+                m_shooterSubsystem,
+                m_indexerSubsystem,
+                () -> m_secondController.leftTrigger().getAsBoolean(),
                 m_ledSubsystem));
     // podium shot
     m_driverController
@@ -232,11 +246,11 @@ public class RobotContainer {
     // m_driverController.y().whileTrue(m_elevatorSubsystem.increment(() -> 1));
     // m_driverController.a().whileTrue(m_elevatorSubsystem.increment(() -> -1));
 
-    // SECOND CONTROLLER CONTROLS
-    m_secondController.y().whileTrue(m_climbSubsystem.moveSpeed(() -> 1));
-    m_secondController.a().whileTrue(m_climbSubsystem.moveSpeed(() -> -0.4));
-    m_secondController.b().onTrue(m_climbSubsystem.zeroClimb());
-    m_secondController.x().whileTrue(m_elevatorSubsystem.zeroElevator());
+    // // SECOND CONTROLLER CONTROLS
+    // m_secondController.y().whileTrue(m_climbSubsystem.moveSpeed(() -> 1));
+    // m_secondController.a().whileTrue(m_climbSubsystem.moveSpeed(() -> -0.4));
+    // m_secondController.b().onTrue(m_climbSubsystem.zeroClimb());
+    // m_secondController.x().whileTrue(m_elevatorSubsystem.zeroElevator());
     // m_secondController.back().onTrue(m_ledSubsystem.setRandom());
   }
 

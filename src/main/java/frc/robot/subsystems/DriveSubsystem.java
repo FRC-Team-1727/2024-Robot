@@ -228,6 +228,22 @@ public class DriveSubsystem extends SubsystemBase {
    * @param fieldRelative Whether the provided x and y speeds are relative to the field.
    * @param rateLimit Whether to enable rate limiting for smoother control.
    */
+  public void demoDrive(
+      double xSpeed,
+      double ySpeed,
+      double rot,
+      double x2,
+      double y2,
+      double r2,
+      boolean fieldRelative,
+      boolean rateLimit) {
+    if (xSpeed != 0 || ySpeed != 0 || rot != 0) {
+      drive(xSpeed, ySpeed, rot, fieldRelative, rateLimit);
+    } else {
+      drive(x2, y2, r2, fieldRelative, rateLimit);
+    }
+  }
+
   public void drive(
       double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
 
